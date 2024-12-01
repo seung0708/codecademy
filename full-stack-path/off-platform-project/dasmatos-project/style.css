@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Helvetica;
+}
+
+body {
+    padding: 0 10px;
+}
+
+header {
+    background-image: url('./assets/images/pattern.webp');
+    margin: 67px 0;
+}
+
+header h1 {
+    font-size: 100px;
+    color: khaki;
+    text-align: center;
+    z-index: 10;
+}
+
+h2 {
+    font-size: 32px; 
+    color: white;
+    margin: 27px 0;
+}
+
+h3 {
+    margin: 18.72px 0;
+}
+
+p {
+    margin: 16px 0;
+}
+
+img {
+    width: 250px;
+    height: 250px;
+}
+
+span {
+    color: blue;
+    font-weight: bold;
+}
+
+#brushes h2 {
+    background-color: mediumspringgreen;
+}
+
+#frames h2 {
+    background-color: lightcoral;
+}
+
+#paint h2 {
+    background-color: skyblue;
+}
+
+
+
+
+
