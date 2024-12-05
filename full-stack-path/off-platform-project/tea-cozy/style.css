@@ -1,0 +1,140 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: seashell; 
+}
+
+body {
+    font-family: Helvetica, sans-serif;
+    font-size: 22px;
+    background-color: black;
+}
+
+header {
+    background-color: black;
+    padding-inline: 10px;
+    border-bottom: 1px solid seashell;
+    position: fixed;
+    height: 69px;
+    width: 70%;
+    top: 0;
+    left: 280px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header img {
+    height: 50px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 18px;
+}
+
+#hero {
+    position: relative;
+    background-image: url('./assets/images/img-mission-background.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 700px;
+    width: 1200px;
+    margin-inline: auto;
+    margin-bottom: 100px;
+    top: 70px;
+}
+
+.hero_content {
+    background-color: black;
+    position: absolute;
+    top: 350px;
+    width: 100%;
+    text-align: center;
+}
+
+#tea {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.tea_heading {
+    margin-bottom: 20px;
+}
+
+.tea_heading h2 {
+    margin-bottom: 20px;
+}
+
+.tea_images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tea_image {
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
+.tea_image img {
+    height: 200px;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+#locations {
+    background-image: url('./assets/images/img-locations-background.webp');
+    width: 1200px;
+    height: 500px;
+    margin-inline: auto;
+    padding-top: 100px;
+    text-align: center;
+}
+
+#locations h2 {
+    margin-bottom: 15px;
+}
+
+.locations_info {
+    display: flex;
+    justify-content: center;
+}
+
+.location_1, .location_2, .location_3 {
+    width: 300px;
+    background-color: black;
+    margin-right: 40px;
+}
+
+.location_1 h3, .location_2 h3, .location_3 h3 {
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+.location_1 h4, .location_2 h4, .location_3 h4 {
+    margin-bottom: 30px;
+}
+
+#contact {
+    text-align: center;
+    height: 200px;
+}
+
+#contact h2 {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+#contact h5 {
+    margin-bottom: 30px;
+}
+
+footer {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
