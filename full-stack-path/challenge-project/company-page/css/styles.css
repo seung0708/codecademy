@@ -1,0 +1,75 @@
+.container {
+    margin: 1rem;
+}
+
+.mission .container, .products .container, .team .container {
+    height: 37.5rem;
+}
+
+/* Header */
+
+
+
+header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .header__logo img {
+    height: 50px;
+}
+
+header .header__nav .nav__links {
+    display: flex;
+    gap: 1.25rem;
+}
+
+header .header__nav .nav__links .nav__link a:hover {
+    color: green;
+}
+
+/* Hero */
+
+.mission {
+    background-image: url('../images/hero_image.avif');
+}
+
+.mission__content {
+    position: relative;
+    top: 2rem;
+    left: 9rem;
+    background-color: #3CB371;
+    width: 30%;
+    padding: 4rem;
+    color: white;
+}
+
+/* Product */
+
+.products {
+    display: flex;
+    justify-content: space-between;
+}
+
+.products .product {
+    width: 250px;
+}
+
+.products img {
+    width: 240px;
+    height: 240px;
+}
+
+
+/* Team */
+
+.employees {
+    display: flex;
+}
+
+.employee img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+}
