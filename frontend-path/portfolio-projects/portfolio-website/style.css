@@ -1,0 +1,448 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    font-family: sans-serif;
+    font-size: 16px;
+    background-color: #162F65;
+    color: #E7E6DD
+}
+
+h1 {
+    font-size: 54px;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #E7E6DD
+}
+
+button {
+    display: inline-block;
+    border: none;
+    padding: 1rem 2rem;
+    margin: 0;
+    text-decoration: none;
+}
+
+section {
+    height: 700px;
+    margin-bottom: 32px;
+}
+
+.container {
+    max-width: 1200px;
+    height: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+
+/* Header */
+
+header {
+    margin-bottom: 32px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.nav_links {
+    display: flex;
+    gap: 10px;
+}
+
+.logo, .nav_link a  {
+    font-size: 24px;
+}
+
+.nav_link a:hover {
+    color: #E8C766;
+    text-decoration: underline;
+}
+
+@media only screen and (max-width: 480px)  {
+    .logo, .nav_link a  {
+        font-size: 20px;
+    }
+    
+}
+
+
+/* Hero */
+
+.hero_heading {
+    position: relative;
+    top: 120px;
+    left: 60px;
+}
+
+
+.hero {
+    display: flex;
+}
+
+.hero_heading {
+    border-radius: 2px solid black;
+    animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.hero_heading h1 {
+    color: #E8AF30;
+}
+
+.hero_heading p {
+    font-size: 24px;
+    margin-top: 20px;
+    width: 80%;
+}
+
+.hero_img {
+    width: 460px;
+    height: 460px;
+    object-fit: contain;
+    border-radius: 20%;
+}
+
+.skills {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 100px;
+}
+
+.icon {
+    font-size: 58px;
+    
+}
+
+.skills img {
+    height: 54px;
+}
+
+/* About */
+
+#about {
+    background-color: #E7E6DD;
+}
+
+.about {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about_heading {
+    position: relative;
+    top: -120px;
+    left: 30px
+}
+
+.about_heading h2 {
+    color: #0F2043;
+}
+
+
+.about p {
+    color: #162F65;
+    font-size: 20px;
+}
+
+.about_intro {
+    width: 50%;
+    
+    text-align: center;
+}
+
+.about_intro p {
+    margin-bottom: 20px;
+}
+
+/* Projects */
+
+.projects_details {
+    display: flex;
+    gap: 20px;
+}
+
+.projects_heading {
+    margin-bottom: 32px;
+}
+
+.projects_heading h2 {
+    color: #E8AF30;
+}
+
+.projects_details img {
+    width: 500px;
+    height: 500px;    
+    object-fit: cover;
+    border: 1px solid black;
+    border-radius: 30px;
+}
+
+.projects_details_heading h3 {
+    font-size: 24px;
+}
+
+
+/* Contact */
+
+#contact {
+    background-color: #E7E6DD;
+}
+
+#contact .container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contact_heading {
+    text-align: center;
+    position: relative;
+    top: -150px;
+}
+
+.contact_heading h2 {
+    color: #0F2043;
+    margin-bottom: 20px;
+}
+
+.contact_heading p {
+    margin-bottom: 10px;
+    color: #162F65;
+    
+}
+
+.contact_heading a {
+    color: #162F65;
+}
+
+.social_links img {
+    width: 32px;
+}
+
+
+.contact_form {
+    height: 480px;
+    width: 480px;
+    color: #162F65;
+}
+
+.contact_form_field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.contact_form_field input {
+    border-width: 1px;
+    border-radius: 5px;
+    height: 30px;
+}
+
+.contact_form_field textarea {
+    height: 250px;
+    border-radius: 5px;
+}
+
+.contact_form button {
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #E8C766;
+    border-radius: 10px;
+    
+}
+
+
+
+footer {
+    text-align: center;
+}
+
+@media screen and (max-width: 1200px)  {
+    .hero_img, .projects_details img {
+        width: 400px;
+        height: 400px;
+    }
+
+    section {
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 992px)  {
+    .hero_heading {
+        left: 30px;
+    }
+
+    .h1 {
+        font-size: 50px;
+    }
+
+    .p {
+        font-size: 20px;
+    }
+
+
+}
+
+
+@media screen and (max-width: 768px)  {
+
+    .hero_img {
+        width: 320px;
+        height: 320px;
+    }
+
+    .hero {
+        align-items: center;
+    }
+
+    .hero_heading {
+        position: static;
+    }
+
+    .skills {
+        flex-wrap: wrap;
+    }
+
+    .skills img {
+        height: 36px;
+    }
+
+    .hero_heading h1 {
+        font-size: 48px;
+    }
+
+    .about_heading, .projects_heading, .projects_details {
+        text-align: center;
+    }
+
+    .about {
+        display: grid;
+        place-items: center;
+    }
+
+    .about_heading {
+        position: static;
+    }
+
+    .about_intro {
+        width: 100%;
+        padding-inline: 20px;
+        margin-top: 0;
+    }
+
+    .about_heading h2 {
+        margin-bottom: 10px;
+    }
+
+    .contact_form_field textarea {
+        height: 200px;
+    }
+
+    h2 {
+        font-size: 36px;
+    }
+}
+
+@media screen and (max-width: 567px) {
+    .hero, .about, .projects_details, #contact .container  {
+        display: grid;
+        place-items: center;
+    }
+
+    #contact {
+        margin-bottom: 50px;
+    }
+
+    .contact_form {
+        height: 360px;
+        width: 360px;
+    }
+
+    .contact_heading {
+        position: static;
+    }
+
+    .contact_form_field input {
+        height: 20px;
+    }
+
+    .contact_form_field textarea {
+        height: 100px;
+    }
+
+    .hero_heading {
+        grid-row: 2;
+    }
+
+    .projects_details img {
+        grid-row: 2;
+    }
+
+    .hero_heading h1, .hero_heading p {
+        text-align: center;
+    }
+
+    .hero_heading h1 {
+        font-size: 36px;
+    }
+
+    .hero_heading p {
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .about_heading p {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .about_intro p {
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .projects_details_heading h3 { 
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+
+    .hero_img {
+        border-radius: 50%;
+        height: 280px;
+        width: 280px;
+        margin-bottom: 20px;
+    }
+}
