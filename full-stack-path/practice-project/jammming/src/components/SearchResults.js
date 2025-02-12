@@ -1,9 +1,16 @@
 import React from 'react'
 
-const SearchResults = ({trackList, searchInput}) => {
- 
+const SearchResults = ({searchResults}) => {
   return (
-    <div>SearchResults</div>
+    <div>
+      {searchResults.map(song => (
+          <>
+            <p>{song.name}</p>
+            <p>{song.artist}</p>
+            <p>{song.album}</p>
+          </>
+        ))}
+    </div>
   )
 }
 

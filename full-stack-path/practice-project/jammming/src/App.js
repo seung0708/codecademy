@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import './App.css';
-import SearchBar from './components/SearchBar'
+import SearchBar from './components/SearchBar/SearchBar'
 import SearchResults from './components/SearchResults';
 
 const trackList = [
@@ -105,16 +105,27 @@ const trackList = [
 ]
 
 function App() {
-  const [searchInput, setSearchInput] = useState('');
-  
-  const handleChange = (e) => {
+  const [searchInput, setSearchInput] = useState('')
+  const [searchResults, setSearchResults] = useState([]); 
+
+  const handleSearch = (e) => {
     setSearchInput(e.target.value)
+
+    const filteredList = trackList.filter(track => track.name.toLowerCase().includes(searchInput) || track.album.toLowerCase().includes(searchInput) || track.name.toLowerCase().includes(searchInput))
+
+    setSearchResults(filteredList)
+
   }
 
   return (
     <div className="App">
-      <SearchBar onChange={handleChange} inputValue={searchInput} />
-      <SearchResults trackList={trackList} searchInput={searchInput} />
+      <header> 
+        <SearchBar onChange={handleSearch} inputValue={searchInput} />
+      </header>
+      <main>
+        {searchInput && <SearchResults searchResults={searchResults} />}
+      </main>
+      
     </div>
   );
 }
