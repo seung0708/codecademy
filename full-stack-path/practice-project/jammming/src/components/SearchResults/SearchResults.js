@@ -2,13 +2,10 @@ import React from 'react'
 import './SearchResults.css'
 import TrackList from '../TrackList/Tracklist'
 
-const SearchResults = ({searchResults}) => {
+const SearchResults = ({searchResults, addToPlaylist}) => {
   return (
     <div className='search-results'>
-      
-      {searchResults.map(song => (
-         <TrackList song={song} />
-        ))}
+      <TrackList tracks={searchResults} addToPlaylist={addToPlaylist} />
     </div>
   )
 }

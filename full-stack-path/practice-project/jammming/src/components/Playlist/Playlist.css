@@ -1,3 +1,27 @@
 .playlist {
     flex-grow: 3;
 }
+
+.playlist input {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--secondary-text-color);
+  font-weight: bold;
+  width: 100%;
+}
+
+.playlist input:focus {
+    outline: none;
+}
+
+.playlist-button {
+    background-color: #1DB954;
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+
+.playlist-button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+}

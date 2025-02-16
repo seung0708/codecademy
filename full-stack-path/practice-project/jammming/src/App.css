@@ -1,5 +1,6 @@
 header {
-
+    display: flex;
+    justify-content: center;
 }
 
 main {
@@ -8,7 +9,7 @@ main {
 
 .sidebar, .search-results, .playlist {
     background-color: #121212;
-    max-height: 900px;
+    max-height: 850px;
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
