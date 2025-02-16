@@ -1,14 +1,13 @@
 import React from 'react'
+import './SearchResults.css'
+import TrackList from '../TrackList/Tracklist'
 
 const SearchResults = ({searchResults}) => {
   return (
-    <div>
+    <div className='search-results'>
+      
       {searchResults.map(song => (
-          <>
-            <p>{song.name}</p>
-            <p>{song.artist}</p>
-            <p>{song.album}</p>
-          </>
+         <TrackList song={song} />
         ))}
     </div>
   )

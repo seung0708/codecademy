@@ -1,0 +1,16 @@
+header {
+
+}
+
+main {
+    display: flex;
+}
+
+.sidebar, .search-results, .playlist {
+    background-color: #121212;
+    max-height: 900px;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+}
+

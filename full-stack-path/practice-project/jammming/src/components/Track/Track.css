@@ -1,0 +1,10 @@
+.track {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.track hr {
+    border: 8px solid var(--secondary-text-color);
+    border-radius: 5px;
+}

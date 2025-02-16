@@ -1,0 +1,17 @@
+.sidebar {
+    flex-grow: 1;
+}
+
+.sidebar-heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar-heading_intro {
+    display: flex;
+    gap: 10px;
+}
+
+.sidebar-button {
+    
+}
