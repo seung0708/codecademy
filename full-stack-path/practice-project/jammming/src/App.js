@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react'
 import './App.css';
-import SearchBar from './components/SearchBar/SearchBar'
 import SearchResults from './components/SearchResults/SearchResults';
 import { trackList } from './sample-data';
 import Sidebar from './components/Sidebar/Sidebar';
 import Playlist from './components/Playlist/Playlist';
-
+import Header from './components/Header/Header';
+import { loginWithSpotifyClick } from './api/authorizationAPI'
+import { getTracks } from './api/spotifyAPI';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -13,8 +14,13 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [playlist, setPlaylist] = useState({title: '', tracks: []})
   const [library, setLibrary] = useState([]);
+  const [token, setToken] = useState('')
 
   useEffect(() => {
+    const accessToken = localStorage.getItem('access_token')
+    if(accessToken) {
+      setToken(accessToken)
+    }
 
     if (!searchQuery || searchQuery.trim() === '') {
       setSearchResults([]);
@@ -50,6 +56,7 @@ function App() {
     })
   }
 
+
   const handleChangePlaylistTitle = (e) => {
     const newTitle = e.target.value
     setPlaylist(prev => ({
@@ -82,9 +89,7 @@ function App() {
 
   return (
     <div className="App">
-      <header> 
-        <SearchBar onChange={handleSearch} query={searchQuery} />
-      </header>
+      <Header onChange={handleSearch} query={searchQuery} login={loginWithSpotifyClick} />
       <main >
         <Sidebar library={library} updatePlaylistName={updatePlayListTitle} />
         <SearchResults searchResults={searchResults} addToPlaylist={handleAddTrackToPlaylist} />
