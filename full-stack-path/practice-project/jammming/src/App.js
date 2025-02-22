@@ -5,16 +5,42 @@ import { trackList } from './sample-data';
 import Sidebar from './components/Sidebar/Sidebar';
 import Playlist from './components/Playlist/Playlist';
 import Header from './components/Header/Header';
-import { loginWithSpotifyClick } from './api/authorizationAPI'
-import { getTracks } from './api/spotifyAPI';
+import { loginWithSpotifyClick, refreshTokenClick } from './api/authorizationAPI'
+import { searchTracks } from './api/spotifyAPI';
+import { getUserData, logoutClick } from './api/authorizationAPI';
 
 function App() {
+  const now = new Date();
+  const [user, setUser] = useState({});
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([]); 
   const [isOpen, setIsOpen] = useState(false);
   const [playlist, setPlaylist] = useState({title: '', tracks: []})
   const [library, setLibrary] = useState([]);
   const [token, setToken] = useState('')
+
+  const fetchUserData = async () => {
+    const userData = await getUserData()
+    setUser(userData)
+  }
+
+  useEffect(() => {
+    const now = new Date()
+    const expiration = new Date(localStorage.getItem('expires'))
+    const difference = expiration - now
+
+    const timeoutId = setTimeout(refreshTokenClick, difference)
+
+    return () => clearTimeout(timeoutId)
+
+  },[])
+
+
+  useEffect(() => {
+    fetchUserData()    
+    
+  },[])
+  
 
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token')
@@ -32,18 +58,15 @@ function App() {
     } else {
       setIsOpen(false)
     }
-
-    const filteredList = trackList.filter(track => (
-        track.artist.toLowerCase().includes(searchQuery) || 
-        track.album.toLowerCase().includes(searchQuery) || 
-        track.name.toLowerCase().includes(searchQuery)
-    ));
-
-    setSearchResults(filteredList)
+    
   }, [searchQuery, playlist.tracks.length])
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     setSearchQuery(e.target.value)
+    const items = await searchTracks(token, searchQuery)
+    
+    console.log(items)
+    setSearchResults([...items])
   }
 
   const handleAddTrackToPlaylist = (track) => {
@@ -89,7 +112,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header onChange={handleSearch} query={searchQuery} login={loginWithSpotifyClick} />
+      <Header logout={logoutClick} user={user} onChange={handleSearch} query={searchQuery} login={loginWithSpotifyClick} />
       <main >
         <Sidebar library={library} updatePlaylistName={updatePlayListTitle} />
         <SearchResults searchResults={searchResults} addToPlaylist={handleAddTrackToPlaylist} />

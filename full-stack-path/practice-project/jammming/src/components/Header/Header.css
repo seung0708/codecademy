@@ -13,3 +13,20 @@ header {
     width: 100px;
     border-radius: 25px;
 }
+
+.user-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.logout-modal {
+    background-color: #121212;
+    position: absolute;
+    top: 53px;
+    right: 0px;
+    padding: 3px 30px;
+    border: 1px solid var(--primary-text-color);
+    border-radius: 10px;
+}

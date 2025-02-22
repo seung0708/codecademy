@@ -55,7 +55,6 @@ if (currentToken.access_token) {
 // }
 
 async function redirectToSpotifyAuthorize() {
-  debugger;
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const randomValues = crypto.getRandomValues(new Uint8Array(64));
   const randomString = randomValues.reduce((acc, x) => acc + possible[x % possible.length], "");
@@ -136,12 +135,12 @@ export async function loginWithSpotifyClick() {
   await redirectToSpotifyAuthorize();
 }
 
-async function logoutClick() {
+export async function logoutClick() {
   localStorage.clear();
   window.location.href = redirectUrl;
 }
 
-async function refreshTokenClick() {
+export async function refreshTokenClick() {
   const token = await refreshToken();
   currentToken.save(token);
   //renderTemplate("oauth", "oauth-template", currentToken);
