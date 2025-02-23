@@ -6,7 +6,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Playlist from './components/Playlist/Playlist';
 import Header from './components/Header/Header';
 import { loginWithSpotifyClick, refreshTokenClick } from './api/authorizationAPI'
-import { fetchResultsData} from './api/spotifyAPI';
+import { fetchResultsData, createPlaylist, addTrackToPlaylist, fetchPlaylistsData} from './api/spotifyAPI';
 import { getUserData, logoutClick } from './api/authorizationAPI';
 
 function App() {
@@ -20,73 +20,72 @@ function App() {
   const [token, setToken] = useState('')
   const timeoutId = useRef(null)
 
-  const fetchUserData = async () => {
-    const userData = await getUserData()
-    setUser(userData)
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    const expiration = new Date(localStorage.getItem('expires'));
+    const now = new Date();
+    const difference = expiration - now;
+
+    const fetchAuthAndUserData = async () => {
+        try {
+            if (accessToken) {
+                setToken(accessToken);
+                const userData = await getUserData();
+                if (userData?.id) {
+                    setUser(userData);
+                }
+                const items = await fetchPlaylistsData(accessToken);
+                setLibrary(items);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    fetchAuthAndUserData();
+    
+    // Set timeout to refresh token
+    const timeoutId = setTimeout(refreshTokenClick, difference);
+
+    return () => clearTimeout(timeoutId);
+}, []);
+
+
+  useEffect(() => {
+    if(timeoutId.current) {
+      clearTimeout(timeoutId)
+    }
+    if (!searchQuery || !searchQuery.trim()) {
+      setSearchResults([])
+      return; 
+    } else {
+      timeoutId.current = setTimeout(async () => {
+        const results = await fetchResultsData(token, searchQuery);
+        setSearchResults(results)
+      }, 3000)  
+    }
+  }, [searchQuery])
+
+  const handleSearch = async (query) => {
+    setSearchQuery(query);
   }
 
   useEffect(() => {
-    const now = new Date()
-    const expiration = new Date(localStorage.getItem('expires'))
-    const difference = expiration - now
-
-    const timeoutId = setTimeout(refreshTokenClick, difference)
-
-    return () => clearTimeout(timeoutId)
-
-  },[])
-
-
-  useEffect(() => {
-    if(!user.id) fetchUserData()    
-    
-  },[user.id])
-  
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem('access_token')
-    if(accessToken) {
-      setToken(accessToken)
-    }
     if (playlist.tracks.length > 0) {
-      setIsOpen(true)
+      setIsOpen(true) 
     } else {
       setIsOpen(false)
     }
-    
-  }, [playlist.tracks.length])
+  }, [playlist.tracks])
 
-  const handleSearch = async (query) => {
-    if(timeoutId.current) {
-      clearTimeout(timeoutId)
-    } 
-    setSearchQuery(query);
-
-    if(!query.trim()) {
-      setSearchResults([])
-      return;
-    }
-    timeoutId.current = setTimeout(async () => {
-      await fetchAndSetResults(query)
-    }, 1000)
-    
-  }
-
-  const fetchAndSetResults = async (query) => { 
-    
-    if (!query.trim()) return;
-
-    const results = await fetchResultsData(token, query);
-    setSearchResults(results)
-  }
-
-  const handleAddTrackToPlaylist = (track) => {
-    console.log(track)
+   
+  const handleSetPlaylist = async (track) => {
     setPlaylist(prev => {
-      return {
+      const updatedPlaylist =  {
         ...prev, 
         tracks: [...prev.tracks, track]
       }
+      return updatedPlaylist
     })
   }
 
@@ -100,10 +99,13 @@ function App() {
     }));
   }
 
-  const handleSaveToLibrary = () => {    
-    setLibrary(prev => [...prev, playlist])
+  const handleSaveToLibrary = async () => {    
+    const createdPlaylist = await createPlaylist(user.id, token, playlist.title)
+    await addTrackToPlaylist(token, createdPlaylist.id, playlist.tracks)
+    setLibrary(prev => [createdPlaylist, ...prev])
     setPlaylist({title: '', tracks: []})
   }
+
 
   const updatePlayListTitle = (e, index) => {
     const newTitle = e.target.value; 
@@ -126,7 +128,7 @@ function App() {
       <Header logout={logoutClick} user={user} handleSearch={handleSearch} query={searchQuery} login={loginWithSpotifyClick} />
       <main >
         <Sidebar library={library} updatePlaylistName={updatePlayListTitle} />
-        <SearchResults addToPlaylist={handleAddTrackToPlaylist} tracks={searchResults} />
+        <SearchResults addToPlaylist={handleSetPlaylist} tracks={searchResults} />
         {isOpen && <Playlist playlist={playlist} saveToLibrary={handleSaveToLibrary} addPlaylistName={handleChangePlaylistTitle} removePlaylist={removePlaylist} /> }
       </main>
       

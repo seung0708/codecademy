@@ -5,12 +5,12 @@ const Track = ({track, addToPlaylist, removePlaylist, isPlaylist}) => {
   const handleOnClick = () => {
     addToPlaylist(track)
   }
-  const{ album } = track;
+  const{ album, name } = track
   return (
     <>
     <div className='track'>
       <div className='track_details'>
-      <p></p>
+      <p>{name}</p>
       <p>{album.name}</p>
       </div>
       {isPlaylist ? (

@@ -9,11 +9,11 @@ export default function Sidebar({library, updatePlaylistName}) {
               <h3>Your Library</h3>
             </div>
           </div>
-          <div className='library'>
-          {library.map((playlist, index) => (
-            <input type='text' value={library.name} onChange={e => updatePlaylistName(e, index)} />
+          {library?.map((playlist, index) => (
+            <div key={playlist.id} className='library'>
+              <input type='text' value={playlist.name} onChange={e => updatePlaylistName(e, index)} />
+            </div>
           ))}
-          </div>
         </aside>
     )
 }

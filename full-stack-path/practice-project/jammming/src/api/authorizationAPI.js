@@ -3,7 +3,7 @@ const redirectUrl = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
 
 const authorizationEndpoint = new URL("https://accounts.spotify.com/authorize");
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
-const scope = 'user-read-private user-read-email';
+const scope = 'user-read-private user-read-email playlist-modify-public';
 
 
 const currentToken = {
