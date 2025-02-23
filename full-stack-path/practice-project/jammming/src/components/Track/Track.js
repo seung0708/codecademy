@@ -2,18 +2,16 @@ import React from 'react'
 import './Track.css';
 
 const Track = ({track, addToPlaylist, removePlaylist, isPlaylist}) => {
-
   const handleOnClick = () => {
     addToPlaylist(track)
   }
-
-  const {album, name} = track
+  const{ album } = track;
   return (
     <>
     <div className='track'>
       <div className='track_details'>
-      <p>{name}</p>
-      <p>{album}</p>
+      <p></p>
+      <p>{album.name}</p>
       </div>
       {isPlaylist ? (
         <button onClick={() => removePlaylist(track.id)}> 

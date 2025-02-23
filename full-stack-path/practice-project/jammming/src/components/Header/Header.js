@@ -2,12 +2,14 @@ import React, {useState} from 'react'
 import SearchBar from '../SearchBar/SearchBar';
 import './Header.css'
 
-const Header = ({logout, onChange, query, login, user}) => {
+const Header = ({logout, handleSearch, query, login, user}) => {
   const [isOpen, setIsOpen] = useState(false)
+
+
   return (
     <header> 
         <img src="../../../public/icons8-spotify.svg" />
-        <SearchBar onChange={onChange} query={query} />
+        <SearchBar handleSearch={handleSearch} query={query} />
         {/* <button className='login-button' type="button" onClick={login}>
             Log in
           </button> */}

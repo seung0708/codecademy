@@ -2,11 +2,10 @@ import React from 'react'
 import './SearchResults.css'
 import TrackList from '../TrackList/Tracklist'
 
-const SearchResults = ({searchResults, addToPlaylist}) => {
-  console.log(searchResults)
+const SearchResults = ({ addToPlaylist, tracks}) => {
   return (
     <div className='search-results'>
-      <TrackList tracks={searchResults} addToPlaylist={addToPlaylist} />
+      <TrackList tracks={tracks} addToPlaylist={addToPlaylist} />
     </div>
   )
 }

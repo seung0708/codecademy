@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import './App.css';
 import SearchResults from './components/SearchResults/SearchResults';
 import { trackList } from './sample-data';
@@ -6,7 +6,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Playlist from './components/Playlist/Playlist';
 import Header from './components/Header/Header';
 import { loginWithSpotifyClick, refreshTokenClick } from './api/authorizationAPI'
-import { searchTracks } from './api/spotifyAPI';
+import { fetchResultsData} from './api/spotifyAPI';
 import { getUserData, logoutClick } from './api/authorizationAPI';
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
   const [playlist, setPlaylist] = useState({title: '', tracks: []})
   const [library, setLibrary] = useState([]);
   const [token, setToken] = useState('')
+  const timeoutId = useRef(null)
 
   const fetchUserData = async () => {
     const userData = await getUserData()
@@ -37,9 +38,9 @@ function App() {
 
 
   useEffect(() => {
-    fetchUserData()    
+    if(!user.id) fetchUserData()    
     
-  },[])
+  },[user.id])
   
 
   useEffect(() => {
@@ -47,26 +48,36 @@ function App() {
     if(accessToken) {
       setToken(accessToken)
     }
-
-    if (!searchQuery || searchQuery.trim() === '') {
-      setSearchResults([]);
-      return;
-    }
-
     if (playlist.tracks.length > 0) {
       setIsOpen(true)
     } else {
       setIsOpen(false)
     }
     
-  }, [searchQuery, playlist.tracks.length])
+  }, [playlist.tracks.length])
 
-  const handleSearch = async (e) => {
-    setSearchQuery(e.target.value)
-    const items = await searchTracks(token, searchQuery)
+  const handleSearch = async (query) => {
+    if(timeoutId.current) {
+      clearTimeout(timeoutId)
+    } 
+    setSearchQuery(query);
+
+    if(!query.trim()) {
+      setSearchResults([])
+      return;
+    }
+    timeoutId.current = setTimeout(async () => {
+      await fetchAndSetResults(query)
+    }, 1000)
     
-    console.log(items)
-    setSearchResults([...items])
+  }
+
+  const fetchAndSetResults = async (query) => { 
+    
+    if (!query.trim()) return;
+
+    const results = await fetchResultsData(token, query);
+    setSearchResults(results)
   }
 
   const handleAddTrackToPlaylist = (track) => {
@@ -112,10 +123,10 @@ function App() {
 
   return (
     <div className="App">
-      <Header logout={logoutClick} user={user} onChange={handleSearch} query={searchQuery} login={loginWithSpotifyClick} />
+      <Header logout={logoutClick} user={user} handleSearch={handleSearch} query={searchQuery} login={loginWithSpotifyClick} />
       <main >
         <Sidebar library={library} updatePlaylistName={updatePlayListTitle} />
-        <SearchResults searchResults={searchResults} addToPlaylist={handleAddTrackToPlaylist} />
+        <SearchResults addToPlaylist={handleAddTrackToPlaylist} tracks={searchResults} />
         {isOpen && <Playlist playlist={playlist} saveToLibrary={handleSaveToLibrary} addPlaylistName={handleChangePlaylistTitle} removePlaylist={removePlaylist} /> }
       </main>
       
