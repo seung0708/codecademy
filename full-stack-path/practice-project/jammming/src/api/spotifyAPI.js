@@ -18,6 +18,31 @@ export const fetchPlaylistsData = async (accessToken) => {
         }
     })
 
+    const data = await response.json()
+    return data?.items
+}
+
+export const fetchPlaylistData = async (accessToken, playlistId) => {
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+        method: 'GET',
+        headers: { 
+            Authorization: 'Bearer ' + accessToken 
+        }
+    })
+
+    const data = await response.json()
+    
+    return {name: data.name}
+}
+
+export const fetchPlaylistItems = async (accessToken, playlistId) => {
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: 'GET',
+        headers: { 
+            Authorization: 'Bearer ' + accessToken 
+        }
+    })
+
     const {items} = await response.json()
     return items
 }
@@ -25,6 +50,9 @@ export const fetchPlaylistsData = async (accessToken) => {
 export const createPlaylist = async (userId, accessToken, name = 'Playlist name') => {
     const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
         method: 'POST',
+        headers: { 
+            Authorization: 'Bearer ' + accessToken 
+        }, 
         headers: { 
             Authorization: 'Bearer ' + accessToken 
         }, 
@@ -40,7 +68,6 @@ export const createPlaylist = async (userId, accessToken, name = 'Playlist name'
 
 export const addTrackToPlaylist = async (accessToken, playlistId, tracks) => {
     const uris = tracks.map(track => track.uri)
-    console.log(uris)
     const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
         method: 'POST', 
         headers: { 
@@ -52,5 +79,18 @@ export const addTrackToPlaylist = async (accessToken, playlistId, tracks) => {
 
     })
     const data = await response.json() 
-    console.log(data)
+}
+
+export const removeTrackFromPlaylist = async (accessToken, playlistId, trackUri) => {
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: 'DELETE',
+        headers: { 
+            Authorization: 'Bearer ' + accessToken 
+        },
+        body: JSON.stringify({
+            tracks: [{uri: trackUri}]
+        })
+    })
+    const data = await response.json()
+    
 }

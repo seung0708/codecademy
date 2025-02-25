@@ -1,11 +1,12 @@
 import './Playlist.css';
 import TrackList from '../TrackList/Tracklist'
+import Loader from '../../views/Loader';
 
-
-const Playlist = ({playlist, saveToLibrary, addPlaylistName, removePlaylist}) => {
+const Playlist = ({playlist, saveToLibrary, addPlaylistName, removePlaylist, loading}) => {
   
   return (
     <>
+      {loading && <Loader />}
       <div className='playlist'>
         <input type='text' placeholder='Playlist Name' value={playlist.name} onChange={addPlaylistName}/>
         <TrackList isPlaylist={true} tracks={playlist.tracks} removePlaylist={removePlaylist} />

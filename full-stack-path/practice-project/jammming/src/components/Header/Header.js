@@ -10,11 +10,8 @@ const Header = ({logout, handleSearch, query, login, user}) => {
     <header> 
         <img src="../../../public/icons8-spotify.svg" />
         <SearchBar handleSearch={handleSearch} query={query} />
-        {/* <button className='login-button' type="button" onClick={login}>
-            Log in
-          </button> */}
         <div className='user-actions'>
-        {!user.error ? (
+        {user ? (
           <>
           <h2>{user.error ? '' : `Welcome, ${user?.display_name}`} </h2>
           <button onClick={() => setIsOpen(true)}>

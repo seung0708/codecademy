@@ -105,7 +105,7 @@ async function getToken(code) {
   return await response.json();
 }
 
-async function refreshToken() {
+export async function refreshToken() {
   const response = await fetch(tokenEndpoint, {
     method: 'POST',
     headers: {
@@ -137,11 +137,11 @@ export async function loginWithSpotifyClick() {
 
 export async function logoutClick() {
   localStorage.clear();
-  window.location.href = redirectUrl;
 }
 
 export async function refreshTokenClick() {
   const token = await refreshToken();
+  console.log(token);
   currentToken.save(token);
   //renderTemplate("oauth", "oauth-template", currentToken);
 }
