@@ -219,7 +219,7 @@ function App() {
         updatePlaylistName={updatePlayListTitle} 
       />
         <SearchResults loading={loadingStates.search} loadingMessage={'Searching tracks...'} addToPlaylist={handleSetPlaylist} tracks={searchResults} />
-        {isOpen && !selectedPlaylistId &&  <Playlist loading={loadingStates.playlist} loadingMessage={'Saving...'} playlist={playlist} saveToLibrary={handleSaveToLibrary} addPlaylistName={handleChangePlaylistTitle} removePlaylist={removePlaylist} /> }
+        {isOpen && !selectedPlaylistId && <Playlist loading={loadingStates.playlist} loadingMessage={'Saving...'} playlist={playlist} saveToLibrary={handleSaveToLibrary} addPlaylistName={handleChangePlaylistTitle} removePlaylist={removePlaylist} /> }
         {selectedPlaylistId && 
           <PlaylistDetails 
           playlist={playlist} 
