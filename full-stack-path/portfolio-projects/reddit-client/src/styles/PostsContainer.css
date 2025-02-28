@@ -1,7 +1,10 @@
 .posts-container {
+    position: relative;
+    top: 20px;
     width: 770px;
     height: 540px;
     margin: 0 auto;
     border-top: 1px solid var(--dark-gray);
     padding: 20px;
+
 }

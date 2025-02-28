@@ -1,0 +1,20 @@
+.subreddits {
+    background-color: var(--secondary-bg-color);
+    position: fixed;
+    top: 80px;
+    right: 350px;
+    width: 200px;
+    height: 280px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.subreddit-link {
+    display: flex;
+    gap: 10px;
+    margin-block: 10px;
+}
+
+.subreddit-link img {
+    width: 30px;
+}
