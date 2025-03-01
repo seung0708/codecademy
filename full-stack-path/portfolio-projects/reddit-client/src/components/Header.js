@@ -1,8 +1,22 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Search from './Search'
 import '../styles/Header.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSearchResults} from '../store/subredditsSlice.js';
+const Header = () => {
+  const [query, setQuery] = useState();
+  const {list} = useSelector((state) => state.subredditData);
+  const dispatch = useDispatch();
+  
+  const handleSearch = () => {
+    dispatch(fetchSearchResults(query))
+  }
 
-const Header = ({query, setQuery, handleSubmit}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch()
+  }
+
   return (
     <header>
         <div>

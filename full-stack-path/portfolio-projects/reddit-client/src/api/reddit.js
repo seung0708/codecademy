@@ -9,6 +9,9 @@ export async function fetchSubreddits() {
 
 export async function searchSubreddits(query) {
     const response = await fetch(`https://www.reddit.com/search.json?q=${query}`)
+    if (!response.ok) {
+        throw new Error('Failed to fetch data');
+    }
     return response.json();
     
 }

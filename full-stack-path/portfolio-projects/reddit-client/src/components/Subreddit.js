@@ -1,7 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getSubreddits } from '../store/subredditsSlice'
 import '../styles/Subreddit.css'
 
-const Subreddit = ({subreddits}) => {
+const Subreddit = () => {
+  
+
   return (
     <div className='subreddits'>
       <h2>Subreddits</h2>

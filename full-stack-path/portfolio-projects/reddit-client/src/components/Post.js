@@ -3,9 +3,7 @@ import '../styles/Post.css';
 import VideoPlayer from './VideoPlayer';
 
 const Post = ({subreddit}) => {
-    //console.log(subreddit)
     const {preview, media, is_video, title, header_img, description} = subreddit
-    //console.log(media && media.reddit_video.dash_url)
     return (
         <div className='post'>
             <h2>{title}</h2>
@@ -17,7 +15,7 @@ const Post = ({subreddit}) => {
                     )
             ) : (
                 !media ? (
-                    <img src={preview.images[0].source.url} alt={title} />
+                    <img src={preview && preview.images[0].source.url} alt={title} />
                 ) : (
                     <VideoPlayer mpdUrl={media.reddit_video.dash_url} />
                 )
