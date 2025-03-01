@@ -2,12 +2,13 @@ import React from 'react'
 import Post from './Post'
 import '../styles/PostsContainer.css';
 
-const PostsContainer = ({posts}) => {
+const PostsContainer = ({subreddits}) => {
+    //console.log(subreddits)
     return (
         <>
-        {posts.map((post, index) => 
-            <div key={index} className='posts-container'>
-                <Post post={post}  />
+        {subreddits.map((subreddit) => 
+            <div key={subreddit.id} className='posts-container'>
+                <Post subreddit={subreddit}  />
             </div>
         )}
         </>

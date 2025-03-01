@@ -4,23 +4,22 @@ import Header from './Header';
 import PostsContainer from './PostsContainer';
 import Subreddit from './Subreddit.js';
 import {posts} from '../mock-data.js';
-import { getSubreddits } from '../apis/reddit.js';
-export const subreddits = posts.map(post => post.subreddit)
+import {useDispatch, useSelector } from 'react-redux';
+import {getSubreddits} from '../store/subredditsSlice.js';
 
 function App() {
+  const subreddits = useSelector((state) => state.subreddits);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchPosts = async() => {
-      const postsData = await getSubreddits();
-    }
-    fetchPosts()
-  },[])
+   dispatch(getSubreddits)
+  },[dispatch])
 
   return (
     <>
       <Header />
       <main>
-        <PostsContainer posts={posts} />
+        <PostsContainer subreddits={subreddits} />
         <Subreddit subreddits={subreddits} />
       </main>
     </>
