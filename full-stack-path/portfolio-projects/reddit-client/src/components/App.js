@@ -5,22 +5,32 @@ import PostsContainer from './PostsContainer';
 import Subreddit from './Subreddit.js';
 import {posts} from '../mock-data.js';
 import {useDispatch, useSelector } from 'react-redux';
-import {getSubreddits} from '../store/subredditsSlice.js';
+import {getSubreddits, fetchSearchResults} from '../store/subredditsSlice.js';
 
 function App() {
-  const subreddits = useSelector((state) => state.subreddits);
+  const {list} = useSelector((state) => state.subredditData);
+  const [query, setQuery] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
    dispatch(getSubreddits)
   },[dispatch])
 
+  const handleSearch = () => {
+    dispatch(fetchSearchResults(query))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch()
+  }
+
   return (
     <>
-      <Header />
+      <Header query={query} setQuery={setQuery} handleSubmit={handleSubmit} />
       <main>
-        <PostsContainer subreddits={subreddits} />
-        <Subreddit subreddits={subreddits} />
+        <PostsContainer subreddits={list} />
+        <Subreddit subreddits={list} />
       </main>
     </>
   );

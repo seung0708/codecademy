@@ -1,10 +1,26 @@
-import { fetchSubreddits } from "../apis/reddit";
-const initialState = []
+import { fetchSubreddits, searchSubreddits } from "../api/reddit";
+const initialState = {
+    list: [], 
+    query: ''
+}
 
 export default function subredditsReducer(state = initialState, action) {
     switch(action.type) {
         case 'subreddits/subredditsLoaded':
-            return action.payload
+            return {
+                ...state, 
+                list: action.payload
+            }
+        case 'subreddits/setQuery': 
+            return {
+                ...state, 
+                query: action.payload,
+            }
+        case 'subreddits/setList': 
+            return {
+                ...state, 
+                list: action.payload
+            }
         default: 
             return state;
     }
@@ -21,5 +37,19 @@ export async function getSubreddits(dispatch, getState) {
         console.error('Error fetching subreddits:', error);
         // Optionally dispatch an error action if you want to handle errors
         dispatch({ type: 'subreddits/error', payload: error.message });
+    }
+}
+
+export function fetchSearchResults(query) {
+    return async dispatch => {
+        console.log(query)
+        dispatch({type: 'subreddits/setQuery', payload: query})
+        if(query !== '') {
+            const {data} = await searchSubreddits(query)
+            const {children} = data; 
+            const searchResults = children.map(child => child.data)
+            console.log(searchResults)
+            dispatch({type: 'subreddits/setList', payload: searchResults})
+        }
     }
 }

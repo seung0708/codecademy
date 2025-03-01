@@ -6,3 +6,9 @@ export async function fetchSubreddits() {
     }
     return response.json()
 }
+
+export async function searchSubreddits(query) {
+    const response = await fetch(`https://www.reddit.com/search.json?q=${query}`)
+    return response.json();
+    
+}
