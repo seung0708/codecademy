@@ -14,13 +14,13 @@ const PostsContainer = () => {
    },[dispatch])
 
     return (
-        <>
+        <div>
         {list.map((list) => 
             <div key={list.id} className='posts-container'>
                 <Post subreddit={list}  />
             </div>
         )}
-        </>
+        </div>
     )
 }
 

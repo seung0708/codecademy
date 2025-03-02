@@ -1,5 +1,24 @@
 main {
     position: relative;
+    display: grid;
+    grid-template-columns: 250px 2fr;
     top: 70px;
     height: calc(100vh - 80px);
+}
+
+.home-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.categories-subreddits {
+    height: 100%;
+    width: 300px;
+    position: relative;
+}
+
+@media screen and (max-width: 1200px ) {
+    main {
+        grid-template-columns: 2fr;
+    }
 }

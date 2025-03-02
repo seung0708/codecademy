@@ -1,11 +1,6 @@
+
 .subreddits {
     background-color: var(--secondary-bg-color);
-    position: fixed;
-    top: 80px;
-    right: 350px;
-    width: 200px;
-    height: 280px;
-    padding: 10px;
     border-radius: 20px;
 }
 

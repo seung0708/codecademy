@@ -3,19 +3,19 @@ import '../styles/App.css'
 import Header from './Header';
 import PostsContainer from './PostsContainer';
 import Subreddit from './Subreddit.js';
-import {posts} from '../mock-data.js';
-
-
 
 function App() {
   return (
     <>
       <Header />
       <main>
+        <aside></aside>
+        <div className="home-container">
         <PostsContainer />
-        <aside>
+        <aside className='categories-subreddits'>
           <Subreddit />
         </aside>
+        </div>
       </main>
     </>
   );
