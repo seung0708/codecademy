@@ -3,8 +3,27 @@
     top: 20px;
     width: 770px;
     max-height: 540px;
-    margin: 0 auto;
+    margin-left: 200px;
     border-top: 1px solid var(--dark-gray);
     padding: 20px;
 
 }
+
+
+@media screen and (max-width: 1550px) {
+    .posts-container {
+        margin-left: 80px;
+    }
+}   
+
+@media screen and (max-width: 1480px) {
+    .posts-container {
+        margin-left: 50px;
+    }
+}
+
+@media screen and (max-width: 1380px) {
+    .posts-container {
+        margin-left: 0px;
+    }
+}   

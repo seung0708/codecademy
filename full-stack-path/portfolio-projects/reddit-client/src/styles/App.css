@@ -7,18 +7,33 @@ main {
 }
 
 .home-container {
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 770px 300px;
+    column-gap: 0px;
+    justify-content: space-around;
+    
 }
 
 .categories-subreddits {
-    height: 100%;
     width: 300px;
     position: relative;
+    top: 20px;
+    margin-left: -40px;
 }
 
 @media screen and (max-width: 1200px ) {
     main {
-        grid-template-columns: 2fr;
+        grid-template-columns: 1fr;
+    }
+
+    .home-container { 
+        grid-template-columns: 770px;
+    }
+}
+
+
+@media screen and (max-width: 1600px) {
+    .categories-subreddits {
+        margin-left: 100px;
     }
 }

@@ -6,7 +6,6 @@ import '../styles/PostsContainer.css';
 
 const PostsContainer = () => {
     const {list} = useSelector((state) => state.subredditData);
-    console.log(list)
     const dispatch = useDispatch();
     
   useEffect(() => {

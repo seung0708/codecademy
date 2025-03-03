@@ -1,7 +1,11 @@
-import { fetchSubreddits, searchSubreddits } from "../api/reddit";
+import { fetchSubreddits, searchSubreddits, getSubredditCategory } from "../api/reddit";
+
+
+
 const initialState = {
     list: [], 
-    query: ''
+    query: '', 
+    categories: ['technews', 'unresolvedmysteries', 'fitness', 'askscience', 'funny']
 }
 
 export default function subredditsReducer(state = initialState, action) {
@@ -20,6 +24,12 @@ export default function subredditsReducer(state = initialState, action) {
             return {
                 ...state, 
                 list: action.payload
+            }
+        case 'subreddits/subredditCategory': 
+            return {
+                ...state, 
+                list: action.payload
+            
             }
         default: 
             return state;
@@ -51,5 +61,15 @@ export function fetchSearchResults(query) {
             console.log(searchResults)
             dispatch({type: 'subreddits/setList', payload: searchResults})
         }
+    }
+}
+
+export function fetchSubredditsByCategory(category) {
+    return async dispatch => {
+        const {data} = await searchSubreddits(category)
+        //console.log(data)
+        const {children} = data; 
+        const results = children.map(child => child.data)
+        dispatch({type: 'subreddits/subredditCategory', payload: results})
     }
 }

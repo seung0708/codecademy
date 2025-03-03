@@ -11,7 +11,12 @@ const Post = ({subreddit}) => {
                 !header_img ? (
                     <p>{description && `${description.substring(0, 200)}...`}</p>
                     ) : (
-                    <img src={header_img} className='post-img' alt={title} />
+                    header_img ? (
+                        <img src={header_img} className='post-img' alt={title} />
+                    ) : (
+                        <img src={preview.images[0].source.url} className='post-img' alt={title} />
+                    )
+                    
                     )
             ) : (
                 !media ? (

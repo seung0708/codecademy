@@ -1,7 +1,11 @@
 
 .subreddits {
     background-color: var(--secondary-bg-color);
+    width: 200px;
+    height: 232px;
     border-radius: 20px;
+    padding: 10px;
+    margin-right: 30px;
 }
 
 .subreddit-link {
@@ -12,4 +16,10 @@
 
 .subreddit-link img {
     width: 30px;
+}
+
+@media screen and (max-width: 1200px) {
+    .subreddits {
+        display: none;
+    }
 }
