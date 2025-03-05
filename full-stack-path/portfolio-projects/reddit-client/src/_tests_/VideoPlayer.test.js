@@ -1,19 +1,20 @@
 import {render, screen, fireEvent} from '@testing-library/react'
 import VideoPlayer from '../components/VideoPlayer';
 
-jest.mock('dashjs', () => ({
-    MediaPlayer: () => ({
-      create: jest.fn(),
-      initialize: jest.fn(),
-      attachView: jest.fn(),
-      attachSource: jest.fn(),
-      on: jest.fn()
-    })
-  }));
-  
-  describe('VideoPlayer', () => {
+window.HTMLMediaElement.prototype.load = jest.fn();
+window.HTMLMediaElement.prototype.play = jest.fn();
+window.HTMLMediaElement.prototype.pause = jest.fn();
+
+describe('VideoPlayer Component', () => {
     test('renders video element', () => {
       render(<VideoPlayer mpdUrl="test.mpd" />);
-      expect(screen.getByRole('video')).toBeInTheDocument();
+      const videoElement = screen.getByRole('video');
+      expect(videoElement).toBeInTheDocument();
     });
-  });
+
+    test('handles missing mpdUrl', () => {
+      render(<VideoPlayer mpdUrl={null} />);
+      const videoElement = screen.getByRole('video');
+      expect(videoElement).toBeInTheDocument();
+    });
+});
