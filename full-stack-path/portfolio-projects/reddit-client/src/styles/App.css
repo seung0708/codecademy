@@ -1,39 +1,47 @@
 main {
     position: relative;
-    display: grid;
-    grid-template-columns: 250px 2fr;
     top: 70px;
-    height: calc(100vh - 80px);
+    padding: 20px 24px;
 }
 
 .home-container {
+    position: relative;
     display: grid;
-    grid-template-columns: 770px 300px;
-    column-gap: 0px;
-    justify-content: space-around;
-    
+    grid-template-columns: 270px 770px 312px;
+    gap: 24px;
+    justify-content: center;
+}
+
+aside:first-child {
+    position: relative; 
+    height: fit-content;
 }
 
 .categories-subreddits {
-    width: 300px;
     position: relative;
-    top: 20px;
-    margin-left: -40px;
+    height: fit-content;
 }
 
-@media screen and (max-width: 1200px ) {
+@media screen and (max-width: 1280px) {
+    .home-container {
+      grid-template-columns: 770px 312px;
+    }
+    
+    aside:first-child {
+      display: none;
+    }
+  }
+  
+  @media screen and (max-width: 960px) {
     main {
-        grid-template-columns: 1fr;
+      padding: 16px;
     }
-
-    .home-container { 
-        grid-template-columns: 770px;
+  
+    .home-container {
+      grid-template-columns: 100%;
     }
-}
-
-
-@media screen and (max-width: 1600px) {
+  
     .categories-subreddits {
-        margin-left: 100px;
+      display: none;
     }
 }

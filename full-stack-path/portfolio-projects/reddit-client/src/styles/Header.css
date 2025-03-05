@@ -1,14 +1,15 @@
 header {
+    height: 70px;
+    background-color: var(--reddit-dark-bg);
+    border-bottom: 1px solid var(--reddit-dark-border);
+    padding: 0 20px;
     position: fixed;
     width: 100%;
     top: 0;
-    left: 0;
-    height: 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    border-bottom: 3px solid var(--dark-gray);
-    z-index: 1;
-    background-color: var(--primary-bg-color);
+    padding: 0 20px;
+    z-index: 10;
+    
 }

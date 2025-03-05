@@ -1,19 +1,31 @@
-
-input {
-    background-color: var(--dark-gray);
-    border: 1px solid var(--light-gray);
-    height: 40px;
-    width: 405px;
-    border-radius: 20px;
+form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 405px; 
 }
 
-input[type=text] {
+input {
+    background-color: var(--reddit-dark-bg);
+    border: 1px solid var(--reddit-dark-border);
+    height: 40px;
+    width: 100%; 
+    border-radius: 20px;
     padding-left: 40px;
 }
 
 .icon {
-    height: 24px;
-    position: relative;
-    top: 7px;
-    left: 35px;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    pointer-events: none;
+}
+
+@media (max-width: 640px) {
+    form {
+        max-width: 100%; 
+    }
 }

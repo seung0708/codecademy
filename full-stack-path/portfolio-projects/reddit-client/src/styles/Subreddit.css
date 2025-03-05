@@ -1,6 +1,6 @@
-
 .subreddits {
-    background-color: var(--secondary-bg-color);
+    position: relative;
+    background-color: var(--reddit-black-bg);
     width: 200px;
     height: 232px;
     border-radius: 20px;
@@ -9,10 +9,17 @@
 }
 
 .subreddit-link {
-    display: flex;
-    gap: 10px;
-    margin-block: 10px;
+    position: relative;
+    display: block;
+    padding: 8px 12px;
+    color: var(--reddit-secondary-text);
+    font-size: 14px;
+    border-radius: 2px;
 }
+
+.subreddit-link:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+  }
 
 .subreddit-link img {
     width: 30px;

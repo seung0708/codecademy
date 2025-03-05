@@ -9,8 +9,9 @@ function App() {
     <>
       <Header />
       <main>
-        <aside></aside>
+        
         <div className="home-container">
+        <aside></aside>
         <PostsContainer />
         <aside className='categories-subreddits'>
           <Subreddit />

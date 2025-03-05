@@ -5,17 +5,26 @@ import Post from './Post'
 import '../styles/PostsContainer.css';
 
 const PostsContainer = () => {
-    const {list} = useSelector((state) => state.subredditData);
+    const {list, loading, error} = useSelector((state) => state.subredditData);
     const dispatch = useDispatch();
     
   useEffect(() => {
-    dispatch(getSubreddits)
+    const fetchingSubreddits = () => {
+        dispatch({type: 'subreddits/loading'})
+        dispatch(getSubreddits())
+    }
+    fetchingSubreddits();
    },[dispatch])
+
+   if (error) {
+    <div>Something went wrong</div>
+   }
 
     return (
         <div>
-        {list.map((list) => 
-            <div key={list.id} className='posts-container'>
+            {loading && <div className='loader'></div>}
+            {list.map((list) => 
+            <div key={list.id} className='posts-container'>           
                 <Post subreddit={list}  />
             </div>
         )}

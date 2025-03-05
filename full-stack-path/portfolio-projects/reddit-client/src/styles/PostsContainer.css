@@ -1,29 +1,24 @@
 .posts-container {
     position: relative;
-    top: 20px;
-    width: 770px;
-    max-height: 540px;
-    margin-left: 200px;
-    border-top: 1px solid var(--dark-gray);
+    background-color: var(--reddit-dark-bg);
+    border-bottom: 1px solid var(--reddit-dark-border);
+    margin-bottom: 20px;
     padding: 20px;
-
 }
 
+.loader {
+    position: relative;
+    margin: 32px auto;
+    border: 2px solid var(--reddit-dark-border);
+    border-top: 2px solid var(--reddit-orange);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-@media screen and (max-width: 1550px) {
-    .posts-container {
-        margin-left: 80px;
-    }
-}   
-
-@media screen and (max-width: 1480px) {
-    .posts-container {
-        margin-left: 50px;
-    }
-}
-
-@media screen and (max-width: 1380px) {
-    .posts-container {
-        margin-left: 0px;
-    }
-}   
