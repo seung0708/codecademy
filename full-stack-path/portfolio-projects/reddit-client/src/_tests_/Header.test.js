@@ -1,18 +1,15 @@
-import React from 'react'
-import {render, screen, fireEvent, getByPlaceholderText} from '@testing-library/react'
+import {render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom';
 import Header from '../components/Header';
 
 describe('Header Component', () => {
-    test('should render header component', () => {
+    test('renders reddit logo', () => {
         render(<Header />)
-        const header = screen.getByRole('banner');
-        expect(header).toBeInTheDocument();
+        const logo = screen.getByAltText('/reddit/i');
+        expect(logo).toBeInTheDocument();
     })
-    test('should render logo', () => {
-        render(<Header />)
-        const image = screen.getByAltText('logo')
-        expect(image).toBeInTheDocument();
-        expect(image).toHaveAttribute('src', '/assets/icons8-reddit.svg')
+    test('renders search component', () => {
+        render(<Header />);
+        expect(screen.getByRole('search')).toBeInTheDocument();
     })
 })
