@@ -1,7 +1,4 @@
-import { fetchSubreddits, searchSubreddits, getSubredditCategory } from "../api/reddit";
-
-
-
+import { searchSubreddits, getSubredditCategory } from "../api/reddit";
 const initialState = {
     list: [], 
     query: '', 
@@ -49,22 +46,6 @@ export default function subredditsReducer(state = initialState, action) {
             }
         default: 
             return state;
-    }
-}
-
-export function getSubreddits() {
-    return async dispatch => {
-        try {
-            const { data } = await fetchSubreddits(); // Destructuring data from the response
-            const { children } = data;  // Destructuring children from the data
-            const subreddits = children.map(child => child.data);
-            // Dispatch action with the correct payload
-            dispatch({ type: 'subreddits/subredditsLoaded', payload: subreddits });
-        } catch (error) {
-            console.error('Error fetching subreddits:', error);
-            // Optionally dispatch an error action if you want to handle errors
-            dispatch({ type: 'subreddits/error', payload: error.message });
-        }
     }
 }
 

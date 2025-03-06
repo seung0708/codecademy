@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getSubreddits } from '../store/subredditsSlice';
+import { fetchPosts } from '../features/posts/postsSlice';
 import Post from './Post'
 import '../styles/PostsContainer.css';
 
 const PostsContainer = () => {
-    const {list, loading, error} = useSelector((state) => state.subredditData);
+    const {posts, loading, error} = useSelector((state) => state.postsData);
     const dispatch = useDispatch();
     
     useEffect(() => {
-        const fetchingSubreddits = () => {
-            dispatch({type: 'subreddits/loading'})
-            dispatch(getSubreddits())
+        const fetchingPosts = () => {
+            dispatch({type: 'posts/loading'})
+            dispatch(fetchPosts())
         }
-        fetchingSubreddits();
+        fetchingPosts();
     },[dispatch])
 
     if (error) {
@@ -23,9 +23,9 @@ const PostsContainer = () => {
     return (
         <div>
             {loading && <div data-testid="loader" className='loader'></div>}
-            {list.map((list) => (
-                <div key={list.id} className='posts-container'>           
-                    <Post subreddit={list} />
+            {posts.map((post) => (
+                <div key={post.id} className='posts-container'>           
+                    <Post post={post} />
                 </div>
             ))}
         </div>
