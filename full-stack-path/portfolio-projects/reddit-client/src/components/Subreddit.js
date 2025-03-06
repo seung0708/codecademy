@@ -11,7 +11,13 @@ const Subreddit = () => {
     <div className='subreddits'>
       <h2>Subreddits</h2>
       {categories.map(category => (
-        <button onClick={() => dispatch(fetchSubredditsByCategory(category))} style={{display: 'block', marginBottom: '20px'}}>{category}</button>
+        <button 
+          key={category} // Add this line
+          onClick={() => dispatch(fetchSubredditsByCategory(category))} 
+          style={{display: 'block', marginBottom: '20px'}}
+        >
+          {category}
+        </button>
       ))}
     </div>
   )

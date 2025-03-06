@@ -8,26 +8,26 @@ const PostsContainer = () => {
     const {list, loading, error} = useSelector((state) => state.subredditData);
     const dispatch = useDispatch();
     
-  useEffect(() => {
-    const fetchingSubreddits = () => {
-        dispatch({type: 'subreddits/loading'})
-        dispatch(getSubreddits())
-    }
-    fetchingSubreddits();
-   },[dispatch])
+    useEffect(() => {
+        const fetchingSubreddits = () => {
+            dispatch({type: 'subreddits/loading'})
+            dispatch(getSubreddits())
+        }
+        fetchingSubreddits();
+    },[dispatch])
 
-   if (error) {
-    <div>Something went wrong</div>
-   }
+    if (error) {
+        return <div data-testid="error-message">Something went wrong</div>
+    }
 
     return (
         <div>
-            {loading && <div className='loader'></div>}
-            {list.map((list) => 
-            <div key={list.id} className='posts-container'>           
-                <Post subreddit={list}  />
-            </div>
-        )}
+            {loading && <div data-testid="loader" className='loader'></div>}
+            {list.map((list) => (
+                <div key={list.id} className='posts-container'>           
+                    <Post subreddit={list} />
+                </div>
+            ))}
         </div>
     )
 }

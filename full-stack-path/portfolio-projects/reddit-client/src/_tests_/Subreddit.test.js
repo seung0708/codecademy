@@ -1,26 +1,41 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import {render, screen} from '@testing-library/react'
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { thunk } from 'redux-thunk';
 import Subreddit from '../components/Subreddit';
+import rootReducer from '../store/reducer';
 
-const mockSubreddit = {
-    display_name: 'reactjs',
-    public_description: 'The front end web development subreddit',
-    banner_img: 'test-banner.jpg'
-}
+const store = createStore(
+    rootReducer,
+    {
+        subredditData: {
+            categories: ['reactjs', 'javascript', 'programming'],
+            loading: false,
+            error: null
+        }
+    },
+    applyMiddleware(thunk)
+);
 
-describe('Subreddit omponent', () => {
-    test('renders subreddit name', () => {
-        render(<Subreddit subreddit={mockSubreddit} />);
+describe('Subreddit Component', () => {
+    const renderWithRedux = (component) => {
+        return render(
+            <Provider store={store}>
+                {component}
+            </Provider>
+        );
+    };
+
+    test('renders subreddit categories', () => {
+        renderWithRedux(<Subreddit />);
         expect(screen.getByText('reactjs')).toBeInTheDocument();
-    })
+        expect(screen.getByText('javascript')).toBeInTheDocument();
+        expect(screen.getByText('programming')).toBeInTheDocument();
+    });
 
-    test('renders subreddit description', () => {
-        render(<Subreddit subreddit={mockSubreddit} />);
-        expect(screen.getByText('The front end web development subreddit')).toBeInTheDocument();
-    })
-
-    test('renders subreddit banner image if avaialble', () => {
-        render(<Subreddit subreddit={mockSubreddit} />);
-        const banner = screen.getByRole('img');
-        expect(banner).toHaveAttribute('src', 'test-banner.jpg');
-    })
-})
+    test('renders subreddits heading', () => {
+        renderWithRedux(<Subreddit />);
+        expect(screen.getByText('Subreddits')).toBeInTheDocument();
+    });
+});

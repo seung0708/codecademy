@@ -16,10 +16,19 @@ const VideoPlayer = ({mpdUrl}) => {
     }, [mpdUrl])
 
     return (
-        <video ref={videoRef} muted loop style={{height: '435px', width: '715px', backgroundColor: '#4f4f4f', borderRadius: '20px', objectFit: 'contain'}}></video>
-        // <figure style={{width: '715px', backgroundColor: '#4f4f4f'}}>
-        //     <video ref={videoRef} muted autoPlay style={{height: '435px'}}></video>
-        // </figure>
+        <video 
+            ref={videoRef} 
+            data-testid="video-player"
+            muted 
+            loop 
+            style={{
+                height: '435px', 
+                width: '715px', 
+                backgroundColor: '#4f4f4f', 
+                borderRadius: '20px', 
+                objectFit: 'contain'
+            }}
+        />
     )
 }
 

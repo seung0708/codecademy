@@ -1,5 +1,4 @@
 import {render, screen, fireEvent} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import Search from '../components/Search';
 
 describe('Search component', () => {
@@ -8,17 +7,18 @@ describe('Search component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-  })
+  });
 
   test('renders search input with placeholder', () => {
     render(<Search query="" setQuery={mockSetQuery} handleSubmit={mockHandleSubmit} />);
     expect(screen.getByPlaceholderText('Search Reddit')).toBeInTheDocument();
-  })
+  });
   
-  test('updates query on input change', async () => {
+  test('updates query on input change', () => {
     render(<Search query="" setQuery={mockSetQuery} handleSubmit={mockHandleSubmit} />);
     const input = screen.getByPlaceholderText('Search Reddit');
-    await userEvent.type(input, 'test search');
+    
+    fireEvent.change(input, { target: { value: 'test search' } });
     expect(mockSetQuery).toHaveBeenCalledWith('test search');
   });
 
@@ -28,5 +28,4 @@ describe('Search component', () => {
     fireEvent.submit(form);
     expect(mockHandleSubmit).toHaveBeenCalled();
   });
-})
-
+});

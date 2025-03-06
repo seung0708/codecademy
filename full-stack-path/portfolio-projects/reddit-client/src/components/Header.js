@@ -3,6 +3,7 @@ import Search from './Search'
 import '../styles/Header.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSearchResults} from '../store/subredditsSlice.js';
+
 const Header = () => {
   const [query, setQuery] = useState();
   const {list} = useSelector((state) => state.subredditData);

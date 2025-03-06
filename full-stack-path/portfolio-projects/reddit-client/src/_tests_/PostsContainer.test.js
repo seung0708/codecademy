@@ -1,76 +1,101 @@
 import React from 'react';
-import {screen, render} from '@testing-library/react'
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { screen } from '@testing-library/react';
 import PostsContainer from '../components/PostsContainer';
-import { posts } from '../mock-data';
-import rootReducer from '../store';
+import { renderWithRedux } from '../test-utils/test-utils';
 
 const mockPosts = [
-    {
-      title: 'Test Post 1',
-      description: 'Description 1',
-      preview: { images: [{ source: { url: 'test1.jpg' } }] },
-      is_video: false
+    { 
+        id: 1, 
+        title: 'Test Post 1',
+        description: 'This is test description 1',
+        is_video: false,
+        header_img: null,
+        preview: {
+            images: [{
+                source: {
+                    url: 'https://test.com/image1.jpg'
+                }
+            }]
+        }
     },
-    {
-      title: 'Test Post 2',
-      description: 'Description 2',
-      preview: { images: [{ source: { url: 'test2.jpg' } }] },
-      is_video: false
+    { 
+        id: 2, 
+        title: 'Test Post 2',
+        description: 'This is test description 2',
+        is_video: false,
+        header_img: null,
+        preview: {
+            images: [{
+                source: {
+                    url: 'https://test.com/image2.jpg'
+                }
+            }]
+        }
     }
-  ];
-  
-  describe('PostsContainer Component', () => {
-    test('shows loading state', () => {
-      const store = createStore(rootReducer, {
-        subreddits: { 
-          list: [], 
-          loading: true, 
-          error: false 
+];
+
+jest.mock('../api/reddit', () => ({
+    fetchSubreddits: jest.fn(() => Promise.resolve({
+        data: {
+            children: mockPosts.map(post => ({ data: post }))
         }
-      });
-  
-      render(
-        <Provider store={store}>
-          <PostsContainer />
-        </Provider>
-      );
-      expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    }))
+}));
+
+describe('PostsContainer Component', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
     });
-  
-    test('renders posts when data is available', () => {
-      const store = createStore(rootReducer, {
-        subreddits: { 
-          list: mockPosts, 
-          loading: false, 
-          error: false 
-        }
-      });
-  
-      render(
-        <Provider store={store}>
-          <PostsContainer />
-        </Provider>
-      );
-      expect(screen.getByText('Test Post 1')).toBeInTheDocument();
-      expect(screen.getByText('Test Post 2')).toBeInTheDocument();
+
+    test('shows loading state initially', () => {
+        renderWithRedux(<PostsContainer />, {
+            initialState: {
+                subredditData: {
+                    list: [],
+                    query: '',
+                    categories: [],
+                    loading: true,
+                    error: false
+                }
+            }
+        });
+
+        expect(screen.getByTestId('loader')).toBeInTheDocument();
     });
-  
-    test('shows error message', () => {
-      const store = createStore(rootReducer, {
-        subreddits: { 
-          list: [], 
-          loading: false, 
-          error: true 
-        }
-      });
-  
-      render(
-        <Provider store={store}>
-          <PostsContainer />
-        </Provider>
-      );
-      expect(screen.getByText(/error/i)).toBeInTheDocument();
+
+    test('renders posts when data is loaded', () => {
+        renderWithRedux(<PostsContainer />, {
+            initialState: {
+                subredditData: {
+                    list: mockPosts,
+                    query: '',
+                    categories: [],
+                    loading: false,
+                    error: false
+                }
+            }
+        });
+
+        expect(screen.getByText('Test Post 1')).toBeInTheDocument();
+        expect(screen.getByText('This is test description 1...')).toBeInTheDocument();
+        expect(screen.getByText('Test Post 2')).toBeInTheDocument();
+        expect(screen.getByText('This is test description 2...')).toBeInTheDocument();
     });
-  });
+
+    test('shows error message when there is an error', () => {
+        renderWithRedux(<PostsContainer />, {
+            initialState: {
+                subredditData: {
+                    list: [],
+                    query: '',
+                    categories: [],
+                    loading: false,
+                    error: true
+                }
+            }
+        });
+
+        expect(screen.getByTestId('error-message')).toBeInTheDocument();
+        expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    });
+});
