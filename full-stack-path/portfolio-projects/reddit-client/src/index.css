@@ -9,7 +9,6 @@
   --reddit-link-text: #4FBCFF;
 }
 
-
 *, *::after, *::before {
   margin: 0;
   padding: 0;
@@ -24,6 +23,16 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: none;
+  color: var(--reddit-dark-text);
+  outline: none;
 }
 
 input {

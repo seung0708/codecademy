@@ -1,0 +1,57 @@
+.dropdown {
+    position: relative;
+    padding: 0;
+}
+
+.dropdown button {
+    width: 100x;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-content {
+    appearance: none;
+    border-radius: 4px;
+    color: var(--reddit-text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 28px 8px 12px;
+    background: var(--reddit-dark-bg);
+}
+
+
+.dropdown-content:focus {
+    outline: none;
+    border-color: #d7dadc;
+}
+
+.dropdown-content option {
+    padding: 8px 12px;
+    background-color: var(--reddit-dark-bg);
+    font-weight: 500;
+}
+
+.dropdown-content option:hover {
+    background-color: rgba(215, 218, 220, 0.1);
+}
+
+.dropdown svg {
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    width: 16px;
+    height: 16px;
+    color: #818384;
+}
+
+@media screen and (max-width: 960px) {
+    .dropdown {
+        width: 200px;
+    }
+}

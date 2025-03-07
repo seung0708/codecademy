@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Post.css';
-import VideoPlayer from './VideoPlayer';
+import VideoPlayer from '../../../components/VideoPlayer';
 
 const Post = ({post}) => {
     const {preview, media, is_video, title, selftext} = post

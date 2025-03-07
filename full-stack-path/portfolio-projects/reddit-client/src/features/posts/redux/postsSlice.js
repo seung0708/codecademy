@@ -1,4 +1,4 @@
-import { fetchPostsFromAPI } from "../../api/reddit";
+import { fetchPostsFromAPI } from "../../../api/reddit";
 
 const initialState = {
     posts: [],

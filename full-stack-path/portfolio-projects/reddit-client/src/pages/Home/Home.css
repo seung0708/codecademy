@@ -1,15 +1,17 @@
-main {
-    position: relative;
-    top: 70px;
-    padding: 20px 24px;
-}
-
-.home-container {
+.main-content {
     position: relative;
     display: grid;
     grid-template-columns: 270px 770px 312px;
     gap: 24px;
     justify-content: center;
+    padding: 20px 24px;
+}
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
 }
 
 aside:first-child {
@@ -23,25 +25,22 @@ aside:first-child {
 }
 
 @media screen and (max-width: 1280px) {
-    .home-container {
-      grid-template-columns: 770px 312px;
+    .main-content {
+        grid-template-columns: 770px 312px;
+    }
+      
+    aside:first-child {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .main-content {
+        grid-template-columns: 100%;
+        padding: 16px;
     }
     
-    aside:first-child {
-      display: none;
-    }
-  }
-  
-  @media screen and (max-width: 960px) {
-    main {
-      padding: 16px;
-    }
-  
-    .home-container {
-      grid-template-columns: 100%;
-    }
-  
     .categories-subreddits {
-      display: none;
+        display: none;
     }
 }

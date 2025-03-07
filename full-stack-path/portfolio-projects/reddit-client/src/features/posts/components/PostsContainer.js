@@ -1,21 +1,7 @@
-import React, {useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from '../features/posts/postsSlice';
 import Post from './Post'
 import '../styles/PostsContainer.css';
 
-const PostsContainer = () => {
-    const {posts, loading, error} = useSelector((state) => state.postsData);
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-        const fetchingPosts = () => {
-            dispatch({type: 'posts/loading'})
-            dispatch(fetchPosts())
-        }
-        fetchingPosts();
-    },[dispatch])
-
+const PostsContainer = ({posts, loading, error}) => {
     if (error) {
         return <div data-testid="error-message">Something went wrong</div>
     }
