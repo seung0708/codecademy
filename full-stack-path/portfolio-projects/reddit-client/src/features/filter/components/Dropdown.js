@@ -1,4 +1,4 @@
-import './Dropdown.css';
+import '../styles/Dropdown.css';
 
 const Dropdown = ({categories, selectedCategory, setSelectedCategory}) => {
   return (

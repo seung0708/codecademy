@@ -2,11 +2,11 @@ import './Home.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PostsContainer from '../../features/posts/components/PostsContainer';
-import Dropdown from '../../components/Dropdown/Dropdown';
-import { fetchSubredditsByCategory } from '../../features/filter/filterSlice';
+import Dropdown from '../../features/filter/components/Dropdown';
+import { fetchSubredditsByCategory } from '../../features/filter/redux/filterSlice';
 import { fetchPosts } from '../../features/posts/redux/postsSlice';
 
-const Home = () => {
+const Home = ({searchResults, loading, error}) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const dispatch = useDispatch();
   const categories = useSelector(state => state.filterData.categories);

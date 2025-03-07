@@ -1,4 +1,4 @@
-import { fetchPopularPostsByCategory } from '../../api/reddit'
+import { fetchPopularPostsByCategory } from '../../../api/reddit'
 
 const initialState = {
     filteredPosts: [],

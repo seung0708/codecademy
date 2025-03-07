@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
-import Search from './Search'
+import Search from './Search.js'
 import '../styles/Header.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSearchResults} from '../store/subredditsSlice.js';
+import { fetchSearchResults } from '../redux/searchSlice';
 
 const Header = () => {
   const [query, setQuery] = useState();
-  const {list} = useSelector((state) => state.subredditData);
+  const {loading, error} = useSelector((state) => state.searchData);
   const dispatch = useDispatch();
   
   const handleSearch = () => {
@@ -23,7 +23,7 @@ const Header = () => {
         <div>
             <img src='/assets/icons8-reddit.svg' alt="logo" />
         </div>
-        <Search query={query} setQuery={setQuery} handleSubmit={handleSubmit} />
+        <Search query={query} setQuery={setQuery} handleSubmit={handleSubmit} loading={loading} error={error} />
         <div></div>
     </header>
   )
