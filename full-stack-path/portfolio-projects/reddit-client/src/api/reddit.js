@@ -42,3 +42,11 @@ export async function fetchSubredditPostsFromAPI(subreddit) {
     }
     return response.json();
 }
+
+export async function fetchPostFromAPI(subreddit, id,) {
+    const response = await fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}.json?limit=30`)
+    if (!response.ok) {
+        throw new Error('Failed to fetch data')
+    }
+    return response.json();
+}

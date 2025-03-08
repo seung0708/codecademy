@@ -35,6 +35,11 @@ p {
     padding: 15px;
 }
 
+
+.subreddit-link:hover {
+    color: var(--reddit-orange);
+}
+
 .post-link:hover {
     background-color: var(--reddit-dark-border);
     border-radius: 10px;
