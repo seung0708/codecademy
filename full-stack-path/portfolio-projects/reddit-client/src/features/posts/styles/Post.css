@@ -3,12 +3,13 @@
     flex-direction: column;
     width: 100%;
     max-height: 652px;
-    padding: 8px;
+    
 }
 
 h2 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
+    margin-top: 8px;
     margin-bottom: 12px;
     width: 100%;  
 }
@@ -28,4 +29,14 @@ p {
     object-fit: contain;  
     border-radius: 10px;  
     margin-top: 8px;
+}
+
+.post-link {
+    padding: 15px;
+}
+
+.post-link:hover {
+    background-color: var(--reddit-dark-border);
+    border-radius: 10px;
+    
 }

@@ -1,11 +1,14 @@
 main {
     position: relative;
+    width: 100%;
     top: 70px;
     padding: 20px 24px;
+    min-height: calc(100vh - 70px);
+    background-color: var(--reddit-dark-bg);
 }
 
 @media screen and (max-width: 960px) {
   main {
-    padding: 16px;
+    
   }
 }

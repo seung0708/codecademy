@@ -34,9 +34,10 @@ aside:first-child {
     }
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 980px) {
     .main-content {
         grid-template-columns: 100%;
+        margin: 0 auto;
         padding: 16px;
     }
     

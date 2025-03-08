@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { Link } from 'react-router-dom';
 import Search from './Search.js'
 import '../styles/Header.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +22,9 @@ const Header = () => {
   return (
     <header>
         <div>
-            <img src='/assets/icons8-reddit.svg' alt="logo" />
+            <Link to="/">
+                <img src='/assets/icons8-reddit.svg' alt="logo" />
+            </Link>
         </div>
         <Search query={query} setQuery={setQuery} handleSubmit={handleSubmit} loading={loading} error={error} />
         <div></div>

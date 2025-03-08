@@ -3,7 +3,7 @@
     background-color: var(--reddit-dark-bg);
     border-bottom: 1px solid var(--reddit-dark-border);
     margin-bottom: 20px;
-    padding: 20px;
+    padding: 20px 0px;
 }
 
 .loader {
