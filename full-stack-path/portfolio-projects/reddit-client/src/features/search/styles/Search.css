@@ -8,6 +8,7 @@ form {
 
 input {
     background-color: var(--reddit-dark-bg);
+    color: var(--reddit-dark-text);
     border: 1px solid var(--reddit-dark-border);
     height: 40px;
     width: 100%; 

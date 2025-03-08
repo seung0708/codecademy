@@ -6,7 +6,7 @@ import Dropdown from '../../features/filter/components/Dropdown';
 import { fetchSubredditsByCategory } from '../../features/filter/redux/filterSlice';
 import { fetchPosts } from '../../features/posts/redux/postsSlice';
 
-const Home = ({searchResults, loading, error}) => {
+const Home = ({searchResults, searchLoading, searchError}) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const dispatch = useDispatch();
   const categories = useSelector(state => state.filterData.categories);
@@ -26,9 +26,13 @@ const Home = ({searchResults, loading, error}) => {
         <aside></aside>
         <div className="content-area">
           <Dropdown categories={categories} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-          {filteredPosts.length > 0 ? (
+          {filteredPosts.length > 0 && (
             <PostsContainer posts={filteredPosts} loading={filteredLoading} error={filteredError} />
-          ) : (
+          )}
+          {searchResults.length > 0 && (
+            <PostsContainer posts={searchResults} loading={searchLoading} error={searchError} />
+          )}
+          {posts.length > 0 && (
             <PostsContainer posts={posts} loading={loading} error={error} />
           )}
         </div>

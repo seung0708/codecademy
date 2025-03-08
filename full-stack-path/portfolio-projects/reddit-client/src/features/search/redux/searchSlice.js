@@ -1,8 +1,8 @@
 import { searchFromAPI } from "../../../api/reddit";
 const initialState = {
     query: '',
-    loading: false,
-    error: false,
+    searchLoading: false,
+    searchError: false,
     searchResults: []
 }
 
@@ -11,14 +11,14 @@ export default function searchReducer(state = initialState, action) {
         case 'search/loading': {
             return {
                 ...state,
-                loading: true
+                searchLoading: true
             }
         }
         case 'search/error': 
             return {
                 ...state,
-                loading: false, 
-                error: true
+                searchLoading: false, 
+                searchError: true
             }
         case 'search/query': 
             return {
