@@ -8,7 +8,7 @@ const Header = ({logout, handleSearch, query, login, user}) => {
 
   return (
     <header> 
-        <img src="../../../public/icons8-spotify.svg" />
+        <img src="/icons8-spotify.svg" />
         <SearchBar handleSearch={handleSearch} query={query} />
         <div className='user-actions'>
         {user ? (
