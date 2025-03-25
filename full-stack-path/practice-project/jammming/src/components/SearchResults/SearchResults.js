@@ -4,6 +4,7 @@ import TrackList from '../TrackList/Tracklist'
 import Loader from '../../views/Loader'
 
 const SearchResults = ({ loading, loadingMessage, addToPlaylist, tracks}) => {
+  console.log(tracks)
   return (
     <div className='search-results'>
       {loading && <Loader message={loadingMessage} />}

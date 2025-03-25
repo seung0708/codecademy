@@ -7,6 +7,7 @@ export const fetchResultsData = async (accessToken, input) => {
     })
 
     const {tracks} = await response.json()
+    console.log(tracks)
     return tracks?.items;
 }
 

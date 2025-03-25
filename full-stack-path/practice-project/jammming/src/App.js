@@ -17,7 +17,9 @@ function App() {
   const [loadingStates, setLoadingStates] = useState({
     search: false,
     playlist: false,
-    auth: false
+    auth: false,
+    tokenRefresh: false,
+    playlistDetails: false
   });
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([]); 
@@ -39,18 +41,22 @@ function App() {
     const fetchAuthAndUserData = async () => {
       setLoadingStates((prev) => ({
         ...prev,
-        auth: true
+        tokenRefresh: true
       }))
+      
       if (difference < 0) {
         try {
-          await refreshTokenClick()
+          await refreshTokenClick();
           const refreshToken = localStorage.getItem('refresh_token');
-          if (refreshToken) {
+          const newAccessToken = localStorage.getItem('access_token');
+          if (refreshToken && newAccessToken) {
             expiration = new Date(localStorage.getItem('expires'));
             now = new Date();
             difference = expiration - now - 300000;
+            setToken(newAccessToken);
           } else {
             logout();
+            return;
           }
         } catch (error) {
           console.error('Token refresh failed:', error);
@@ -59,38 +65,80 @@ function App() {
         } finally {
           setLoadingStates((prev) => ({
             ...prev,
-            auth: false
+            tokenRefresh: false
           }))
         }
       }
+
       try {
         if (accessToken) {
           setToken(accessToken);
           const userData = await getUserData();
           if (userData?.id) {
             setUser(userData);
+          } else {
+            throw new Error('Failed to get user data');
           }
           const items = await fetchPlaylistsData(accessToken);
           setLibrary(items);
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching user data:', error);
+        if (error.status === 401) {
+          setLoadingStates(prev => ({ ...prev, tokenRefresh: true }));
+          try {
+            await refreshTokenClick();
+            const newToken = localStorage.getItem('access_token');
+            if (newToken) {
+              setToken(newToken);
+              // Retry the data fetch
+              const userData = await getUserData();
+              if (userData?.id) {
+                setUser(userData);
+                const items = await fetchPlaylistsData(newToken);
+                setLibrary(items);
+              }
+            }
+          } catch (refreshError) {
+            console.error('Token refresh failed:', refreshError);
+            logout();
+          } finally {
+            setLoadingStates(prev => ({ ...prev, tokenRefresh: false }));
+          }
+        } else {
+          logout();
+        }
       }
     };
 
     fetchAuthAndUserData();
     
     // Set timeout to refresh token
-    const timeoutId = setTimeout(refreshTokenClick, difference);
+    if (difference > 0) {
+      const timeoutId = setTimeout(async () => {
+        setLoadingStates(prev => ({ ...prev, tokenRefresh: true }));
+        try {
+          await refreshTokenClick();
+          const newToken = localStorage.getItem('access_token');
+          if (newToken) {
+            setToken(newToken);
+          }
+        } catch (error) {
+          console.error('Scheduled token refresh failed:', error);
+          logout();
+        } finally {
+          setLoadingStates(prev => ({ ...prev, tokenRefresh: false }));
+        }
+      }, difference);
 
-    return () => clearTimeout(timeoutId);
+      return () => clearTimeout(timeoutId);
+    }
   }, []);
 
   const logout = () => {
     logoutClick();
     setUser(null)
   }
-
 
   useEffect(() => {
     if(timeoutId.current) {
@@ -106,10 +154,30 @@ function App() {
       }))
       timeoutId.current = setTimeout(async () => {
         try {
+          if (loadingStates.tokenRefresh) {
+            return;
+          }
           const results = await fetchResultsData(token, searchQuery);
           setSearchResults(results)
         } catch (error) {
           console.error(error)
+          if (error.status === 401) {
+            setLoadingStates(prev => ({ ...prev, tokenRefresh: true }));
+            try {
+              await refreshTokenClick();
+              const newToken = localStorage.getItem('access_token');
+              if (newToken) {
+                setToken(newToken);
+                const results = await fetchResultsData(newToken, searchQuery);
+                setSearchResults(results);
+              }
+            } catch (refreshError) {
+              console.error('Token refresh failed:', refreshError);
+              logout();
+            } finally {
+              setLoadingStates(prev => ({ ...prev, tokenRefresh: false }));
+            }
+          }
         } finally {
           setLoadingStates((prev) => ({
             ...prev,
@@ -118,7 +186,7 @@ function App() {
         }
       }, 3000)  
     }
-  }, [searchQuery])
+  }, [searchQuery, loadingStates.tokenRefresh])
 
   const handleSearch = async (query) => {
     setSearchQuery(query);
@@ -154,12 +222,36 @@ function App() {
   }
 
   const handleSaveToLibrary = async () => {    
-    const createdPlaylist = await createPlaylist(user.id, token, playlist.title)
-    await addTrackToPlaylist(token, createdPlaylist.id, playlist.tracks)
-    setLibrary(prev => [createdPlaylist, ...prev])
-    setPlaylist({title: '', tracks: []})
+    if (loadingStates.tokenRefresh) {
+      return;
+    }
+    try {
+      const createdPlaylist = await createPlaylist(user.id, token, playlist.title)
+      await addTrackToPlaylist(token, createdPlaylist.id, playlist.tracks)
+      setLibrary(prev => [createdPlaylist, ...prev])
+      setPlaylist({title: '', tracks: []})
+    } catch (error) {
+      if (error.status === 401) {
+        setLoadingStates(prev => ({ ...prev, tokenRefresh: true }));
+        try {
+          await refreshTokenClick();
+          const newToken = localStorage.getItem('access_token');
+          if (newToken) {
+            setToken(newToken);
+            const createdPlaylist = await createPlaylist(user.id, newToken, playlist.title)
+            await addTrackToPlaylist(newToken, createdPlaylist.id, playlist.tracks)
+            setLibrary(prev => [createdPlaylist, ...prev])
+            setPlaylist({title: '', tracks: []})
+          }
+        } catch (refreshError) {
+          console.error('Token refresh failed:', refreshError);
+          logout();
+        } finally {
+          setLoadingStates(prev => ({ ...prev, tokenRefresh: false }));
+        }
+      }
+    }
   }
-
 
   const updatePlayListTitle = (e, index) => {
     const newTitle = e.target.value; 
@@ -201,6 +293,28 @@ function App() {
         }))
       } catch (error) {
         console.error('Error fetching playlist data:', error);
+        if (error.status === 401) {
+          setLoadingStates(prev => ({ ...prev, tokenRefresh: true }));
+          try {
+            await refreshTokenClick();
+            const newToken = localStorage.getItem('access_token');
+            if (newToken) {
+              setToken(newToken);
+              const {name} = await fetchPlaylistData(newToken, playlistId);
+              const items = await fetchPlaylistItems(newToken, playlistId);
+              setPlaylist(prev => ({
+                ...prev, 
+                name: name,
+                tracks: items.map(item => item.track),
+              }))
+            }
+          } catch (refreshError) {
+            console.error('Token refresh failed:', refreshError);
+            logout();
+          } finally {
+            setLoadingStates(prev => ({ ...prev, tokenRefresh: false }));
+          }
+        }
       } finally {
         setLoadingStates(prev => ({...prev, playlistDetails: false}));
       }
