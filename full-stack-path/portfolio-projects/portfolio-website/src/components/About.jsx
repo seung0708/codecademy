@@ -6,7 +6,7 @@ const About = () => {
         <div className="about container">
             <div className="about_heading">
                 <h2>About Me</h2>
-                <p>I am Full Stack Developer living in Los Angeles, CA</p>
+                <p>Hey there! I'm a Full Stack Developer with a passion for creating sleek, intuitive, and scalable web applications. My expertise lies in React, Node.js, and PostgreSQL, but I'm always eager to expand my skills—currently diving deeper into UI/UX design and animations. I love turning complex ideas into smooth user experiences and am always up for a challenge. My goal is to craft unique, high-performance applications that leave a lasting impact. Let's build something awesome!</p>
             </div>
         </div>
         {/* <div className="skills">
