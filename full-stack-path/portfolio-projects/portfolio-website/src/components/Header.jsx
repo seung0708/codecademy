@@ -24,19 +24,17 @@ const Header = ({darkMode, setDarkMode}) => {
   return (
     <header>
         <div className="container">
-            <nav className="desktop_nav">
-                <div className="logo">SK</div>
-                <ul className="nav_links">
-                    <li className="nav_link"><a href="#about">About</a></li>
-                    <li className="nav_link"><a href="#projects">Projects</a></li>
-                    <li className="nav_link"><a href="#contact">Contact</a></li>
-                </ul>
-                <div className='switch'>
-                  <button onClick={handleToggleClick}>
-                    {!darkMode ? <Sun style={{color: '#FFF'}} /> : <Moon /> }
-                  </button>
-                </div>
-            </nav>
+          <div className="logo">SK</div>
+          <nav className="desktop_nav">     
+            <ul className="nav_links">
+              <li className="nav_link"><a href="#about">About</a></li>
+              <li className="nav_link"><a href="#projects">Projects</a></li>
+              <li className="nav_link"><a href="#contact">Contact</a></li>
+            </ul>
+          </nav>
+          <button className='switch' onClick={handleToggleClick}>
+            {!darkMode ? <Sun style={{color: '#FFF'}} /> : <Moon /> }
+          </button>
         </div>
         
     </header>

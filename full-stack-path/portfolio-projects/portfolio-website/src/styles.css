@@ -56,6 +56,7 @@ section {
 /* Header */
 
 header {
+    border: 1px solid red;
     position: relative;
     margin-bottom: 32px;
 }
@@ -63,11 +64,11 @@ header {
 header .container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 nav {
     display: flex;
-    justify-content: space-between;
     padding: 10px;
 }
 
@@ -85,10 +86,6 @@ nav {
     text-decoration: underline;
 }
 
-.switch {
-    position: relative;
-    top: 0px;
-}
 
 
 

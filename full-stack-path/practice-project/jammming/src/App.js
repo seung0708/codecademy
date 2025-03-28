@@ -15,11 +15,11 @@ function App() {
   const now = new Date();
   const [user, setUser] = useState({});
   const [loadingStates, setLoadingStates] = useState({
-    search: false,
     playlist: false,
     auth: false,
     tokenRefresh: false,
-    playlistDetails: false
+    playlistDetails: false,
+    search: false
   });
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([]); 
@@ -141,52 +141,53 @@ function App() {
   }
 
   useEffect(() => {
-    if(timeoutId.current) {
-      clearTimeout(timeoutId)
-    }
-    if (!searchQuery || !searchQuery.trim()) {
-      setSearchResults([])
-      return; 
-    } else {
+    const searchSpotify = async () => {
+      if (!searchQuery || !searchQuery.trim()) {
+        setSearchResults([])
+        return; 
+      }
+      
       setLoadingStates((prev) => ({
         ...prev,
         search: true
       }))
-      timeoutId.current = setTimeout(async () => {
-        try {
-          if (loadingStates.tokenRefresh) {
-            return;
-          }
-          const results = await fetchResultsData(token, searchQuery);
-          setSearchResults(results)
-        } catch (error) {
-          console.error(error)
-          if (error.status === 401) {
-            setLoadingStates(prev => ({ ...prev, tokenRefresh: true }));
-            try {
-              await refreshTokenClick();
-              const newToken = localStorage.getItem('access_token');
-              if (newToken) {
-                setToken(newToken);
-                const results = await fetchResultsData(newToken, searchQuery);
-                setSearchResults(results);
-              }
-            } catch (refreshError) {
-              console.error('Token refresh failed:', refreshError);
-              logout();
-            } finally {
-              setLoadingStates(prev => ({ ...prev, tokenRefresh: false }));
-            }
-          }
-        } finally {
-          setLoadingStates((prev) => ({
-            ...prev,
-            search: false
-          }))
+      
+      try {
+        if (loadingStates.tokenRefresh) {
+          return;
         }
-      }, 3000)  
+        const results = await fetchResultsData(token, searchQuery);
+        console.log(results)
+        setSearchResults(results)
+      } catch (error) {
+        console.error(error)
+        if (error.status === 401) {
+          setLoadingStates(prev => ({ ...prev, tokenRefresh: true }));
+          try {
+            await refreshTokenClick();
+            const newToken = localStorage.getItem('access_token');
+            if (newToken) {
+              setToken(newToken);
+              const results = await fetchResultsData(newToken, searchQuery);
+              setSearchResults(results);
+            }
+          } catch (refreshError) {
+            console.error('Token refresh failed:', refreshError);
+            logout();
+          } finally {
+            setLoadingStates(prev => ({ ...prev, tokenRefresh: false }));
+          }
+        }
+      } finally {
+        setLoadingStates((prev) => ({
+          ...prev,
+          search: false
+        }))
+      }
     }
-  }, [searchQuery, loadingStates.tokenRefresh])
+
+    searchSpotify();
+  }, [searchQuery, loadingStates.tokenRefresh, token])
 
   const handleSearch = async (query) => {
     setSearchQuery(query);
