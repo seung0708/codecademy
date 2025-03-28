@@ -9,8 +9,13 @@ const Hero = ({darkMode}) => {
     return (
         <section id="hero">
             <div className="container">
+                <div className="">
+                    <span style={{fontSize: '24px'}}>Hi, I am </span>
+                    <p style={{fontSize: '32px'}}>Seung Kim</p>
+                    <h1 style={{fontSize: '100px'}}><span>Full Stack</span> <span style={{position: 'relative', left: '100px'}}>Developer</span></h1>
+                    <p>Located in Los Angeles, CA</p>
+                </div>
                 <img className="hero_img" src="./assets/images/IMG_20190312_191356_018.jpg" />
-               
             </div>   
         </section>
   )
