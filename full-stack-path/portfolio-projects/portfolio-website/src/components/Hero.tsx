@@ -9,8 +9,13 @@ const Hero = ({darkMode}) => {
     return (
         <section id="hero">
             <div className="container">
+                <div className="hero_heading">
+                    <span style={{fontSize: '24px'}}>Hi, I am </span>
+                    <p id="typing-text" style={{fontSize: '32px'}}>Seung Kim</p>
+                    <h1 style={{fontSize: '100px'}}><span>Full Stack</span> <span style={{position: 'relative', left: '100px'}}>Developer</span></h1>
+                    <p style={{width: '600px', marginTop: '30px'}}>Located in Los Angeles, CA and passionate about crafting seamless user experiences with modern technologies. With expertise in React, Node.js, PostgreSQL, and more, I bring ideas to life through clean, efficient, and scalable code. Let's build something amazing together!</p>
+                </div>
                 <img className="hero_img" src="./assets/images/IMG_20190312_191356_018.jpg" />
-               
             </div>   
         </section>
   )
@@ -25,15 +30,4 @@ export default Hero
                     </div>
                     
                 </div>
-                <div className="skills">
-                    <img src="./assets/images/html5.svg" />
-                    <img src="./assets/images/css3.svg" />
-                    <img src="./assets/images/javascript.svg" alt="" />
-                    <img src="./assets/images/react.svg" alt="" />
-                    <img src="./assets/images/redux.svg" alt="" />
-                    <img src="./assets/images/nodedotjs.svg" alt="" />
-                    <img src="./assets/images/express.svg" alt="" />
-                    <img src="./assets/images/postgresql.svg" alt="" />
-                    <img src="./assets/images/npm.svg" alt="" />
-                    <img src="./assets/images/git.svg" alt="" />
-                </div> */}
+               > */}
