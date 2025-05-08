@@ -18,6 +18,8 @@ app.get('/', (request, response) => {
 
 app.post('/register', db.register)
 
+app.post('/login', db.login)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
 })

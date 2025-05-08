@@ -10,6 +10,15 @@ const passwordHash = async (password, saltRounds) => {
     return null;
 }
 
+const validatePassword = async (password, storedPassword) => {
+    try {
+        return await bcrypt.compare(password, storedPassword)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
-    passwordHash
+    passwordHash,
+    validatePassword
 }

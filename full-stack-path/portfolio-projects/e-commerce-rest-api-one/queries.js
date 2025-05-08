@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool;
 require('dotenv').config();
-const {passwordHash} = require('./utilities');
+const {passwordHash, validatePassword} = require('./utilities');
 
 const pool = new Pool({
     user: process.env.DB_USER, 
@@ -45,6 +45,21 @@ const register = async (request, response) => {
     )
 }
 
+const login = async (request, response) => {
+    const {email, password} = request.body; 
+    const result = await pool.query(`
+        SELECT *
+        FROM users 
+        WHERE email = $1
+        `, [email]
+    )
+    const user = result.rows[0]
+    const isValidPassword = await validatePassword(password, user.password);
+    console.log(isValidPassword)
+    
+}
+
 module.exports = {
-    register
+    register,
+    login
 }
