@@ -16,6 +16,8 @@ app.get('/', (request, response) => {
     response.json({info: 'Ecommerce RestAPI'})
 })
 
+app.post('/register', db.register)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
 })
