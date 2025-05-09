@@ -1,16 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express(); 
 const db = require('./queries')
 const port = 3000; 
 
-app.use(bodyParser.json())
+//parse incoming request swith JSON payloads
+app.use(express.json())
 
-app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    })
-)
+//parse form data and make it available at req.body
+app.use(express.urlencoded({extended: false}))
 
 app.get('/', (request, response) => {
     response.json({info: 'Ecommerce RestAPI'})
