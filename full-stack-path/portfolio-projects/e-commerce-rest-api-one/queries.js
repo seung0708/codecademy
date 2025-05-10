@@ -30,20 +30,36 @@ const getUserById = (request, response) => {
 
 const register = async (request, response) => {
     const {firstName, lastName, email, password} = request.body;
-    console.log(request.body)
+
+    const users = await pool.query(`
+        SELECT * 
+        FROM users
+        WHERE email = $1
+    `, [email])
+
+    if (users.rows[0]) {
+        response.status(409).json({message: 'Email already exists'})
+    }
+
     const hashedPassword = await passwordHash(password);
-    
-    pool.query(`
-        INSERT INTO users (first_name, last_name, email, password)
-        VALUES ($1, $2, $3, $4)
-        `,[firstName, lastName, email, hashedPassword], 
-        (error, results) => {
-            if(error) {
-                console.log(error)
+
+    try {
+        pool.query(`
+            INSERT INTO users (first_name, last_name, email, password)
+            VALUES ($1, $2, $3, $4)
+            `,[firstName, lastName, email, hashedPassword], 
+            (error, results) => {
+                if(error) {
+                    console.log(error)
+                }
+                response.status(200).json(results)
             }
-            response.status(200).json(results)
-        }
-    )
+        )
+    } catch(error) {
+        console.log(error)
+    }
+    
+    
 }
 
 const login = async (request, response) => {
