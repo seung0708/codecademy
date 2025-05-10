@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool;
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const {passwordHash, validatePassword} = require('./utilities');
 
@@ -55,8 +56,18 @@ const login = async (request, response) => {
     )
     const user = result.rows[0]
     const isValidPassword = await validatePassword(password, user.password);
-    console.log(isValidPassword)
+
+    if(!isValidPassword) {
+        return response.status(401).json({message: 'Invalid email or password'});
+    }
     
+    const token = jwt.sign(
+        {id: user.id, email: user.email},
+        process.env.JWT_SECRET_KEY, 
+        {expiresIn: '1h'}
+    )
+    
+    response.status(200).json({message: 'Login successful', token})
 }
 
 module.exports = {
