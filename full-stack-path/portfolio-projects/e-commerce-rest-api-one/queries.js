@@ -86,7 +86,21 @@ const login = async (request, response) => {
     response.status(200).json({message: 'Login successful', token})
 }
 
+const getAllProducts = async (request, response) => {
+    const products = await pool.query(`
+        SELECT * 
+        FROM products    
+        `
+    )
+    response.status(200).json({products: products.rows})
+}
+
+const addProduct = async (request, response) => {
+    
+}
+
 module.exports = {
     register,
-    login
+    login,
+    getAllProducts
 }
