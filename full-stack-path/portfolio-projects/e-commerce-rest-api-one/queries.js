@@ -88,19 +88,46 @@ const login = async (request, response) => {
 
 const getAllProducts = async (request, response) => {
     const products = await pool.query(`
-        SELECT * 
-        FROM products    
+        SELECT p.name, p.description, c.name AS category, p.price 
+        FROM products p
+        JOIN categories c 
+            ON p.category_id = c.id 
         `
     )
     response.status(200).json({products: products.rows})
 }
 
 const addProduct = async (request, response) => {
-    
+    const {name, description, category, price, quantity} = request.body; 
+    const categories = await pool.query(`
+        SELECT * 
+        FROM categories
+        WHERE name = $1
+        `, [category]
+    )
+
+    console.log(name, description, category, price, quantity, categories.rows[0])
+
+    if (!categories.rows[0].id) {
+        await pool.query(`
+            INSERT INTO categories (name)
+            VALUES ($1)
+            `, [category]
+        )
+    }
+
+    const newProduct = await pool.query(`
+        INSERT INTO products(category_id, name, description, price, stock_quantity)
+        VALUES ($1, $2, $3, $4, $5)
+        `, [categories.rows[0].id, name, description,  price, quantity]
+    )
+
+    response.status(200).json({newProduct})
 }
 
 module.exports = {
     register,
     login,
-    getAllProducts
+    getAllProducts,
+    addProduct
 }

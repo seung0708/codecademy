@@ -24,6 +24,7 @@ app.post('/login', db.login)
 
 
 app.get('/products', db.getAllProducts)
+app.post('/products', db.addProduct)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
