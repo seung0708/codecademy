@@ -1,6 +1,5 @@
 const Pool = require('pg').Pool;
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const {passwordHash, validatePassword} = require('./utilities');
 
 const pool = new Pool({
@@ -10,23 +9,6 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD, 
     port: 5432
 })
-
-const getUserById = (request, response) => {
-    const id = request.params.id; 
-
-    pool.query(`
-        SELECT *
-        FROM users
-        WHERE id = $1
-        `,[id],
-        (error, results) => {
-            if(error) {
-                throw error
-            }
-            response.status(200).json(results)
-        }
-    )
-}
 
 const register = async (request, response) => {
     const {firstName, lastName, email, password} = request.body;
@@ -85,6 +67,74 @@ const login = async (request, response) => {
     
     response.status(200).json({message: 'Login successful', token})
 }
+
+const getUserByEmail = async (email) => {
+    const result = await pool.query(`
+        SELECT *
+        FROM users
+        WHERE email = $1
+        `,[email]
+    )
+    console.log(result.rows)
+    return result.rows[0]
+}
+
+const findUserById = async (id) => {
+    const result = await pool.query(`
+        SELECT * 
+        FROM users
+        WHERE id = $1
+        `, [id]
+    )
+    return result.rows[0]
+}
+
+const updateUser = async(req, res) => {
+    const {id} = req.params; 
+    const userId = req.user.id;
+    const updates = req.body;
+
+    if(id !== userId) {
+        return res.status(403).json({message: 'You are not authorized to edit this account'})
+    }
+
+    if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ error: 'No fields provided to update' });
+    }
+
+    const setClauses = [];
+    const values = [];
+
+    let i = 1; 
+    for (const key in updates) {
+        setClauses.push(`${key} = $${i}`);
+        values.push(updates[key]);
+        i++;
+    }
+
+    values.push(id);
+
+    const query = `
+    UPDATE users
+    SET ${setClauses.join(', ')}
+    WHERE id = $${i}
+    RETURNING *;
+  `;
+
+    try {
+        const result = await pool.query(query, values)
+         if(result.rows.length === 0) {
+            return res.status(404).json({error: 'User not found'});
+        }
+        res.status(200).json(result.rows[0]);
+
+    } catch (error) {
+        console.error(error); 
+        res.status(500).json({error: 'Database updated failed'});
+    }
+}
+
+
 
 const getAllProducts = async (request, response) => {
     const products = await pool.query(`
@@ -179,6 +229,9 @@ const deleteProduct = async (request, response) => {
 module.exports = {
     register,
     login,
+    getUserByEmail,
+    findUserById,
+    updateUser,
     getAllProducts,
     addProduct,
     updateProduct,

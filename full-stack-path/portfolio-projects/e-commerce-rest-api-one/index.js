@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const app = express(); 
 const db = require('./queries')
 const port = 3000; 
-const {isAuthenticated} = require('./passport');
+const isAuthenticated = require('./passport');
 
 //parse incoming request swith JSON payloads
 app.use(express.json())
@@ -19,9 +20,8 @@ app.get('/', (request, response) => {
 })
 
 app.post('/register', db.register)
-
 app.post('/login', db.login)
-
+app.patch('/users/:id', isAuthenticated, db.updateUser)
 
 app.get('/products', db.getAllProducts)
 app.post('/products', db.addProduct)

@@ -1,8 +1,9 @@
-require('dotenv').config();
 const passport = require('passport');
 const {Strategy: JwtStrategy, ExtractJwt} = require('passport-jwt');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+
+const {getUserByEmail, findUserById} = require('./queries');
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), 
@@ -32,7 +33,7 @@ passport.use(new LocalStrategy(
 
 passport.use(new JwtStrategy(options, async(payload, done) => {
     try {
-        const user = await findById(payload.id); 
+        const user = await findUserById(payload.id); 
         if(!user) {
             return done(null, false);
         }

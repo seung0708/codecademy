@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const passwordHash = async (password, saltRounds) => {
     try {
@@ -18,7 +19,8 @@ const validatePassword = async (password, storedPassword) => {
     }
 }
 
+
 module.exports = {
     passwordHash,
-    validatePassword
+    validatePassword,
 }
