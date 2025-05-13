@@ -163,9 +163,17 @@ const updateProduct = async (request, response) => {
         console.error(error); 
         response.status(500).json({error: 'Database updated failed'});
     }
+}
 
-    
+const deleteProduct = async (request, response) => {
 
+    const {id} = request.params; 
+    console.log(id)
+    const result = await pool.query(`
+        DELETE FROM products
+        WHERE id = $1
+        `,[id])
+    response.status(200).json(`Product deleted`)
 }
 
 module.exports = {
@@ -173,5 +181,6 @@ module.exports = {
     login,
     getAllProducts,
     addProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
 }
