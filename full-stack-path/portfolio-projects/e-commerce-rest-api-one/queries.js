@@ -125,9 +125,53 @@ const addProduct = async (request, response) => {
     response.status(200).json({newProduct})
 }
 
+const updateProduct = async (request, response) => {
+    const {id} = request.params;
+    const updates = request.body; 
+
+    if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ error: 'No fields provided to update' });
+    }
+    const setClauses = [];
+    const values = [];
+
+    let i = 1; 
+    for (const key in updates) {
+        setClauses.push(`${key} = $${i}`);
+        values.push(updates[key]);
+        i++;
+    }
+
+    values.push(id);
+
+    const query = `
+    UPDATE products
+    SET ${setClauses.join(', ')}
+    WHERE id = $${i}
+    RETURNING *;
+  `;
+
+
+    try {
+        const result = await pool.query(query, values)
+        if(result.rows.length === 0) {
+            return response.status(404).json({error: 'Product not found'});
+        }
+        response.status(200).json(result.rows[0]);
+
+    } catch (error) {
+        console.error(error); 
+        response.status(500).json({error: 'Database updated failed'});
+    }
+
+    
+
+}
+
 module.exports = {
     register,
     login,
     getAllProducts,
-    addProduct
+    addProduct,
+    updateProduct
 }
