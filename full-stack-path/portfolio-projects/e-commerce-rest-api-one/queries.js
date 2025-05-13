@@ -134,7 +134,24 @@ const updateUser = async(req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    const {id} = req.params; 
+    const userId = req.user.id;
 
+    if(id !== userId) {
+        return res.status(403).json({message: 'You are not authorized to edit this account'})
+    }
+
+    await pool.query(`
+        DELETE 
+        FROM users
+        WHERE id = $1
+        `, [id]
+    )
+
+    res.status(200)
+
+}
 
 const getAllProducts = async (request, response) => {
     const products = await pool.query(`
@@ -232,6 +249,7 @@ module.exports = {
     getUserByEmail,
     findUserById,
     updateUser,
+    deleteUser,
     getAllProducts,
     addProduct,
     updateProduct,
