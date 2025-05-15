@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool;
 const jwt = require('jsonwebtoken');
-const {passwordHash, validatePassword} = require('./utilities');
+const {passwordHash, validatePassword, checkUserAccess} = require('./utilities');
 
 const pool = new Pool({
     user: process.env.DB_USER, 
@@ -107,7 +107,7 @@ const getUserById = async (req, res) => {
         }
 
         return res.status(200).json(results.rows)
-        
+
     } catch (error) {
         console.log(error)
         res.status(500).json({message: 'Server error'})
@@ -115,11 +115,11 @@ const getUserById = async (req, res) => {
 }
 
 const updateUser = async(req, res) => {
-    const {id} = req.params; 
-    const userId = req.user.id;
     const updates = req.body;
 
-    if(id !== userId) {
+    const isUserLoggedIn = checkUserAccess(req.params.id, req.user.id);
+
+    if(!isUserLoggedIn) {
         return res.status(403).json({message: 'You are not authorized to edit this account'})
     }
 
@@ -160,10 +160,9 @@ const updateUser = async(req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    const {id} = req.params; 
-    const userId = req.user.id;
+    const isUserLoggedIn = checkUserAccess(req.params.id, req.user.id);
 
-    if(id !== userId) {
+    if(isUserLoggedIn) {
         return res.status(403).json({message: 'You are not authorized to edit this account'})
     }
 
@@ -258,15 +257,24 @@ const updateProduct = async (request, response) => {
 }
 
 const deleteProduct = async (request, response) => {
-
     const {id} = request.params; 
-    console.log(id)
+    
     const result = await pool.query(`
         DELETE FROM products
         WHERE id = $1
         `,[id])
     response.status(200).json(`Product deleted`)
 }
+
+const addItemToCart = async (req, res) => {
+    const {id} = req.params; 
+    const userId = req.user.id; 
+
+    if (id !== userId) {
+        res.
+    }
+}
+
 
 module.exports = {
     register,

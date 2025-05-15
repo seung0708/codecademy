@@ -19,8 +19,15 @@ const validatePassword = async (password, storedPassword) => {
     }
 }
 
+const checkUserAccess = (targetUserId, loggedInUserId) => {
+    if (targetUserId !== loggedInUserId) {
+        return false
+    }
+    return true;
+}
 
 module.exports = {
     passwordHash,
     validatePassword,
+    checkUserAccess
 }
