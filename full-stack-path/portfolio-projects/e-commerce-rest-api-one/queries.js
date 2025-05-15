@@ -68,6 +68,7 @@ const login = async (request, response) => {
     response.status(200).json({message: 'Login successful', token})
 }
 
+//used for passport authentication
 const getUserByEmail = async (email) => {
     const result = await pool.query(`
         SELECT *
@@ -79,7 +80,9 @@ const getUserByEmail = async (email) => {
     return result.rows[0]
 }
 
+//used for passport authentication
 const findUserById = async (id) => {
+    //console.log(id)
     const result = await pool.query(`
         SELECT * 
         FROM users
@@ -87,6 +90,28 @@ const findUserById = async (id) => {
         `, [id]
     )
     return result.rows[0]
+}
+
+const getUserById = async (req, res) => {
+    const {id} = req.params; 
+    try { 
+        const results = await pool.query(`
+            SELECT * 
+            FROM users 
+            WHERE id = $1`, 
+            [id]
+        )
+
+        if (results.rows.length === 0) {
+            return res.status(404).json({message: 'User not found'})
+        }
+
+        return res.status(200).json(results.rows)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: 'Server error'})
+    }
 }
 
 const updateUser = async(req, res) => {
@@ -248,6 +273,7 @@ module.exports = {
     login,
     getUserByEmail,
     findUserById,
+    getUserById,
     updateUser,
     deleteUser,
     getAllProducts,

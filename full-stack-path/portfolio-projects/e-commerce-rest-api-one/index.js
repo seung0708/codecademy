@@ -21,6 +21,7 @@ app.get('/', (request, response) => {
 
 app.post('/register', db.register)
 app.post('/login', db.login)
+app.get('/users/:id', isAuthenticated, db.getUserById)
 app.patch('/users/:id', isAuthenticated, db.updateUser)
 app.delete('/users/:id', isAuthenticated, db.deleteUser)
 
