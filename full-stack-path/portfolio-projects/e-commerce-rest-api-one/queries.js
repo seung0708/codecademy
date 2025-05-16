@@ -93,7 +93,12 @@ const findUserById = async (id) => {
 }
 
 const getUserById = async (req, res) => {
-    const {id} = req.params; 
+    const isUserLoggedIn = checkUserAccess(req.params.id, req.user.id);
+
+    if(!isUserLoggedIn) {
+        return res.status(403).json({message: 'You are not authorized to edit this account'})
+    }
+
     try { 
         const results = await pool.query(`
             SELECT * 
@@ -162,7 +167,7 @@ const updateUser = async(req, res) => {
 const deleteUser = async (req, res) => {
     const isUserLoggedIn = checkUserAccess(req.params.id, req.user.id);
 
-    if(isUserLoggedIn) {
+    if(!isUserLoggedIn) {
         return res.status(403).json({message: 'You are not authorized to edit this account'})
     }
 
@@ -267,11 +272,20 @@ const deleteProduct = async (request, response) => {
 }
 
 const addItemToCart = async (req, res) => {
-    const {id} = req.params; 
+    const {productId, quantity} = req.body; 
     const userId = req.user.id; 
 
-    if (id !== userId) {
-        res.
+    try {
+        const product = await pool.query(`
+            SELECT * 
+            FROM products
+            WHERE id = $1
+            `, [productId])
+
+        console.log(product.rows[0])
+        
+    } catch(error) {
+        console.error(error)
     }
 }
 
@@ -287,5 +301,6 @@ module.exports = {
     getAllProducts,
     addProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    addItemToCart
 }

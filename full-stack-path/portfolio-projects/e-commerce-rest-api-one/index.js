@@ -30,6 +30,8 @@ app.post('/products', db.addProduct)
 app.patch('/products/:id', db.updateProduct);
 app.delete('/products/:id', db.deleteProduct)
 
+app.post('/cart', isAuthenticated, db.addItemToCart)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
 })
