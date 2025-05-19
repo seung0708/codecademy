@@ -190,7 +190,21 @@ const getAllProducts = async (request, response) => {
             ON p.category_id = c.id 
         `
     )
-    response.status(200).json({products: products.rows})
+    response.status(200).json(products.rows)
+}
+
+const getProductById = async (req, res) => {
+    const {id} = req.params
+    const result = await pool.query(`
+        SELECT p.name, p.description, c.name AS category, p.price 
+        FROM products p
+        JOIN categories c 
+            ON p.category_id = c.id 
+        WHERE p.id = $1
+        `, [id]
+    )
+
+    res.status(200).json(result.rows[0])
 }
 
 const addProduct = async (request, response) => {
@@ -274,15 +288,55 @@ const deleteProduct = async (request, response) => {
 const addItemToCart = async (req, res) => {
     const {productId, quantity} = req.body; 
     const userId = req.user.id; 
+    console.log(userId)
+
+    const user = await findUserById(userId)
+    console.log(user)
+
+    if (user.id !== userId) {
+        return res.status(401).json({message: "You are not authorized. Please sign in"}); 
+    }
+
+    const product = await pool.query(`
+        SELECT * 
+        FROM products
+        WHERE id = $1
+        `, [productId]
+    )
+
+    console.log(product.rows[0])
+
+    if (!product.rows[0]) {
+        return res.status(204).json({message: "Item not found"});
+    }
 
     try {
-        const product = await pool.query(`
+
+        const cartExists = await pool.query(`
             SELECT * 
-            FROM products
-            WHERE id = $1
+            FROM cart
+            WHERE user_id = $1
+            `, [userId]
+        )
+
+        console.log(cartExists)
+
+        const cartItemExists = await pool.query(`
+            SELECT * 
+            FROM cart_items 
+            WHERE product_id = $1
             `, [productId])
 
-        console.log(product.rows[0])
+        console.log(cartItemExists)
+
+        const cart = await pool.query(`
+            INSERT INTO cart
+            VALUES ($1)
+            RETURNING *
+            `, [userId])
+        
+        
+
         
     } catch(error) {
         console.error(error)
@@ -299,6 +353,7 @@ module.exports = {
     updateUser,
     deleteUser,
     getAllProducts,
+    getProductById,
     addProduct,
     updateProduct,
     deleteProduct,

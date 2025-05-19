@@ -26,6 +26,7 @@ app.patch('/users/:id', isAuthenticated, db.updateUser)
 app.delete('/users/:id', isAuthenticated, db.deleteUser)
 
 app.get('/products', db.getAllProducts)
+app.get('/products/:id', db.getProductById)
 app.post('/products', db.addProduct)
 app.patch('/products/:id', db.updateProduct);
 app.delete('/products/:id', db.deleteProduct)
