@@ -342,8 +342,6 @@ const addItemToCart = async (req, res) => {
                     `,[cartExists.rows[0].id, productId, quantity]
                 )
 
-                console.log('new item', newItem.rows[0])
-
                 if (newItem.rows[0]) {
                     res.status(200).json({message: "successfully added new item to existing cart"})
                 }
@@ -355,14 +353,16 @@ const addItemToCart = async (req, res) => {
                 RETURNING *
                 `, [userId]
             )
-            console.log('creating cart', cart.rows[0])
             const addCartItem = await pool.query(`
                 INSERT INTO cart_items (cart_id, product_id, quantity)
                 VALUES ($1, $2, $3)
                 RETURNING *
                 `, [cart.rows[0].id, productId, quantity]
             )
-            console.log('adding cart item', addCartItem.rows[0])
+        
+            if(addCartItem.rows[0]) {
+                res.status(200).json({message: "successfully created cart and added item to cart"})
+            }
 
         }
 
