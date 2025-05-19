@@ -288,10 +288,8 @@ const deleteProduct = async (request, response) => {
 const addItemToCart = async (req, res) => {
     const {productId, quantity} = req.body; 
     const userId = req.user.id; 
-    console.log(userId)
 
     const user = await findUserById(userId)
-    console.log(user)
 
     if (user.id !== userId) {
         return res.status(401).json({message: "You are not authorized. Please sign in"}); 
@@ -303,8 +301,6 @@ const addItemToCart = async (req, res) => {
         WHERE id = $1
         `, [productId]
     )
-
-    console.log(product.rows[0])
 
     if (!product.rows[0]) {
         return res.status(204).json({message: "Item not found"});
@@ -319,25 +315,57 @@ const addItemToCart = async (req, res) => {
             `, [userId]
         )
 
-        console.log(cartExists)
-
         const cartItemExists = await pool.query(`
             SELECT * 
             FROM cart_items 
             WHERE product_id = $1
-            `, [productId])
+            `, [productId]
+        )
+    
+        if (cartExists.rows.length > 0) {
+            if (cartItemExists.rows.length > 0) {
+                const updateCartItem = await pool.query(`
+                    UPDATE cart_items
+                    SET quantity = quantity + $1
+                    WHERE cart_id = $2 AND product_id = $3
+                    RETURNING *
+                    `, [quantity, cartExists.rows[0]?.id, productId]
+                )
+                if(updateCartItem.rows[0]) {
+                    res.status(200).json({message: "existing cart item successfully updated"})
+                }
+            } else {
+                const newItem = await pool.query(`
+                    INSERT INTO cart_items (cart_id, product_id, quantity)
+                    VALUES ($1, $2, $3)
+                    RETURNING *
+                    `,[cartExists.rows[0].id, productId, quantity]
+                )
 
-        console.log(cartItemExists)
+                console.log('new item', newItem.rows[0])
 
-        const cart = await pool.query(`
-            INSERT INTO cart
-            VALUES ($1)
-            RETURNING *
-            `, [userId])
-        
-        
+                if (newItem.rows[0]) {
+                    res.status(200).json({message: "successfully added new item to existing cart"})
+                }
+            }
+        } else {
+            const cart = await pool.query(`
+                INSERT INTO cart (user_id)
+                VALUES ($1)
+                RETURNING *
+                `, [userId]
+            )
+            console.log('creating cart', cart.rows[0])
+            const addCartItem = await pool.query(`
+                INSERT INTO cart_items (cart_id, product_id, quantity)
+                VALUES ($1, $2, $3)
+                RETURNING *
+                `, [cart.rows[0].id, productId, quantity]
+            )
+            console.log('adding cart item', addCartItem.rows[0])
 
-        
+        }
+
     } catch(error) {
         console.error(error)
     }
