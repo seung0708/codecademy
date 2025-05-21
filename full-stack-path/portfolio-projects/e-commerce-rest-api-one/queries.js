@@ -342,22 +342,21 @@ const addItemToCart = async (req, res) => {
         return res.status(204).json({message: "Item not found"});
     }
 
+    const cartExists = await pool.query(`
+        SELECT * 
+        FROM cart
+        WHERE user_id = $1
+        `, [userId]
+    )
+
+    const cartItemExists = await pool.query(`
+        SELECT * 
+        FROM cart_items 
+        WHERE product_id = $1
+        `, [productId]
+    )
+
     try {
-
-        const cartExists = await pool.query(`
-            SELECT * 
-            FROM cart
-            WHERE user_id = $1
-            `, [userId]
-        )
-
-        const cartItemExists = await pool.query(`
-            SELECT * 
-            FROM cart_items 
-            WHERE product_id = $1
-            `, [productId]
-        )
-    
         if (cartExists.rows.length > 0) {
             if (cartItemExists.rows.length > 0) {
                 await pool.query(`
@@ -381,18 +380,14 @@ const addItemToCart = async (req, res) => {
                 RETURNING *
                 `, [userId]
             )
-            const addCartItem = await pool.query(`
+            await pool.query(`
                 INSERT INTO cart_items (cart_id, product_id, quantity)
                 VALUES ($1, $2, $3)
-                RETURNING *
                 `, [cart.rows[0].id, productId, quantity]
             )
-        
-            if(addCartItem.rows[0]) {
-                res.status(200).json({message: "successfully created cart and added item to cart"})
-            }
-
         }
+
+        console.log(cartExists.rows)
 
         const newCartItems = await pool.query(`
             SELECT c.cart_id, p.category_id, p.name, p.description, p.price, c.quantity
@@ -400,7 +395,7 @@ const addItemToCart = async (req, res) => {
             JOIN products p
                 ON c.product_id = p.id
             WHERE cart_id = $1
-            `, [id]
+            `, [cartExists.rows[0].id]
         )
 
         return res.status(200).json(newCartItems.rows)
@@ -519,6 +514,40 @@ const deleteCart = async (req,res) => {
     res.status(200).json({message: "cart successfully deleted"})
 }
 
+const checkout = async (req, res) => {
+    const {id} = req.params; 
+    const userId = req.user.id; 
+    const user = await findUserById(userId); 
+
+    if (user.id !== userId) {
+        return res.status(401).json({message: "You you must be signed in to view this page"})
+    }
+
+    const cart = await pool.query(`
+        SELECT * 
+        FROM cart
+        WHERE id = $1 AND user_id = $2
+        `,[id, userId])
+
+    if (cart.rows.length === 0) {
+        return res.status(401).json({message: "Cart doesn't exist for this user"})
+    }
+
+    const cartItems = await pool.query(`
+        SELECT c.cart_id, p.category_id, p.name, p.description, p.price, c.quantity
+        FROM cart_items c
+        JOIN products p
+            ON c.product_id = p.id
+        WHERE cart_id = $1
+        `, [id])
+    
+    if (cartItems.rows === 0) {
+        return res.status(401).status({message: "Ther are not items in this cart"})
+    }
+
+
+}
+
 
 module.exports = {
     register,
@@ -536,5 +565,6 @@ module.exports = {
     getCart,
     addItemToCart,
     updateCartItemQuantity, 
-    deleteCart
+    deleteCart, 
+    checkout
 }

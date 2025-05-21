@@ -36,6 +36,9 @@ app.post('/cart', isAuthenticated, db.addItemToCart)
 app.patch('/cart/:id', isAuthenticated, db.updateCartItemQuantity)
 app.delete('/cart/:id', isAuthenticated, db.deleteCart)
 
+//checkout
+app.post('/cart/:id/checkout', isAuthenticated, db.checkout);
+
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
 })
