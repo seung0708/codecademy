@@ -360,27 +360,19 @@ const addItemToCart = async (req, res) => {
     
         if (cartExists.rows.length > 0) {
             if (cartItemExists.rows.length > 0) {
-                const updateCartItem = await pool.query(`
+                await pool.query(`
                     UPDATE cart_items
                     SET quantity = quantity + $1
                     WHERE cart_id = $2 AND product_id = $3
-                    RETURNING *
                     `, [quantity, cartExists.rows[0]?.id, productId]
                 )
-                if(updateCartItem.rows[0]) {
-                    res.status(200).json({message: "existing cart item successfully updated"})
-                }
+    
             } else {
-                const newItem = await pool.query(`
+                await pool.query(`
                     INSERT INTO cart_items (cart_id, product_id, quantity)
                     VALUES ($1, $2, $3)
-                    RETURNING *
                     `,[cartExists.rows[0].id, productId, quantity]
                 )
-
-                if (newItem.rows[0]) {
-                    res.status(200).json({message: "successfully added new item to existing cart"})
-                }
             }
         } else {
             const cart = await pool.query(`
@@ -402,6 +394,17 @@ const addItemToCart = async (req, res) => {
 
         }
 
+        const newCartItems = await pool.query(`
+            SELECT c.cart_id, p.category_id, p.name, p.description, p.price, c.quantity
+            FROM cart_items c
+            JOIN products p
+                ON c.product_id = p.id
+            WHERE cart_id = $1
+            `, [id]
+        )
+
+        return res.status(200).json(newCartItems.rows)
+
     } catch(error) {
         console.error(error)
     }
@@ -412,6 +415,7 @@ const updateCartItemQuantity = async (req, res) => {
     const {id} = req.params; 
     const userId = req.user.id; 
     const {productId, quantity, action} = req.body
+    console.log(productId, quantity, quantity === 0)
     const user = await findUserById(userId)
 
     if(user.id !== userId) {
@@ -427,7 +431,25 @@ const updateCartItemQuantity = async (req, res) => {
         `, [id]
     )
 
+    if (cartItems.rows.length === 0) {
+        await pool.query(`
+            DELETE FROM cart
+            WHERE id = $1
+            `,[cartItems.rows[0].cart_id]
+        )
+
+        return res.status(200).json({message: "No items in the cart."})
+    }
+
     const itemToUpdate = cartItems.rows.find(cartItem => cartItem.product_id === productId)
+    
+    if (quantity === 0) {
+        await pool.query(`
+            DELETE FROM cart_items
+            WHERE product_id = $1
+            `,[itemToUpdate.product_id]
+        )
+    }
     
     if (quantity) {
         await pool.query(`
@@ -478,6 +500,21 @@ const updateCartItemQuantity = async (req, res) => {
     )
 
     res.status(200).json(newCartItems.rows)
+}
+
+const deleteCart = async (req,res) => {
+    const {id} = req.params; 
+    const userId = req.user.id; 
+    const user = await findUserById(userId); 
+
+    if (user.id !== userId) {
+        return res.status(401).status({message: "Please sign in to view cart"})
+    }
+
+    await pool.query(`
+        DELETE FROM carts
+        WHERE id = $1
+        `,[id])
 }
 
 
