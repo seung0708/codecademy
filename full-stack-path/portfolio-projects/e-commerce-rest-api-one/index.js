@@ -31,6 +31,7 @@ app.post('/products', db.addProduct)
 app.patch('/products/:id', db.updateProduct);
 app.delete('/products/:id', db.deleteProduct)
 
+app.get('/cart/:id', isAuthenticated, db.getCart)
 app.post('/cart', isAuthenticated, db.addItemToCart)
 
 app.listen(port, () => {

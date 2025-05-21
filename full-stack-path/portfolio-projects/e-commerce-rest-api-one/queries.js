@@ -285,6 +285,40 @@ const deleteProduct = async (request, response) => {
     response.status(200).json(`Product deleted`)
 }
 
+const getCart = async (req,res) => {
+    const {id} = req.params;
+    const userId = req.user.id
+    
+    const user = await findUserById(userId)
+
+    if(user.id !== userId) {
+        return res.status(401).json({message: "Please sign in to view your cart"});
+    }
+
+    const cart = await pool.query(`
+        SELECT * 
+        FROM cart
+        WHERE id = $1
+        `, [id]
+    );
+
+    if(cart.rows.length === 0) {
+        return res.status(401).json({message: "You don't have any items in your cart. "})
+    }
+
+    const cartItems = await pool.query(`
+        SELECT * 
+        FROM cart_items
+        WHERE cart_id = $1
+        `, [id]
+    )
+
+    if (cartItems.rows.length > 0) {
+        return res.status(200).json(cartItems.rows)
+    }
+
+}
+
 const addItemToCart = async (req, res) => {
     const {productId, quantity} = req.body; 
     const userId = req.user.id; 
@@ -371,6 +405,19 @@ const addItemToCart = async (req, res) => {
     }
 }
 
+const updateCartItemQuantity = async (req, res) => {
+    //cart id
+    const {id} = req.params; 
+    const cartItems = await pool.query(`
+        SELECT * 
+        FROM cart_items
+        WHERE cart_id = $1
+        `, [id]
+    )
+    console.log(cartItems.rows)
+
+}
+
 
 module.exports = {
     register,
@@ -385,5 +432,6 @@ module.exports = {
     addProduct,
     updateProduct,
     deleteProduct,
+    getCart,
     addItemToCart
 }
