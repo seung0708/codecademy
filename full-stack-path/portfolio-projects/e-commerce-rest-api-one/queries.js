@@ -307,8 +307,10 @@ const getCart = async (req,res) => {
     }
 
     const cartItems = await pool.query(`
-        SELECT * 
-        FROM cart_items
+        SELECT c.cart_id, p.category_id, p.name, p.description, p.price, c.quantity
+        FROM cart_items c
+        JOIN products p
+            ON c.product_id = p.id
         WHERE cart_id = $1
         `, [id]
     )
@@ -408,14 +410,74 @@ const addItemToCart = async (req, res) => {
 const updateCartItemQuantity = async (req, res) => {
     //cart id
     const {id} = req.params; 
+    const userId = req.user.id; 
+    const {productId, quantity, action} = req.body
+    const user = await findUserById(userId)
+
+    if(user.id !== userId) {
+        return res.status(401).json({message: "Please sign in to view your cart"});
+    }
+
     const cartItems = await pool.query(`
-        SELECT * 
-        FROM cart_items
+        SELECT c.cart_id, c.product_id, p.category_id, p.name, p.description, p.price, c.quantity
+        FROM cart_items c
+        JOIN products p
+            ON c.product_id = p.id
         WHERE cart_id = $1
         `, [id]
     )
-    console.log(cartItems.rows)
 
+    const itemToUpdate = cartItems.rows.find(cartItem => cartItem.product_id === productId)
+    
+    if (quantity) {
+        await pool.query(`
+            UPDATE cart_items
+            SET quantity = quantity + $1
+            WHERE product_id = $2
+            RETURNING *
+            `,[quantity, itemToUpdate.product_id]
+        )
+    }
+
+    if (action) {
+        if (action === 'increment') {
+            await pool.query(`
+                UPDATE cart_items
+                SET quantity = quantity + 1
+                WHERE product_id = $1
+                `, [itemToUpdate.product_id]
+            )
+
+        } else if (action === 'decrement') {
+            const updatedItem = await pool.query(`
+                UPDATE cart_items
+                SET quantity = quantity - 1 
+                WHERE product_id = $1
+                RETURNING *
+                `, [itemToUpdate.product_id]
+            )
+
+            if (updatedItem.rows[0].quantity < 1) {
+                await pool.query(`
+                    DELETE FROM cart_items
+                    WHERE product_id = $1
+                    `,[itemToUpdate.product_id]
+                )
+                
+            }
+        }
+    }
+
+    const newCartItems = await pool.query(`
+        SELECT c.cart_id, p.category_id, p.name, p.description, p.price, c.quantity
+        FROM cart_items c
+        JOIN products p
+            ON c.product_id = p.id
+        WHERE cart_id = $1
+        `, [id]
+    )
+
+    res.status(200).json(newCartItems.rows)
 }
 
 
@@ -433,5 +495,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getCart,
-    addItemToCart
+    addItemToCart,
+    updateCartItemQuantity
 }
