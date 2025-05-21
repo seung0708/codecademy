@@ -512,9 +512,11 @@ const deleteCart = async (req,res) => {
     }
 
     await pool.query(`
-        DELETE FROM carts
+        DELETE FROM cart
         WHERE id = $1
         `,[id])
+
+    res.status(200).json({message: "cart successfully deleted"})
 }
 
 
@@ -533,5 +535,6 @@ module.exports = {
     deleteProduct,
     getCart,
     addItemToCart,
-    updateCartItemQuantity
+    updateCartItemQuantity, 
+    deleteCart
 }
