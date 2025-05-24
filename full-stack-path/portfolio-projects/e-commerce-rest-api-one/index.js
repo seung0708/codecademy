@@ -39,6 +39,9 @@ app.delete('/cart/:id', isAuthenticated, db.deleteCart)
 //checkout
 app.post('/cart/:id/checkout', isAuthenticated, db.checkout);
 
+app.get('/orders', isAuthenticated, db.getAllOrders)
+app.get('/orders/:id', isAuthenticated, db.getOrderById)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}`)
 })
