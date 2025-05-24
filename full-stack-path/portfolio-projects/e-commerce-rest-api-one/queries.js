@@ -556,14 +556,14 @@ const checkout = async (req, res) => {
 
     cartItems.rows.find( async (cartItem) => {
         if (cartItem.stock_quantity <= 10 && cartItem.stock_quantity > 1) {
-            return res.json({message: `There are only ${cartItem.stock_quantity} left in stock for ${cartItem.name}`})
+            res.json({message: `There are only ${cartItem.stock_quantity} left in stock for ${cartItem.name}`})
         } 
         if (cartItem.stock_quantity < 1) {
             await pool.query(`
                 DELETE FROM cart_items 
                 WHERE product_id = $1
                 `, [cartItem.product_id])
-            return res.json({message: `${cartItem.name} is out of stock`})
+            res.json({message: `${cartItem.name} is out of stock`})
         }
     })
 
@@ -590,17 +590,13 @@ const checkout = async (req, res) => {
             `,[userId]
         )
 
-        console.log(paymentMethods.rows[0])
-
         const payments = await pool.query(`
             INSERT INTO payments(user_id, amount, payment_method_id, status)
             VALUES ($1, $2, $3, 'pending')
             RETURNING *
             `,[userId, amountToPay, paymentMethods.rows[0].id])
 
-        console.log(payments.rows[0])
-
-        const {amount, status, id } = payments.rows[0]
+        const {amount, id } = payments.rows[0]
 
         if (amount < total) {
             await pool.query(`
@@ -610,15 +606,46 @@ const checkout = async (req, res) => {
                 `,[id])
         }
 
-        if (amount === total) {
-            await pool.query(`
+        if (Number(amount) === total) {
+            const paymentCompleted = await pool.query(`
                 UPDATE payments
                 SET status = 'completed'
                 WHERE id = $1
+                RETURNING *
                 `, [id])
-            
-            const order = await pool.query(`
-                INSERT INTO `)
+
+            if (paymentCompleted.rows[0].status === 'completed') {
+                const order = await pool.query(`
+                INSERT INTO orders (user_id, total_amount, payment_id)
+                VALUES ($1, $2, $3)
+                RETURNING *
+                `, [userId, amount, paymentCompleted.rows[0].id])
+                
+                cartItems.rows.forEach( async (cartItem) => {
+                    await pool.query(`
+                        INSERT INTO order_items(order_id, product_id, quantity, price)
+                        VALUES ($1, $2, $3, $4)
+                    `,[order.rows[0].id, cartItem.product_id, cartItem.quantity, cartItem.price])
+                })
+            }
+
+        }
+
+        const fullOrder = await pool.query(`
+            SELECT o.id, o.user_id, o.total_amount, o.payment_id, ot.product_id, ot.price 
+            FROM orders o
+            JOIN order_items ot
+                ON o.id = ot.order_id 
+            WHERE o.user_id = $1
+            `, [userId])
+        console.log('full order', fullOrder.rows)
+
+        if (fullOrder.rows.length > 0) {
+            await pool.query(`
+                DELETE FROM cart
+                WHERE id = $1
+                `, [cart.rows[0].id])
+            return res.status(200).json(fullOrder.rows)
         }
 
     } catch (error) {
