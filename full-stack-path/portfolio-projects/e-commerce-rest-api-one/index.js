@@ -2,8 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const app = express(); 
-const isAuthenticated = require('./passport');
-const authRouter = require('./auth')
+
+const authRouter = require('./routes/auth')
+const usersRotuer = require('./routes/users')
 
 const port = 3000; 
 
@@ -20,11 +21,9 @@ app.get('/', (request, response) => {
 })
 
 app.use('/auth', authRouter)
+app.use('/users', usersRotuer)
 
 
-app.get('/users/:id', isAuthenticated, db.getUserById)
-app.patch('/users/:id', isAuthenticated, db.updateUser)
-app.delete('/users/:id', isAuthenticated, db.deleteUser)
 
 app.get('/products', db.getAllProducts)
 app.get('/products/:id', db.getProductById)
