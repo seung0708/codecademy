@@ -2,9 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const app = express(); 
-const db = require('./queries')
-const port = 3000; 
 const isAuthenticated = require('./passport');
+const authRouter = require('./auth')
+
+const port = 3000; 
 
 //parse incoming request swith JSON payloads
 app.use(express.json())
@@ -14,13 +15,13 @@ app.use(express.urlencoded({extended: false}))
 
 app.use(passport.initialize());
 
-
 app.get('/', (request, response) => {
     response.json({info: 'Ecommerce RestAPI'})
 })
 
-app.post('/register', db.register)
-app.post('/login', db.login)
+app.use('/auth', authRouter)
+
+
 app.get('/users/:id', isAuthenticated, db.getUserById)
 app.patch('/users/:id', isAuthenticated, db.updateUser)
 app.delete('/users/:id', isAuthenticated, db.deleteUser)
