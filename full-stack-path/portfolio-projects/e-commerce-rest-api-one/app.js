@@ -4,7 +4,7 @@ const passport = require('passport');
 const app = express(); 
 
 const authRouter = require('./routes/auth')
-const usersRotuer = require('./routes/users')
+const usersRouter = require('./routes/users')
 const productsRouter = require('./routes/products')
 const cartRouter = require('./routes/cart')
 const checkoutRouter = require('./routes/checkout')
@@ -21,7 +21,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(passport.initialize());
 
 app.use('/auth', authRouter)
-app.use('/users', usersRotuer)
+app.use('/users', usersRouter)
 app.use('/products/', productsRouter)
 app.use('/cart', cartRouter)
 app.use('/checkout', checkoutRouter)

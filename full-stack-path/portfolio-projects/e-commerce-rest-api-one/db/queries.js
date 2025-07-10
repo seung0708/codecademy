@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool;
 const jwt = require('jsonwebtoken');
-const {passwordHash, validatePassword, checkUserAccess} = require('./utilities');
+const {passwordHash, validatePassword, checkUserAccess} = require('./utils/utilities');
 
 const pool = new Pool({
     user: process.env.DB_USER, 
