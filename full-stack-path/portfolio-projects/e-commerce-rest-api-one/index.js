@@ -5,6 +5,7 @@ const app = express();
 
 const authRouter = require('./routes/auth')
 const usersRotuer = require('./routes/users')
+const productsRouter = require('./routes/products')
 
 const port = 3000; 
 
@@ -16,20 +17,13 @@ app.use(express.urlencoded({extended: false}))
 
 app.use(passport.initialize());
 
+app.use('/auth', authRouter)
+app.use('/users', usersRotuer)
+app.use('/products/', productsRouter)
+
 app.get('/', (request, response) => {
     response.json({info: 'Ecommerce RestAPI'})
 })
-
-app.use('/auth', authRouter)
-app.use('/users', usersRotuer)
-
-
-
-app.get('/products', db.getAllProducts)
-app.get('/products/:id', db.getProductById)
-app.post('/products', db.addProduct)
-app.patch('/products/:id', db.updateProduct);
-app.delete('/products/:id', db.deleteProduct)
 
 app.get('/cart/:id', isAuthenticated, db.getCart)
 app.post('/cart', isAuthenticated, db.addItemToCart)
