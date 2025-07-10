@@ -7,7 +7,7 @@ const authRouter = require('./routes/auth')
 const usersRotuer = require('./routes/users')
 const productsRouter = require('./routes/products')
 const cartRouter = require('./routes/cart')
-
+const checkoutRouter = require('./routes/checkout')
 const port = 3000; 
 
 //parse incoming request swith JSON payloads
@@ -22,13 +22,12 @@ app.use('/auth', authRouter)
 app.use('/users', usersRotuer)
 app.use('/products/', productsRouter)
 app.use('/cart', cartRouter)
+app.use('/checkout', checkoutRouter)
 
 app.get('/', (request, response) => {
     response.json({info: 'Ecommerce RestAPI'})
 })
 
-//checkout
-app.post('/cart/:id/checkout', isAuthenticated, db.checkout);
 
 app.get('/orders', isAuthenticated, db.getAllOrders)
 app.get('/orders/:id', isAuthenticated, db.getOrderById)
