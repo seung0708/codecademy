@@ -1,4 +1,4 @@
-const db = require('../queries');
+const db = require('../db/products')
 const express = require('express')
 const productsRouter = express.Router()
 

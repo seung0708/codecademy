@@ -1,4 +1,4 @@
-const db = require('../queries')
+const db = require('../db/cart')
 const express = require('express')
 const cartRouter = express.Router()
 

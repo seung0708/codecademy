@@ -1,4 +1,4 @@
-const db = require('../queries')
+const db = require('../db/auth')
 const express = require('express')
 const authRouter = express.Router(); 
 

@@ -1,5 +1,5 @@
-const db = require('../queries');
-const isAuthenticated = require('../passport');
+const db = require('../db/users')
+const isAuthenticated = require('../utils/passport');
 const express = require('express');
 const usersRouter = express.Router();
 
