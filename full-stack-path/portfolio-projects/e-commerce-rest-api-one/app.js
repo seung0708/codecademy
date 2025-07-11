@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const logger = require('morgan')
 const passport = require('passport');
 const app = express(); 
 
@@ -17,6 +18,9 @@ app.use(express.json())
 
 //parse form data and make it available at req.body
 app.use(express.urlencoded({extended: false}))
+
+//logging http requests
+app.use(logger('dev'))
 
 app.use(passport.initialize());
 
