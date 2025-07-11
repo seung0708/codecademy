@@ -10,8 +10,8 @@ const pool = new Pool({
     port: 5432
 })
 
-const register = async (request, response) => {
-    const {firstName, lastName, email, password} = request.body;
+const register = async (req, res, next) => {
+    const {firstName, lastName, email, password} = req.body;
 
     const users = await pool.query(`
         SELECT * 
@@ -20,7 +20,7 @@ const register = async (request, response) => {
     `, [email])
 
     if (users.rows[0]) {
-        response.status(409).json({message: 'Email already exists'})
+        res.status(409).json({message: 'Email already exists'})
     }
 
     const hashedPassword = await passwordHash(password);
@@ -44,8 +44,8 @@ const register = async (request, response) => {
     
 }
 
-const login = async (request, response) => {
-    const {email, password} = request.body; 
+const login = async (req, res, next) => {
+    const {email, password} = req.body; 
     const result = await pool.query(`
         SELECT *
         FROM users 
@@ -65,7 +65,7 @@ const login = async (request, response) => {
         {expiresIn: '1h'}
     )
     
-    response.status(200).json({message: 'Login successful', token})
+    res.status(200).json({message: 'Login successful', token})
 }
 
 //used for passport authentication
@@ -92,7 +92,7 @@ const findUserById = async (id) => {
     return result.rows[0]
 }
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
     const isUserLoggedIn = checkUserAccess(req.params.id, req.user.id);
 
     if(!isUserLoggedIn) {
@@ -119,7 +119,7 @@ const getUserById = async (req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
+const updateUser = async(req, res, next) => {
     const updates = req.body;
 
     const isUserLoggedIn = checkUserAccess(req.params.id, req.user.id);
@@ -164,7 +164,7 @@ const updateUser = async(req, res) => {
     }
 }
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     const isUserLoggedIn = checkUserAccess(req.params.id, req.user.id);
 
     if(!isUserLoggedIn) {
@@ -182,7 +182,7 @@ const deleteUser = async (req, res) => {
 
 }
 
-const getAllProducts = async (request, response) => {
+const getAllProducts = async (req, res, next) => {
     const products = await pool.query(`
         SELECT p.name, p.description, c.name AS category, p.price 
         FROM products p
@@ -190,10 +190,10 @@ const getAllProducts = async (request, response) => {
             ON p.category_id = c.id 
         `
     )
-    response.status(200).json(products.rows)
+    res.status(200).json(products.rows)
 }
 
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
     const {id} = req.params
     const result = await pool.query(`
         SELECT p.name, p.description, c.name AS category, p.price 
@@ -207,8 +207,8 @@ const getProductById = async (req, res) => {
     res.status(200).json(result.rows[0])
 }
 
-const addProduct = async (request, response) => {
-    const {name, description, category, price, quantity} = request.body; 
+const addProduct = async (req, res, next) => {
+    const {name, description, category, price, quantity} = req.body; 
     const categories = await pool.query(`
         SELECT * 
         FROM categories
@@ -232,12 +232,12 @@ const addProduct = async (request, response) => {
         `, [categories.rows[0].id, name, description,  price, quantity]
     )
 
-    response.status(200).json({newProduct})
+    res.status(200).json({newProduct})
 }
 
-const updateProduct = async (request, response) => {
-    const {id} = request.params;
-    const updates = request.body; 
+const updateProduct = async (req, res, next) => {
+    const {id} = req.params;
+    const updates = req.body; 
 
     if (Object.keys(updates).length === 0) {
         return res.status(400).json({ error: 'No fields provided to update' });
@@ -265,27 +265,27 @@ const updateProduct = async (request, response) => {
     try {
         const result = await pool.query(query, values)
         if(result.rows.length === 0) {
-            return response.status(404).json({error: 'Product not found'});
+            return res.status(404).json({error: 'Product not found'});
         }
-        response.status(200).json(result.rows[0]);
+        res.status(200).json(result.rows[0]);
 
     } catch (error) {
         console.error(error); 
-        response.status(500).json({error: 'Database updated failed'});
+        res.status(500).json({error: 'Database updated failed'});
     }
 }
 
-const deleteProduct = async (request, response) => {
-    const {id} = request.params; 
+const deleteProduct = async (req, res, next) => {
+    const {id} = req.params; 
     
     const result = await pool.query(`
         DELETE FROM products
         WHERE id = $1
         `,[id])
-    response.status(200).json(`Product deleted`)
+    res.status(200).json(`Product deleted`)
 }
 
-const getCart = async (req,res) => {
+const getCart = async (req, res, next) => {
     const {id} = req.params;
     const userId = req.user.id
     
@@ -321,7 +321,7 @@ const getCart = async (req,res) => {
 
 }
 
-const addItemToCart = async (req, res) => {
+const addItemToCart = async (req, res, next) => {
     const {productId, quantity} = req.body; 
     const userId = req.user.id; 
 
@@ -411,7 +411,7 @@ const addItemToCart = async (req, res) => {
     }
 }
 
-const updateCartItemQuantity = async (req, res) => {
+const updateCartItemQuantity = async (req, res, next) => {
     //cart id
     const {id} = req.params; 
     const userId = req.user.id; 
@@ -503,7 +503,7 @@ const updateCartItemQuantity = async (req, res) => {
     res.status(200).json(newCartItems.rows)
 }
 
-const deleteCart = async (req,res) => {
+const deleteCart = async (req, res, next) => {
     const {id} = req.params; 
     const userId = req.user.id; 
     const user = await findUserById(userId); 
@@ -520,7 +520,7 @@ const deleteCart = async (req,res) => {
     res.status(200).json({message: "cart successfully deleted"})
 }
 
-const checkout = async (req, res) => {
+const checkout = async (req, res, next) => {
     const {id} = req.params; 
     const {amountToPay, method, expiration} = req.body;
     const userId = req.user.id; 
@@ -654,7 +654,7 @@ const checkout = async (req, res) => {
 
 }
 
-const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res, next) => {
     const userId = req.user.id
     const orders = await pool.query(`
         SELECT o.id, o.user_id, o.total_amount, o.payment_id, ot.product_id, ot.price 
@@ -669,7 +669,7 @@ const getAllOrders = async (req, res) => {
     }
 }
 
-const getOrderById = async (req, res) => {
+const getOrderById = async (req, res, next) => {
     const userId = req.user.id 
     const {id} = req.params;
     const order = await pool.query(`
