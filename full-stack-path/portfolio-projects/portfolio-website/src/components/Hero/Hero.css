@@ -1,49 +1,41 @@
-.hero {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    padding: 4rem 2rem;
-    background-color: var(-color-bg);
-    
+.icons-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 10;
+  display: grid;
+  place-items: center;
 }
 
-.hero-text {
-    margin-bottom: 0.5rem;
-    text-align: center;
+.icons-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: visible;
 }
 
-.hero-text h1 {
-    font-size: 3rem;
+.floating-icon {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  animation: floatAround 6s ease-in-out infinite alternate;
 }
 
-.hero-text h2 {
-    font-size: 2.25rem;
-    margin-bottom: 0.5rem;
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-
-.subtitle {
-    font-size: 1.5rem;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
-}
-
-.description {
-    margin: 1rem 0 2rem;
-}
-
-.cta-button {
-    background-color: var(--color-primary);
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 2rem;
-}
-
-.cta-button:hover, .cta-button:focus {
-    background: #0056b3;
-    outline: none;
+.icon-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero-image {
@@ -53,4 +45,62 @@
 
 .hero-image img {
     border-radius: 100%;
+}
+
+@media screen and (min-width: 720px) {
+    .hero {
+        padding-inline: 6rem /* 96px */
+    }
+    .float-logos-container {
+        top: 20rem;
+        bottom: 20rem;
+        left: 6rem;
+        right: 6rem;
+    }
+    .logo-field {
+        aspect-ratio: 1.02;
+    }
+    .icon_wrapper {
+        size: 20rem;
+        border-radius: 12rem;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .hero {
+        padding-inline: 20rem /* 320px */
+    }
+    .float-logos-container {
+        top: calc(min(120px, 10%));
+        bottom: calc(min(120px, 10%));
+        left: 20rem;
+        right: 20rem;
+    }
+    .logo-field {
+        aspect-ratio: 1.82;
+    }
+}
+
+@media screen and (min-width: 1536px) {
+    .logo-field {
+        max-width: 1536px;
+    }
+}
+
+@keyframes floatAround {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(5px, -5px);
+  }
+  50% {
+    transform: translate(0, -10px);
+  }
+  75% {
+    transform: translate(-5px, -5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
