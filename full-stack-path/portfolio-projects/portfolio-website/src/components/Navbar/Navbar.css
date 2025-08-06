@@ -1,0 +1,23 @@
+.nav {
+    display: flex; 
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav_links {
+    display: flex;
+    gap: 10px;
+}
+
+.nav_links a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+    outline: none;
+}
+

@@ -1,0 +1,15 @@
+header {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.75rem;
+}
+
