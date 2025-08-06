@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan')
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy
 const app = express(); 
 
 const authRouter = require('./routes/auth')
