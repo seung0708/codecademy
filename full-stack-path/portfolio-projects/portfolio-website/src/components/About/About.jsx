@@ -9,37 +9,37 @@ const About = () => {
       </div>
       <div className="skills">
         <div className="skill-icon" aria-label="HTML">
-          <img src='../../../public/assets/images/html5.svg' />
+          <img src='/assets/images/html5.svg' />
         </div>
         <div className="skill-icon" aria-label="CSS">
-          <img src='../../../public/assets/images/css3.svg' />
+          <img src='/assets/images/css3.svg' />
         </div>
         <div className="skill-icon" aria-label="JavaScript">
-          <img src='../../../public/assets/images/javascript.svg' />
+          <img src='/assets/images/javascript.svg' />
         </div>
-        <div className="skill-icon" aria-label="React">
-          <img src='../../../public/assets/images/react.svg' />
+        <div className="skill-icon" aria-label="React"> 
+          <img src='/assets/images/react.svg' />
         </div>
         <div className="skill-icon" aria-label="Redux">
-          <img src='../../../public/assets/images/redux.svg' />
+          <img src='/assets/images/redux.svg' />
         </div>
         <div className="skill-icon" aria-label="Node.js">
-          <img src='../../../public/assets/images/nodedotjs.svg' />
+          <img src='/assets/images/nodedotjs.svg' />
         </div>
         <div className="skill-icon" aria-label="Express">
-          <img src='../../../public/assets/images/express.svg' />
+          <img src='/assets/images/express.svg' />
         </div>
         <div className="skill-icon" aria-label="npm">
-          <img src='../../../public/assets/images/npm.svg' />
+          <img src='/assets/images/npm.svg' />
         </div>
         <div className="skill-icon" aria-label="Git">
-          <img src='../../../public/assets/images/git.svg' />
+          <img src='/assets/images/git.svg' />
         </div>
         <div className="skill-icon" aria-label="React">
-          <img src='../../../public/assets/images/react.svg' />
+          <img src='/assets/images/react.svg' />
         </div>
         <div className="skill-icon" aria-label="Github">
-          <img src='../../../public/assets/images/github.svg' />
+          <img src='/public/assets/images/github.svg' />
         </div>
       </div>
     </section>

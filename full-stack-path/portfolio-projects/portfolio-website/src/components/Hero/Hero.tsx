@@ -11,7 +11,7 @@ const Hero = () => {
                 <a href='#projects' className='cta-button' aria-label='View My Work'>View My Work</a>
             </div>
             <div className='hero-image'>
-                <img src='../../../public/assets/images/IMG_20190312_191356_018.jpg'  />
+                <img src='/assets/images/IMG_20190312_191356_018.jpg'  />
             </div> 
             
         </section>
