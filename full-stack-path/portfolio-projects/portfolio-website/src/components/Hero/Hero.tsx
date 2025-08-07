@@ -1,4 +1,4 @@
-import React from 'react';
+import {useRef, useState} from 'react';
 import './Hero.css';
 
 const icons = [
@@ -6,7 +6,7 @@ const icons = [
   { url: '/assets/images/css3.svg', style: { top: '20%', left: '90%' } },
   { url: '/assets/images/javascript.svg', style: { top: '85%', left: '75%' } },
   { url: '/assets/images/react.svg', style: { top: '15%', left: '20%' } },
-  { url: '/assets/images/redux.svg', style: { top: '24%', left: '5%' } },
+  { url: '/assets/images/redux.svg', style: { top: '30%', left: '5%' } },
   { url: '/assets/images/nodedotjs.svg', style: { top: '40%', left: '75%' } },
   { url: '/assets/images/express.svg', style: { top: '45%', left: '15%' } },
   { url: '/assets/images/github.svg', style: { top: '55%', left: '85%' } },
@@ -15,27 +15,64 @@ const icons = [
   { url: '/assets/images/postgresql.svg', style: { top: '65%', left: '90%' } },
 ];
 
+
 const Hero = () => {
-  return (
-    <section className="hero">
-      <div className="hero-content">
+    const heroContentRef = useRef(null);
+    const [fadeProgress, setFadeProgress] = useState(0);
+
+    const handleScroll = (e) => {
+        const scrollTop = e.target.scrollTop;
+        const maxScroll = e.target.scrollHeight - e.target.clientHeight;
+        const progress = Math.min(scrollTop / maxScroll, 1);
+        setFadeProgress(progress);
+    };
+
+    return (
+        <section className="hero">
         <div className="icons-overlay">
-          <div className="icons-container">
+            <div className="icons-container">
             {icons.map((icon, index) => (
-              <div key={index} className="floating-icon" style={icon.style}>
+                <div key={index} className="floating-icon" style={icon.style}>
                 <div className="icon-wrapper">
-                  <img src={icon.url} alt={`icon-${index}`} />
+                    <img src={icon.url} alt={`icon-${index}`} />
                 </div>
-              </div>
+                </div>
             ))}
-          </div>
+            </div>
         </div>
 
-        <div className="hero-image">
-          <img src="/assets/images/IMG_20190312_191356_018.jpg" />
+        <div
+            ref={heroContentRef}
+            onScroll={handleScroll}
+            className="hero-content"
+        >
+            <div
+            className="hero-image"
+            style={{
+                opacity: 1 - Math.min(fadeProgress * 3, 1),
+                transition: "opacity 0.3s ease",
+            }}
+            >
+            <img
+                src="/assets/images/IMG_20190312_191356_018.jpg"
+                alt="Hero"
+            />
+            </div>
+
+            <div className="hero-text">
+            <h3 className={`text-line ${fadeProgress >= 0.33 ? "visible" : ""}`}>
+                Hello, my name is Seung Kim
+            </h3>
+            <h3 className={`text-line ${fadeProgress >= 0.66 ? "visible" : ""}`}>
+                I am a Full-Stack developer
+            </h3>
+            </div>
+
+            {/* Spacer to enable scrolling */}
+            <div style={{ height: "150px", pointerEvents: "none" }}></div>
         </div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 };
-export default Hero
+
+export default Hero;
