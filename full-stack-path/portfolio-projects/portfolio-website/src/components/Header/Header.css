@@ -1,12 +1,26 @@
-header {
+.header {
+    display: flex;
+    justify-content: space-between;
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 50;
-    
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
 }
 
-.logo {
-    font-size: 1.75rem;
+.nav {
+    display: flex;
+    gap: 1rem;
 }
 
+.nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.nav a.active {
+    color: #06b6d4;
+    font-weight: bold;
+}

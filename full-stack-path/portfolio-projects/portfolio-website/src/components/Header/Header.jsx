@@ -1,34 +1,29 @@
-import React from 'react';
 import './Header.css';
-import Navbar from '../Navbar/Navbar';
+import { Link, useLocation } from "react-router-dom";
 
-
-
-
-const Header = ({darkMode, setDarkMode}) => {
-  
-  const handleToggleClick = () => {
-    console.log(darkMode)
-    if (darkMode) {
-      setDarkMode(!darkMode)
-      document.body.style.backgroundColor = '#000'
-      document.body.style.color = '#FFF'
-      
-      
-    } else {
-      setDarkMode(!darkMode)
-      document.body.style.backgroundColor = '#FFF'
-      document.body.style.color = '#000'
-    }
-    
-  }
+const Header = () => {
+  const { pathname } = useLocation();
 
   return (
-    <header>
-       <h1 className='logo'>Seung Kim</h1>
-        <Navbar />
+    <header className="header">
+      <span className='logo'>
+        <Link to="/" className={pathname === "/" ? "active" : ""}>
+          Seung Kim
+        </Link>
+      </span>
+      <nav className="nav">
+        <Link to="/about" className={pathname === "/about" ? "active" : ""}>
+          About
+        </Link>
+        <Link to="/projects" className={pathname === "/projects" ? "active" : ""}>
+          Projects
+        </Link>
+        <Link to="/contact" className={pathname === "/contact" ? "active" : ""}>
+          Contact
+        </Link>
+      </nav>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

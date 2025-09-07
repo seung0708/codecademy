@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation } from "react-router-dom";
 import './Navbar.css';
 
 import {Sun, Moon} from 'lucide-react';
@@ -8,17 +9,19 @@ const navLinks = [
 ]
 
 const Navbar = () => {
+    const { pathname } = useLocation();
     return (
-        <nav className='nav'>
-            <ul className="nav_links">
-              <li className="nav_link"><a href="#about">About</a></li>
-              <li className="nav_link"><a href="#projects">Projects</a></li>
-              <li className="nav_link"><a href="#contact">Contact</a></li>
-            </ul>
-            <button className='switch'>
-                <Sun />
-            </button>
-        </nav>
+        <nav className="nav">
+        <Link to="/" className={pathname === "/" ? "active" : ""}>
+          Home
+        </Link>
+        <Link to="/about" className={pathname === "/about" ? "active" : ""}>
+          About
+        </Link>
+        <Link to="/projects" className={pathname === "/projects" ? "active" : ""}>
+          Projects
+        </Link>
+      </nav>
     )
 }
 
