@@ -1,12 +1,22 @@
 import React from 'react';
-import App from './App';
-import './styles.css'
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom';
 
+import App from './App';
+import About from './components/About/About';
+import Projects from './components/Projects/Projects';
+import Contact from './components/Contact/Contact';
+
+import './styles.css'
+
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />} />
+    <Route path="/" element={<App />}>
+      <Route path='about' element={<About />} />
+      <Route path='projects' element={<Projects />} />
+      <Route path='contact' element={<Contact />} />
+    </Route>
+
   )
 );
 

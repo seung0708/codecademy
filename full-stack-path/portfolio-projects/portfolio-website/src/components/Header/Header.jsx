@@ -25,7 +25,7 @@ const Header = ({darkMode, setDarkMode}) => {
 
   return (
     <header>
-       <h1 className='logo'>My Portfolio</h1>
+       <h1 className='logo'>Seung Kim</h1>
         <Navbar />
     </header>
   )

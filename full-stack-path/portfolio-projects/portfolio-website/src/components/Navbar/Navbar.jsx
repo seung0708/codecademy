@@ -3,6 +3,10 @@ import './Navbar.css';
 
 import {Sun, Moon} from 'lucide-react';
 
+const navLinks = [
+    {}
+]
+
 const Navbar = () => {
     return (
         <nav className='nav'>
