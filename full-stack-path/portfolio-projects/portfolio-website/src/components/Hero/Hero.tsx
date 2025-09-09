@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './Hero.css';
 
 const icons = [
@@ -93,9 +93,7 @@ const Hero = () => {
             I am a Full-Stack developer
           </h3>
         </div>
-
-        {/* Extra space to make scroll possible */}
-        <div style={{ height: '400px', background: 'transparent' }} />
+        <div className="scroll-space"></div>
       </div>
     </section>
   );
