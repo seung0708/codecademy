@@ -1,35 +1,32 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { Sun, Moon } from 'lucide-react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-    const [isDark, setIsDark] = useState(true);
+    const [isDark, setIsDark] = useState(false);
 
-    const toggleTheme = () => setIsDark((prev) => !prev);
+    const toggleTheme = () => setIsDark(prev => !prev);
+
+    const colors = isDark ? {
+        bg: "#000000",
+        text: "#ffffff",
+        link: "#8b5cf6",
+    } : {
+        bg: "#ffffff",
+        text: "#1e293b",
+        link: "#7c3aed",
+    };
 
     useEffect(() => {
-        const body = document.body;
-        if (isDark) {
-          body.classList.add("dark");
-          body.classList.remove("light");
-        } else {
-          body.classList.remove("dark");
-          body.classList.add("light");
-        }
-      }, [isDark]);
-
+        document.body.className = isDark ? "dark" : "light";
+    }, [isDark]);
+ 
     return (
-        <ThemeContext.Provider value={{isDark, toggleTheme}}>
+        <ThemeContext.Provider value={{isDark, toggleTheme, colors}}>
             {children}
         </ThemeContext.Provider>
     );
 }
 
-export const useTheme = () => {
-    const context = useContext(ThemeContext);
-    if (!context) {
-        throw new Error('useTheme must be used within a ThemeProvider');
-    }
-    return context;
-}
+
+export const useTheme = () => useContext(ThemeContext);

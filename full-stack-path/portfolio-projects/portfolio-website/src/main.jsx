@@ -6,7 +6,7 @@ import App from './App';
 import About from './components/About/About';
 import Projects from './components/Projects/Projects';
 import Contact from './components/Contact/Contact';
-
+import { ThemeProvider } from './contexts/ThemeContext';
 import './styles.css'
 
 const router = createBrowserRouter(
@@ -22,9 +22,11 @@ const router = createBrowserRouter(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <ThemeProvider>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </ThemeProvider>
 );
 
 // const names = [ 'Seung Kim', '승김']

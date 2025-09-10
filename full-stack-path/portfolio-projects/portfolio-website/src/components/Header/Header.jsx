@@ -2,13 +2,16 @@ import './Header.css';
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Sun, Moon } from 'lucide-react';
-
+ 
 const Header = () => {
   const { pathname } = useLocation();
-  const {isDark, toggleTheme} = useTheme();
-  
+  const {isDark, toggleTheme, colors} = useTheme();
+  console.log(isDark, toggleTheme)
   return (
-    <header className="header">
+    <header 
+      className="header"
+      style={{ backgroundColor: colors.bg, color: colors.text }}
+    >
       <span className='logo'>
         <Link to="/" className={pathname === "/" ? "active" : ""}>
           Seung Kim

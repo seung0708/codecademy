@@ -7,6 +7,27 @@
     background: #fff;
     border-bottom: 1px solid #ddd;
     padding: 1rem;
+    z-index: 10;
+}
+
+/* Light theme */
+body.light header {
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+body.light header a.active {
+  color: #7c3aed;
+}
+
+/* Dark theme */
+body.dark header {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+body.dark header a.active {
+  color: #8b5cf6;
 }
 
 .nav {
@@ -28,4 +49,10 @@
 .nav a.active {
     color: #06b6d4;
     font-weight: bold;
+}
+
+.theme-toggle {
+  border: none;
+  cursor: pointer;
+  color: inherit;
 }
