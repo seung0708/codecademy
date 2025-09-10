@@ -11,6 +11,11 @@
 
 .nav {
     display: flex;
+    gap: 1em;
+}
+
+.nav-links {
+    display: flex;
     gap: 1rem;
 }
 

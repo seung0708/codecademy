@@ -1,19 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Header from './components/Header/Header'
 import Hero from './components/Hero/Hero'
 import {Outlet} from 'react-router-dom'
 import './App.css'
+import { ThemeProvider } from './contexts/ThemeContext';
+
 const App = () => {
-  const [darkMode, setDarkMode] = useState(true)
   return (
-    <div className='app'>
-      <Header />
-      <main> 
-        <Hero />
-        <Outlet />
-      </main>
-      {/* <Footer /> */}
-    </div>
+    <ThemeProvider>
+      <div className='app'>
+        <Header />
+        <main> 
+          <Hero />
+          <Outlet />
+        </main>
+        {/* <Footer /> */}
+      </div>
+    </ThemeProvider>
   )
 }
 
