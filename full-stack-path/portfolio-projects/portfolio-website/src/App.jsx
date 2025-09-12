@@ -1,19 +1,20 @@
-import React from 'react';
 import Header from './components/Header/Header'
 import Hero from './components/Hero/Hero'
-import {Outlet} from 'react-router-dom'
+import Footer from './components/Footer/Footer'
+import {Outlet, useLocation} from 'react-router-dom'
 import './App.css'
 
 
 const App = () => {
+  const { pathname } = useLocation();
   return (
       <div className='app'>
         <Header />
         <main> 
-          <Hero />
+          {pathname === '/' && <Hero />}
           <Outlet />
         </main>
-        {/* <Footer /> */}
+         {pathname === '/' && <Footer />}
       </div>
   )
 }
