@@ -1,45 +1,60 @@
 import React from 'react'
 import './About.css'
+import { Globe, Database, Code, Zap } from 'lucide-react';
+
+const skillsData = [
+  {
+    category: "Frontend",
+    icon: <Globe style={{ width: '24px', height: '24px' }} />,
+    items: ["React", "Redux", "TypeScript", "Next.js", "Vue.js", "HTML5/CSS3", "Sass"]
+  },
+  {
+    category: "Backend", 
+    icon: <Database style={{ width: '24px', height: '24px' }} />,
+    items: ["Node.js", "Python", "Express.js", "FastAPI", "PostgreSQL", "MongoDB", "Redis"]
+  },
+  {
+    category: "DevOps & Tools",
+    icon: <Code style={{ width: '24px', height: '24px' }} />,
+    items: ["Docker", "AWS", "Git", "CI/CD", "Kubernetes", "Jest", "Webpack"]
+  },
+  {
+    category: "Emerging Tech",
+    icon: <Zap style={{ width: '24px', height: '24px' }} />,
+    items: ["AI/ML", "TensorFlow", "GraphQL", "Microservices", "WebSocket", "PWA"]
+  }
+];
+
 const About = () => {
+
   return (
     <section className='about' id="about">
-      <div className="about-heading">
-        <h2>About Me</h2>
-        <p className='about-description'>I'm a Full Stack Developer with a passion for creating sleek, intuitive, and scalable web applications. My expertise lies in React, Node.js, and PostgreSQL, but I'm always eager to expand my skills—currently diving deeper into other technologies. I love turning complex ideas into smooth user experiences and am always up for a challenge.</p>
-      </div>
-      <div className="skills">
-        <div className="skill-icon" aria-label="HTML">
-          <img src='/assets/images/html5.svg' />
+      <div className='about-container'>
+        <h1 className='about-title'>About Me</h1>
+        <div className="about-grid">
+          <div>
+            <p className='about-text'>
+              I'm a passionate Full Stack Developer with expertise in modern web technologies and a strong focus on creating scalable, user-centric applications. With experience in both frontend and backend development, I bring ideas to life through clean, efficient code.
+            </p>
+            <p className="about-text">
+              My approach combines technical excellence with creative problem-solving, ensuring every project delivers both outstanding performance and exceptional user experience.
+            </p>
+          </div>
+          <div className="about-skills">
+          {skillsData.map((skill, index) => (
+            <div key={index} className="skill-card">
+              <div className="skill-header">
+                <div className="skill-icon">{skill.icon}</div>
+                <h3 className="skill-title">{skill.category}</h3>
+              </div>
+              <div className="skill-items">
+                {skill.items.map((item, i) => (
+                  <span key={i} className="skill-item">{item}</span>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="skill-icon" aria-label="CSS">
-          <img src='/assets/images/css3.svg' />
-        </div>
-        <div className="skill-icon" aria-label="JavaScript">
-          <img src='/assets/images/javascript.svg' />
-        </div>
-        <div className="skill-icon" aria-label="React"> 
-          <img src='/assets/images/react.svg' />
-        </div>
-        <div className="skill-icon" aria-label="Redux">
-          <img src='/assets/images/redux.svg' />
-        </div>
-        <div className="skill-icon" aria-label="Node.js">
-          <img src='/assets/images/nodedotjs.svg' />
-        </div>
-        <div className="skill-icon" aria-label="Express">
-          <img src='/assets/images/express.svg' />
-        </div>
-        <div className="skill-icon" aria-label="npm">
-          <img src='/assets/images/npm.svg' />
-        </div>
-        <div className="skill-icon" aria-label="Git">
-          <img src='/assets/images/git.svg' />
-        </div>
-        <div className="skill-icon" aria-label="React">
-          <img src='/assets/images/react.svg' />
-        </div>
-        <div className="skill-icon" aria-label="Github">
-          <img src='/public/assets/images/github.svg' />
         </div>
       </div>
     </section>
