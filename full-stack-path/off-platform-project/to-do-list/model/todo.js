@@ -1,22 +1,22 @@
 const pool = require('./database.js')
 
-const create = (description) => {
-    pool.query(`
+const create = async (description) => {
+    await pool.query(`
         INSERT INTO todo (description)
         VALUES ($1) 
         RETURNING *
         `, [description])
 }
 
-const get = () => {
-    pool.query(`
+const get = async () => {
+    await pool.query(`
         SELECT * 
         FROM todo
         `)
 }
 
-const remove = (id) => {
-    pool.query(`
+const remove = async (id) => {
+    await pool.query(`
         DELETE FROM todo
         WHERE todo_id = $1
         `, [id])
