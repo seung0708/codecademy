@@ -1,9 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import './index.css'
 import App from './App.jsx'
 import ErrorPage from './error-page.jsx'
+
+import 'normalize.css'
+import './index.css'
 
 const router = createBrowserRouter([
   {
