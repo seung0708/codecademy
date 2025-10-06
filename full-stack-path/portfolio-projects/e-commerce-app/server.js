@@ -2,8 +2,10 @@ import express from "express";
 import session from "express-session"
 import cors from "cors";
 import pool from "./models/database.js";
+
 import authRouter from "./routes/auth.js";
 import productsRouter from "./routes/products.js";
+import usersRouter from "./routes/users.js";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -27,6 +29,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/', authRouter);
 app.use('/products', productsRouter);
+app.use('/users', usersRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
