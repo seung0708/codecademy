@@ -1,0 +1,316 @@
+openapi: 3.0.4
+info:
+  title: Ecommerce API (Client)
+  version: 1.0.0
+  description: a functioning e-commerce application using React, Node.js, and Postgres
+  
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+
+
+paths:
+  /auth/google:
+    get:
+      summary: Log in with Google
+      description: Redirects user to Google OAuth login
+      security:
+        - OAuth2: [read]
+      responses:
+        '302':
+          description: Redirect to Google login page
+
+  /register:
+    post:
+      summary: Register a user
+      requestBody:
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email: 
+                  type: string
+                  format: email
+                  example: user@example.come
+                password: 
+                  type: string
+                  format: password
+                  example: mySecret123
+      responses:
+        '201':
+          description: Account successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Account created successfully
+                  userId:
+                    type: string
+                    example: 12345
+        '400':
+          description: Invalid input (e.g., missing email or password)
+        '409':
+          description: Email already registered
+      
+  /login:
+    post:
+      summary: Log in and create a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful login — session cookie set
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: session_id=abc123; HttpOnly; Path=/; Secure
+        '401':
+          description: Invalid credentials
+
+  /logout:
+    post:
+      summary: Log out and destroy the session
+      responses:
+        '204':
+          description: Successfully logged out
+          
+  
+  /users/{id}:
+    get:
+      summary: Get user by ID
+      description: returns user information for the specified userID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The unique ID of the user to retrieve
+        schema:
+          type: integer
+          example: 123
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 123
+                  email:
+                    type: string
+                    example: user@example.com
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: 2025-10-05T14:48:00.000Z
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+          
+  /users/{id}/orders:
+    get:
+      summary: Get orders for a user
+      description: Returns the order history for the specified user ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the user
+          schema:
+            type: integer
+            example: 123
+      responses:
+        '200':
+          description: List of orders for the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    order_id:
+                      type: integer
+                      example: 456
+                    total:
+                      type: number
+                      format: float
+                      example: 99.99
+                    status:
+                      type: string
+                      example: shipped
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: 2025-10-05T14:48:00.000Z
+        '404':
+          description: User not found
+        '500':  
+          description: Server 
+            
+    post:
+      summary: Create a new order and initiate payment
+      description: Allows a user to create an order and get a Stripe payment intent for checkout.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user placing the order
+          schema:
+            type: integer
+            example: 123
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - items
+                - total
+              properties:
+                items:
+                  type: array
+                  description: List of items being purchased
+                  items:
+                    type: object
+                    required:
+                      - product_id
+                      - quantity
+                    properties:
+                      product_id:
+                        type: integer
+                        example: 456
+                      quantity:
+                        type: integer
+                        example: 2
+                total:
+                  type: number
+                  format: float
+                  example: 49.99
+      responses:
+        '201':
+          description: Order created and Stripe PaymentIntent generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: integer
+                    example: 789
+                  client_secret:
+                    type: string
+                    example: pi_1GqIC8LJf9a5...secret_xyz
+        '400':
+          description: Invalid request (missing fields or invalid data)
+        '500':
+          description: Server error
+  
+  /products:
+    get:
+      summary: Get products
+      description: Returns a list of all products
+      responses:
+        '200':
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: Samsung Galaxy S25
+                    price: 
+                      type: number
+                      format: float
+                      example: 99.99
+                    description: 
+                      type: string
+                      example: Samsung's latest flagship phone
+                    in_stock:
+                      type: boolean
+                      example: true
+        '500':  
+          description: Server error
+          
+  /products/{id}:
+    get:
+      summary: Get product by ID
+      description: Returns product details for the specified ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the product
+          schema:
+            type: integer
+            example: 123
+      responses:
+        '200':
+          description: Product found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 123
+                  name:
+                    type: string
+                    example: "Wireless Mouse"
+                  description:
+                    type: string
+                    example: "A high-precision wireless mouse with ergonomic design."
+                  price:
+                    type: number
+                    format: float
+                    example: 29.99
+                  in_stock:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: 2025-10-05T14:48:00.000Z
+        '404':
+          description: Product not found
+        '500':
+          description: Server error
+      
