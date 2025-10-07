@@ -14,7 +14,6 @@ describe('Authentication Routes', () => {
       });
     
     expect(response.status).toBe(201);
-    console.log(response);
     expect(response.body).toHaveProperty('userId');
   });
 

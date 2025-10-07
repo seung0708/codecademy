@@ -8,5 +8,6 @@ const pool = new Pool({
     port: process.env.DB_PORT,
 });
 
+console.log('database.js', process.env.DB_USER)
 
 export default pool;

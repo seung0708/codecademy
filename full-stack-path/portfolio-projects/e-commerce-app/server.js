@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import session from "express-session"
 import cors from "cors";    
@@ -5,9 +8,6 @@ import cors from "cors";
 import authRouter from "./routes/auth.js";
 import productsRouter from "./routes/products.js";
 import usersRouter from "./routes/users.js";
-
-import dotenv from "dotenv";
-dotenv.config();
 
 const app = express();
 app.use(cors());

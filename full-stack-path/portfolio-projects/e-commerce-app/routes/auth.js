@@ -1,10 +1,9 @@
 import express from "express";
 const authRouter = express.Router();
 
-authRouter.post("/register", (req, res) => {
-    console.log(req.body);
-    res.status(201).send("User registered successfully");
-});
+import { register } from '../controllers/authController.js';
+
+authRouter.post("/register", register);
 
 authRouter.post("/login", (req, res) => {
     res.status(200).send("User logged in successfully");
