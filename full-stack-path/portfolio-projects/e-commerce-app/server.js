@@ -1,7 +1,6 @@
 import express from "express";
 import session from "express-session"
-import cors from "cors";
-import pool from "./models/database.js";
+import cors from "cors";    
 
 import authRouter from "./routes/auth.js";
 import productsRouter from "./routes/products.js";

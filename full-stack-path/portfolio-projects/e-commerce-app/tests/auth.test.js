@@ -1,7 +1,6 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import supertest from 'supertest';
 import app from '../server.js';
-import pool from '../models/database.js';
 
 const request = supertest(app);
 
@@ -15,7 +14,8 @@ describe('Authentication Routes', () => {
       });
     
     expect(response.status).toBe(201);
-    //expect(response.body).toHaveProperty('userId');
+    console.log(response);
+    expect(response.body).toHaveProperty('userId');
   });
 
   it('should login a user', async () => {
