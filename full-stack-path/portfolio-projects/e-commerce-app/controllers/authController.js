@@ -4,12 +4,12 @@ const saltRounds = 10;
 
 // register user 
 export const register = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     try {
         const newUser = await pool.query(
             'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *',
-            [username, hashedPassword]
+            [email, hashedPassword]
         );
         
         req.session.userId = newUser.rows[0].id; // Store user ID in session

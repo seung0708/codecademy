@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({path: './.env'});
 
 import express from "express";
 import session from "express-session"
@@ -8,6 +8,8 @@ import cors from "cors";
 import authRouter from "./routes/auth.js";
 import productsRouter from "./routes/products.js";
 import usersRouter from "./routes/users.js";
+
+const db = require('./models/database');
 
 const app = express();
 app.use(cors());
