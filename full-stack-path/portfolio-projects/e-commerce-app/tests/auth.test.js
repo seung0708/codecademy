@@ -24,15 +24,23 @@ describe('Authentication Routes', () => {
   });
 
   it('should login a user', async () => {
+    //Register user first
+    await request
+      .post('/register')
+      .send({
+        email: 'test@exmample.com',
+        password: 'password123'
+    });
+    //Then login
     const response = await request
       .post('/login')
       .send({
-        username: 'test@example.com',
+        email: 'test@example.com',
         password: 'password123'
       });
     
     expect(response.status).toBe(200);
-    //expect(response.headers).toHaveProperty('set-cookie');
+    expect(response.headers).toHaveProperty('set-cookie');
   });
 
   it('should logout a user', async () => {

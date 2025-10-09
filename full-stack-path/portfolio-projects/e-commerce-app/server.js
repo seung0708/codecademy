@@ -9,7 +9,7 @@ import authRouter from "./routes/auth.js";
 import productsRouter from "./routes/products.js";
 import usersRouter from "./routes/users.js";
 
-const db = require('./models/database');
+import pool from "./models/database.js";
 
 const app = express();
 app.use(cors());
