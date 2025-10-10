@@ -19,12 +19,13 @@ export const getProductById = async (req, res) => {
         if (product.rows.length === 0) {
             return res.status(404).json({ error: 'Product not found' });
         } 
-        console.log('Get product by ID', product.rows[0])  
+        
         res.status(200).json({
             name: product.rows[0].name, 
             price: product.rows[0].price
         });
     } catch (error) {
+        console.log('Error fetching product by ID:', error);
         res.status(500).json({ error: error.message });
     }
 }

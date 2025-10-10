@@ -14,7 +14,7 @@ describe('Product Routes', () => {
     });
   
     it('should get a product by id', async () => {
-      const response = await request.get('/products/1');
+      const response = await request.get('/products/fd7a926e-7ff3-4146-a658-15e4d5d7034e');
       
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('name');

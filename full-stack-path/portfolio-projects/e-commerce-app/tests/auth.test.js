@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import supertest from 'supertest';
 import app from '../server.js';
 
@@ -6,10 +6,10 @@ import pool from '../models/database.js';
 
 const request = supertest(app);
 
-beforeEach(async () => {
-  await pool.query("DELETE FROM users WHERE email LIKE 'test%@example.com'");
+afterEach(async () => {
+  await pool.query('DELETE FROM users WHERE email = $1', ['test@example.com']);
 });
-
+ 
 describe('Authentication Routes', () => {
   it('should register a new user', async () => {
     const response = await request
@@ -24,13 +24,10 @@ describe('Authentication Routes', () => {
   });
 
   it('should login a user', async () => {
-    //Register user first
-    await request
+    //First register
+     await request
       .post('/register')
-      .send({
-        email: 'test@exmample.com',
-        password: 'password123'
-    });
+      .send({ email: 'test@example.com', password: 'password123' });
     //Then login
     const response = await request
       .post('/login')
