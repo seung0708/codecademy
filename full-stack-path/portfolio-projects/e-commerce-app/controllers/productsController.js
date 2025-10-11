@@ -1,7 +1,6 @@
 import pool from "../models/database.js";
 
 // get all products
-
 export const getAllProducts = async (req, res) => {
     try {
         const products = await pool.query('SELECT * FROM products');
