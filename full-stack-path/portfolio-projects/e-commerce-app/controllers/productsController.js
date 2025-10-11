@@ -24,7 +24,7 @@ export const getProductById = async (req, res) => {
             price: product.rows[0].price
         });
     } catch (error) {
-        console.log('Error fetching product by ID:', error);
+        //console.log('Error fetching product by ID:', error);
         res.status(500).json({ error: error.message });
     }
 }

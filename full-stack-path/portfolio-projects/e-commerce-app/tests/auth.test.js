@@ -1,18 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import supertest from 'supertest';
-import app from '../server.js';
+import {agent} from './setup.js';
 
-import pool from '../models/database.js';
+console.log(agent)
 
-const request = supertest(app);
-
-afterEach(async () => {
-  await pool.query('DELETE FROM users WHERE email = $1', ['test@example.com']);
-});
- 
 describe('Authentication Routes', () => {
   it('should register a new user', async () => {
-    const response = await request
+    const response = await agent
       .post('/register')
       .send({
         email: 'test@example.com',
@@ -24,12 +17,8 @@ describe('Authentication Routes', () => {
   });
 
   it('should login a user', async () => {
-    //First register
-     await request
-      .post('/register')
-      .send({ email: 'test@example.com', password: 'password123' });
-    //Then login
-    const response = await request
+
+    const response = await agent
       .post('/login')
       .send({
         email: 'test@example.com',
@@ -41,7 +30,7 @@ describe('Authentication Routes', () => {
   });
 
   it('should logout a user', async () => {
-    const response = await request
+    const response = await agent
       .post('/logout');
     
     expect(response.status).toBe(204);

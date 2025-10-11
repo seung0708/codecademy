@@ -2,24 +2,22 @@ import pool from "../models/database.js";
 
 import { getProductById } from "./productsController.js";
 
-//get users by ID
 export const getUserById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const user = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-        if (user.rows.length === 0) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        res.status(200).json(user.rows[0]);
-    } catch (error) {
-        console.log('Error fetching user by ID:', error);
-        res.status(500).json({ error: error.message });
-    }
-}
+  if (!req.session || !req.session.userId) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const user = await pool.query("SELECT id, email FROM users WHERE id = $1", [req.session.userId]);
+    if (!user.rows[0]) return res.status(404).json({ error: "User not found" });
+
+    res.status(200).json(user.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 //get orders by user ID
 export const getOrdersByUserId = async (req, res) => {
-    const { id } = req.params;
+    const { userId } = req.session;
     try {
         const orders = await pool.query('SELECT * FROM orders WHERE user_id = $1', [id]);
         res.status(200).json(orders.rows);
@@ -31,7 +29,7 @@ export const getOrdersByUserId = async (req, res) => {
 
 //create order for user
 export const createOrderForUser = async (req, res) => {
-    const { id } = req.params;
+    const { userId } = req.session;
     const { quantity } = req.body;
     try {
         const newOrder = await pool.query(

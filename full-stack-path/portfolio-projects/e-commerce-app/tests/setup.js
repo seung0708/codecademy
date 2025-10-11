@@ -1,8 +1,4 @@
-import { afterEach } from 'vitest'
-import { cleanup } from '@testing-library/react'
-import '@testing-library/jest-dom/vitest'
+import supertest from "supertest";
+import app from "../app.js";
 
-// runs a clean after each test case (e.g. clearing jsdom)
-afterEach(() => {
-  cleanup();
-})
+export const agent = supertest.agent(app);
