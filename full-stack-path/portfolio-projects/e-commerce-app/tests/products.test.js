@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { agent } from './setup.js';
-
+ 
 describe('Product Routes', () => {
     it('should get all products', async () => {
       const response = await agent.get('/products');
@@ -16,4 +16,4 @@ describe('Product Routes', () => {
       expect(response.body).toHaveProperty('name');
       expect(response.body).toHaveProperty('price');
     });
-  });
+  }); 

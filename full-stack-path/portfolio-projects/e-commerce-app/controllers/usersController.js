@@ -11,6 +11,7 @@ export const getUserById = async (req, res) => {
 
     res.status(200).json(user.rows[0]);
   } catch (err) {
+    console.log('Error fetching user by id', err)
     res.status(500).json({ error: err.message });
   }
 };

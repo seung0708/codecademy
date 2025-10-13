@@ -1,16 +1,21 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import pool from '../models/database'
 import {agent} from './setup.js';
 
 describe('User Routes', () => {
   beforeAll(async () => {
-    // Register and login once before tests
-    await agent.post('/auth/register').send({ email: 'test@example.com', password: 'password123' }); 
-
+    // Delete existing user first
+    await pool.query("DELETE FROM users WHERE email = 'test@example.com'");
+    
+    // Then register and login
+    await agent.post('/register').send({ 
+      email: 'test@example.com', 
+      password: 'password123' 
+    }); 
   });
   
   it('should return logged in user', async () => {
     const res = await agent.get('/users/me');
-    console.log('Response body:', res.body); // Debugging line
     expect(res.status).toBe(200);
     expect(res.body.email).toBe('test@example.com');
   });

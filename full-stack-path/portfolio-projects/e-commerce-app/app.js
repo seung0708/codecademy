@@ -10,8 +10,6 @@ import usersRouter from "./routes/users.js";
 import productsRouter from "./routes/products.js";
 
 const app = express();
-
-app.use(cors());
 app.use(express.json());
 
 // SESSION MUST BE SET BEFORE ROUTERS
@@ -24,8 +22,13 @@ app.use(
   })
 );
 
-app.use("/auth", authRouter);
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
+app.use("/", authRouter);
 app.use("/users", usersRouter);
-app.use("/productse", productsRouter);
+app.use("/products", productsRouter);
 
 export default app;

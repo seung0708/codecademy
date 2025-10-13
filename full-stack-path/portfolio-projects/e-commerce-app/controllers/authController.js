@@ -36,10 +36,11 @@ export const login = async (req, res) => {
     const valid = await bcrypt.compare(password, user.rows[0].password);
     if (!valid) return res.status(400).json({ error: "Invalid credentials" });
 
-    req.session.userId = user.rows[0].id;
-    await new Promise((resolve, reject) => {
-      req.session.save(err => (err ? reject(err) : resolve()));
+  await new Promise((resolve, reject) => {
+    req.session.save(err => {
+      err ? reject(err) : resolve();
     });
+  });
 
     res.status(200).json({ message: "Logged in" });
   } catch (err) {
