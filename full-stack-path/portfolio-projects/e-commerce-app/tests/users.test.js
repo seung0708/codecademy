@@ -25,23 +25,5 @@ describe('User Routes', () => {
     //   expect(res.status).toBe(200);
     //   expect(Array.isArray(res.body)).toBe(true);
     // });
-  
-    // it('should create a new order', async () => {
-    //   const response = await request
-    //     .post('/users/1/orders')
-    //     .send({
-    //       items: [
-    //         {
-    //           product_id: 1,
-    //           quantity: 2
-    //         }
-    //       ],
-    //       total: 59.98
-    //     });
-      
-    //   expect(response.status).toBe(201);
-    //   //expect(response.body).toHaveProperty('order_id');
-    //   //expect(response.body).toHaveProperty('client_secret');
-    // });
   });
   
