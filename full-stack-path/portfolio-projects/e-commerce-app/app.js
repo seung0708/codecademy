@@ -4,7 +4,8 @@ dotenv.config();
 import express from "express";
 import session from "express-session";
 import cors from "cors";
-import stripe from "./lib/stripe.js";
+
+import passport from "./lib/passport.js";
 
 import authRouter from "./routes/auth.js";
 import usersRouter from "./routes/users.js";
