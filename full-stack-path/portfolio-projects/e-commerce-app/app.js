@@ -12,9 +12,14 @@ import usersRouter from "./routes/users.js";
 import productsRouter from "./routes/products.js";
 
 const app = express();
+
 app.use(express.json());
 
-// SESSION MUST BE SET BEFORE ROUTERS
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -24,10 +29,8 @@ app.use(
   })
 );
 
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", authRouter);
 app.use("/users", usersRouter);
