@@ -3,10 +3,11 @@ import pool from "../models/database.js";
 import { getProductById } from "./productsController.js";
 
 export const getUserById = async (req, res) => {
-  if (!req.session || !req.session.userId) return res.status(401).json({ error: "Unauthorized" });
+  if (!req.isAuthenticated()) return res.status(401).json({ error: "Unauthorized" });
 
   try {
-    const user = await pool.query("SELECT id, email FROM users WHERE id = $1", [req.session.userId]);
+    const user = await pool.query("SELECT id, email FROM users WHERE id = $1", [req.user.id]);
+    
     if (!user.rows[0]) return res.status(404).json({ error: "User not found" });
 
     res.status(200).json(user.rows[0]);

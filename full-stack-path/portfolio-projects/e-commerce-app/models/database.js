@@ -1,9 +1,7 @@
-import {beforeAll} from 'vitest';
 import dotenv from "dotenv";
 dotenv.config({path: './.env'});
-import { Pool } from 'pg';
 
-import bcrypt from "bcryptjs";
+import { Pool } from 'pg';
 
 const pool = new Pool({
     user: process.env.DB_USER, 
