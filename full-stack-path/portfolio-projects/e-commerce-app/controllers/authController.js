@@ -2,6 +2,19 @@ import pool from "../models/database.js";
 import bcrypt from "bcryptjs";
 const saltRounds = 10;
 
+beforeAll(async () => {
+    const hashedPassword = await bcrypt.hash("password123", saltRounds)
+  // Delete if exists
+  await pool.query("DELETE FROM users WHERE email = $1", ["test@example.com"]);
+  
+  // Create a fixed test user
+  await pool.query(
+    "INSERT INTO users (email, password) VALUES ($1, $2)",
+    ["test@example.com", hashedPassword]
+  );
+});
+ 
+
 export const register = async (req, res) => {
   const { email, password } = req.body;
   const hashed = await bcrypt.hash(password, saltRounds);

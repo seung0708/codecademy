@@ -2,17 +2,12 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import pool from '../models/database'
 import {agent} from './setup.js';
 
-beforeAll(async () => {
-  // Delete test user before each test
-  await pool.query("DELETE FROM users WHERE email = 'test@example.com'");
-});
-
 describe('Authentication Routes', () => {
   it('should register a new user', async () => {
     const response = await agent
       .post('/register')
       .send({
-        email: 'test@example.com',
+        email: 'test@example.com', 
         password: 'password123'
       });
     
