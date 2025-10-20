@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import app from '../app.js';
 import supertest from 'supertest';
 import pool from '../models/database.js';
@@ -22,7 +22,7 @@ describe('Orders Route', () => {
             password: 'password123'
         });
 
-        console.log('Test setup complete');
+        console.log('Test setup complete. Product ID:', testProductId, 'Type:', typeof testProductId);
     })
 
     afterAll(async () => {
@@ -38,7 +38,7 @@ describe('Orders Route', () => {
                 .post('/orders/create-payment-intent')
                 .send({
                     items: [{
-                        product: 'test-product',
+                        product: { id: testProductId },
                         quantity: 1
                     }]
                 }); 
@@ -51,7 +51,7 @@ describe('Orders Route', () => {
                 .post('/orders/create-payment-intent')
                 .send({
                     items: [{
-                    product: 'test-product',
+                    product: { id: testProductId },
                     quantity: 1
                 }]
             });
@@ -59,29 +59,29 @@ describe('Orders Route', () => {
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty('clientSecret');
             expect(response.body.clientSecret).toMatch(/^pi_.*_secret_.*/);
-            expect(response.body.amount).toBe(100); // $1.00 * 100 cents
+            expect(response.body.amount).toBe(12999); // $129.99 * 100 cents
         })
         it('should calculate correct amount for multiple quantities', async () => {
             const response = await authenticatedAgent
                 .post('/orders/create-payment-intent')
                 .send({
-                    items: [{product: 'test-product', quantity: 3}]
+                    items: [{product: { id: testProductId }, quantity: 3}]
                 })
             
             expect(response.status).toBe(200)
-            expect(response.body.amount).toBe(300)
+            expect(response.body.amount).toBe(38997) // $129.99 * 3 = $389.97
         })
         it('should fail with invalid product', async () => {
             const response = await authenticatedAgent
                 .post('/orders/create-payment-intent')
                 .send({
                     items: [{
-                        product: 'invalid-product',
+                        product: { id: '00000000-0000-0000-0000-000000000000' },
                         quantity: 1
                     }]
                 });
         
-            expect(response.status).toBe(400);
+            expect(response.status).toBe(404);
             expect(response.body).toHaveProperty('error');
         }) 
         it('should fail with negative quantity', async () => {
@@ -89,7 +89,7 @@ describe('Orders Route', () => {
                 .post('/orders/create-payment-intent')
                 .send({
                     items: [{
-                        product: 'test-product',
+                        product: { id: testProductId },
                         quantity: -1
                     }]
                 });
@@ -102,7 +102,7 @@ describe('Orders Route', () => {
                 .post('/orders/create-payment-intent')
                 .send({
                     items: [{
-                        product: 'test-product',
+                        product: { id: testProductId },
                         quantity: 0
                     }]
                 });
