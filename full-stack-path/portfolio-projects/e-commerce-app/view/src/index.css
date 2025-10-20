@@ -15,7 +15,6 @@
 }
 
 body {
-  background-color: var(--primary-color);
   font-family: 'Inter', sans-serif;
   font-size: var(--text-base);
   color: var(--primary-color);
@@ -47,4 +46,7 @@ button:hover {
 }
 
 
-  
+.container {
+  max-width: 1400px;
+  padding: 1rem;
+}

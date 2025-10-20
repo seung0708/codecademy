@@ -1,22 +1,28 @@
 import Container from "./Container";
+import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
         <Container className="header">
-            <a href="/">Fashion Store</a>
-            <nav>
+            <nav className="header__nav">
+                <Link to="/">Fashion Store</Link>
                 <ul>
                     <li>
-                        <a href="/">Home</a>
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="/products">Products</a>
+                        <Link to="/products">Products</Link>
                     </li>
                     <li>
-                        <a href="/contact">Contact</a>
+                        <Link to="/contact">Contact</Link>
                     </li>
                 </ul>
             </nav>
+            <div className="header__actions">
+                <Link className="header__actions__link" to="/cart">Cart</Link>
+                <Link className="header__actions__link" to="/login">Login</Link>/
+                <Link className="header__actions__link" to="/register">Register</Link>
+            </div>
         </Container>
     )
 }
