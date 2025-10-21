@@ -5,32 +5,33 @@
 }
 
 .header {
+  position: relative;
   width: 100%;
   padding: 1rem 8rem;
   border-bottom: 1px solid var(--primary-color);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-
-.header a {
-  text-decoration: none;
-  color: var(--primary-color);
+.header__left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.header__nav {
+.header__hamburger__icon {
+  display: none;
+}
+
+.header__nav__desktop ul {
   display: flex;
-  gap: 1rem;
 }
 
-.header__nav ul {
-  display: flex;
-  gap: 1rem;
-}
-
-.header__nav ul li {
+.header__nav__desktop ul li {
   list-style: none;
+  margin-right: 1rem;
 }
 
 .header__actions {
@@ -57,3 +58,52 @@
   width: 1.25rem;
   height: 1.25rem;
 }
+
+.header__nav__mobile {
+  display: none;
+}
+
+.header__nav__mobile ul li {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.header__nav__mobile.open {
+  border-top: 1px solid var(--primary-color);
+  display: block;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--secondary-color);
+  padding: 1rem;
+  z-index: 1;
+}
+
+.header__actions__login__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.header__actions__register__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 768px) { 
+  .header {
+    padding: 1rem;
+  }
+  .header__nav__desktop {
+    display: none;
+  }
+
+  .header__hamburger__icon {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+  
