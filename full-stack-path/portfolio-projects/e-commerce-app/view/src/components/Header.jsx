@@ -1,5 +1,6 @@
 import Container from "./Container";
 import { Link } from "react-router-dom";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
     return (
@@ -19,7 +20,12 @@ const Header = () => {
                 </ul>
             </nav>
             <div className="header__actions">
-                <Link className="header__actions__link" to="/cart">Cart</Link>
+                <div className="header__actions__cart">
+                    <Link className="header__actions__link" to="/cart">
+                        <ShoppingBagIcon className="header__actions__link__icon"  />
+                    </Link>
+                    <span className="header__actions__cart__count">0</span>
+                </div>
                 <Link className="header__actions__link" to="/login">Login</Link>/
                 <Link className="header__actions__link" to="/register">Register</Link>
             </div>
