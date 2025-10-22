@@ -100,4 +100,9 @@
     height: 1.25rem;
   }
 }
+
+.hero {
+    padding: 1rem 8rem;
+    max-height: 600px;
+}
   
