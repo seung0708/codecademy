@@ -43,15 +43,14 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-right: 1rem;
 }
 
 .header__actions__link:nth-child(2) {
-  margin-right: 0.25rem;
+  margin-right: 1rem;
 }
 
-.header__actions__link:nth-child(3) {
-  margin-left: 0.25rem;
+.header__actions__link__logout {
+  margin-right: 1rem;
 }
 
 .header__actions__link__icon {
@@ -82,16 +81,6 @@
   z-index: 1;
 }
 
-.header__actions__login__icon {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.header__actions__register__icon {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
 @media (max-width: 768px) { 
   .header {
     padding: 1rem;
@@ -99,7 +88,12 @@
   .header__nav__desktop {
     display: none;
   }
-
+  .header__actions {
+    font-size: 0.875rem;
+  }
+  .header__logo {
+    font-size: 0.9rem;
+  }
   .header__hamburger__icon {
     display: block;
     width: 1.25rem;
