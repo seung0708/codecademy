@@ -18,9 +18,6 @@ const Header = () => {
                 <nav className="header__nav__desktop">
                     <ul>
                         <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
                             <Link to="/products">Products</Link>
                         </li>
                     </ul>
@@ -49,9 +46,6 @@ const Header = () => {
                 <ul>
                     <li>
                         <Link to="/products">Products</Link>
-                    </li>
-                    <li>
-                        <Link to="/contact">Contact</Link>
                     </li>
                 </ul>
             </nav>
