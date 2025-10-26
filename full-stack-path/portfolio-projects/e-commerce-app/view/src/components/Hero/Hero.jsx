@@ -1,4 +1,6 @@
-import Container from "./Container";
+import './Hero.css'
+
+import Container from "../Container/Container";
 import { Link } from "react-router-dom";
 
 const images = [

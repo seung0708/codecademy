@@ -1,7 +1,7 @@
-import Header from "../components/Header";
-import Hero from "../components/Hero";
-import FeaturedProducts from "../components/FeaturedProducts";
-import Footer from "../components/Footer";
+import Header from "../components/Header/Header";
+import Hero from "../components/Hero/Hero";
+import FeaturedProducts from "../components/FeaturedProducts/FeaturedProducts";
+import Footer from "../components/Footer/Footer";
 
 const Home = () => {
     return (

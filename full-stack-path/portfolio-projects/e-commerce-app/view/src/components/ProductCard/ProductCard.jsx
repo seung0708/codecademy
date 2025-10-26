@@ -1,5 +1,6 @@
+import './ProductCard.css'
+
 const ProductCard = ({ key, product}) => {
-    console.log(product)
     return (
         <div className="product-card" key={key}>
             <img className="product-card__image" src={product.images[0]} alt={product.name} />

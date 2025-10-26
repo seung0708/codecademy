@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import App from './App.jsx'
 import ErrorPage from './error-page.jsx'
-import Products from './pages/Products.jsx'
+import Products from './pages/Products/Products.jsx'
 
 import 'normalize.css'
 import './index.css'

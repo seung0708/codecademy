@@ -1,3 +1,5 @@
+import './Container.css'
+
 const Container = ({children, className}) => {
     return (
         <section className={`container ${className}`}>

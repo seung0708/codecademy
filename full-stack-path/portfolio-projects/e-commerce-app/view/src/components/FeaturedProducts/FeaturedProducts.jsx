@@ -1,7 +1,9 @@
+import './FeaturedProducts.css';
+
 import {useState, useEffect } from "react";
 
-import Container from "./Container";
-import ProductCard from "./ProductCard";
+import Container from "../Container/Container";
+import ProductCard from "../ProductCard/ProductCard";
 
 const FeaturedProducts = () => {
     const [products, setProducts] = useState([])

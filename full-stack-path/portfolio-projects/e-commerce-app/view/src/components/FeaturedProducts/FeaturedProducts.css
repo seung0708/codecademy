@@ -1,0 +1,28 @@
+.featured-products {
+  padding: 1rem 8rem;
+  max-height: 600px;
+}
+
+.featured-products__title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.featured-products__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: -40px;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .featured-products__grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+}

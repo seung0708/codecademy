@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react";
-import Container from "../components/Container";
-import ProductCard from "../components/ProductCard";
+import './Products.css'
+
+import Container from "../../components/Container/Container";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 const Products = () => {
     const [products, setProducts] = useState([])
@@ -17,7 +19,7 @@ const Products = () => {
     }, [])
     return (
         <Container className="products">
-            <h1>Products</h1>
+            <h2>Products</h2>
             <div className="products__grid">
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />

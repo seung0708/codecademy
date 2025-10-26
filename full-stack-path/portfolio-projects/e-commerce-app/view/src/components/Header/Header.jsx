@@ -1,6 +1,8 @@
+import './Header.css'
+
 import { useState } from "react";
 
-import Container from "./Container";
+import Container from "../Container/Container";
 import { Link } from "react-router-dom";
 import { ShoppingBagIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
