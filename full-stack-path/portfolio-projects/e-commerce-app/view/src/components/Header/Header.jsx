@@ -8,7 +8,7 @@ import { ShoppingBagIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     
     return (
         <Container className="header">
