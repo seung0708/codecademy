@@ -1,0 +1,9 @@
+.register {
+    height: 100vh;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+}   

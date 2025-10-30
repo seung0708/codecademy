@@ -6,7 +6,7 @@ import ErrorPage from './error-page.jsx'
 
 import Home from './pages/Home'
 import Products from './pages/Products/Products'
-import Register from './pages/Register'
+import Register from './pages/Register/Register.jsx'
 import Login from './pages/Login/Login'
 import 'normalize.css'
 import './index.css'
