@@ -6,23 +6,18 @@ const skillsData = [
   {
     category: "Frontend",
     icon: <Globe style={{ width: '24px', height: '24px' }} />,
-    items: ["React", "Redux", "TypeScript", "Next.js", "Vue.js", "HTML5/CSS3", "Sass"]
+    items: ["HTML5/CSS3", "JavaScript", "React", "Redux", "TypeScript", "Next.js"]
   },
   {
     category: "Backend", 
     icon: <Database style={{ width: '24px', height: '24px' }} />,
-    items: ["Node.js", "Python", "Express.js", "FastAPI", "PostgreSQL", "MongoDB", "Redis"]
+    items: ["Node.js", "Express.js", "PostgreSQL", "Python", "Flask API"]
   },
   {
     category: "DevOps & Tools",
     icon: <Code style={{ width: '24px', height: '24px' }} />,
-    items: ["Docker", "AWS", "Git", "CI/CD", "Kubernetes", "Jest", "Webpack"]
+    items: ["Git", "CI/CD", "Jest"]
   },
-  {
-    category: "Emerging Tech",
-    icon: <Zap style={{ width: '24px', height: '24px' }} />,
-    items: ["AI/ML", "TensorFlow", "GraphQL", "Microservices", "WebSocket", "PWA"]
-  }
 ];
 
 const About = () => {

@@ -16,23 +16,26 @@ const icons = [
 ];
 
 const Hero = () => {
-  const heroContentRef = useRef(null);
-  const [fadeProgress, setFadeProgress] = useState(0);
+  const containerRef = useRef(null)
+  const [scrollTop, setScrollTop] = useState(0)
 
   const handleScroll = () => {
-    const el = heroContentRef.current;
-    if (!el) return;
-
-    const scrollTop = el.scrollTop;
-    const maxScroll = el.scrollHeight - el.clientHeight;
-    // Map scrollTop proportionally to fade (0 → 1)
-    const progress = Math.min(Math.max(scrollTop / maxScroll, 0), 1);
-    setFadeProgress(progress);
+    if (containerRef.current) {
+      setScrollTop(containerRef.current.scrollTop)
+    }
   };
+
+  const fadeStart = 50; // start fading after 50px scrolled
+  const fadeEnd = 200;  // fully faded at 200px
+
+  let fadeOutOpacity = 1 - (scrollTop - fadeStart) / (fadeEnd - fadeStart);
+  let fadeInOpacity = (scrollTop - fadeStart) / (fadeEnd - fadeStart);
+
+  fadeOutOpacity = Math.min(Math.max(fadeOutOpacity, 0), 1);
+  fadeInOpacity = Math.min(Math.max(fadeInOpacity, 0), 1);
 
   return (
     <section className="hero">
-      {/* Icons overlay */}
       <div className="icons-overlay">
         <div className="icons-container">
           {icons.map((icon, index) => (
@@ -44,56 +47,43 @@ const Hero = () => {
           ))}
         </div>
       </div>
-
-      {/* Scrollable hero content */}
-      <div
+      <div 
         className="hero-content"
-        ref={heroContentRef}
+        ref={containerRef}
         onScroll={handleScroll}
+        style={{
+          height: "300px"
+        }}
       >
-        {/* Hero image */}
-        <div
+        <div 
           className="hero-image"
           style={{
-            opacity: Math.max(1 - fadeProgress * 1.5, 0), // slower fade
-            transform: `translateY(-${fadeProgress * 20}px)`,
-            transition: 'opacity 0.2s ease, transform 0.2s ease',
+            position: "sticky",
+            top: "25px",
+            transition: "opacity 0.3s ease",
+            opacity: fadeOutOpacity
           }}
         >
-          <img
-            src="/assets/images/IMG_20190312_191356_018.jpg"
-            alt="Hero"
-            style={{
-              opacity: Math.max(1 - fadeProgress * 1.5, 0),
-              transition: 'opacity 0.2s ease',
-            }}
-          />
+          <img src="/assets/images/IMG_20190312_191356_018.jpg" alt="Hero Image" />
         </div>
-
-        {/* Hero text */}
-        <div className="hero-text">
-          <h3
-            className="text-line"
-            style={{
-              opacity: Math.min(fadeProgress * 1.5, 1), // slower fade-in
-              transform: `translateY(${20 - fadeProgress * 20}px)`,
-              transition: 'opacity 0.2s ease, transform 0.2s ease',
-            }}
-          >
+        <div 
+          className="hero-text"
+          style={{
+            position: "sticky",
+            transition: "opacity 0.3s ease",
+            opacity: fadeInOpacity
+          }}
+        >
+          <h3 className="text-line">
             Hello, my name is Seung Kim
           </h3>
           <h3
             className="text-line"
-            style={{
-              opacity: Math.min(fadeProgress * 1.5, 1),
-              transform: `translateY(${20 - fadeProgress * 20}px)`,
-              transition: 'opacity 0.2s ease, transform 0.2s ease',
-            }}
           >
             I am a Full-Stack developer
           </h3>
         </div>
-        <div className="scroll-space"></div>
+        <div style={{ height: "500px" }}></div>
       </div>
     </section>
   );

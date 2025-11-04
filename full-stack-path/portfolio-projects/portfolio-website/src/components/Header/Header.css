@@ -1,13 +1,17 @@
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: fixed;
     top: 0;
     width: 100%;
     background: #fff;
     border-bottom: 1px solid #ddd;
-    padding: 1rem;
     z-index: 10;
+}
+
+.logo {
+  padding-left: 1rem;
 }
 
 /* Light theme */
@@ -32,7 +36,8 @@ body.dark header a.active {
 
 .nav {
     display: flex;
-    gap: 1em;
+    align-items:center;
+
 }
 
 .nav-links {
@@ -52,7 +57,9 @@ body.dark header a.active {
 }
 
 .theme-toggle {
+  padding: 1rem;
   border: none;
   cursor: pointer;
   color: inherit;
+
 }

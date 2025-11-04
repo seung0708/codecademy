@@ -12,15 +12,15 @@ const Navbar = () => {
     const { pathname } = useLocation();
     return (
         <nav className="nav">
-        <Link to="/" className={pathname === "/" ? "active" : ""}>
-          Home
-        </Link>
-        <Link to="/about" className={pathname === "/about" ? "active" : ""}>
-          About
-        </Link>
-        <Link to="/projects" className={pathname === "/projects" ? "active" : ""}>
-          Projects
-        </Link>
+          <Link to="/" className={pathname === "/" ? "active" : ""}>
+            Home
+          </Link>
+          <Link to="/about" className={pathname === "/about" ? "active" : ""}>
+            About
+          </Link>
+          <Link to="/projects" className={pathname === "/projects" ? "active" : ""}>
+            Projects
+          </Link>
       </nav>
     )
 }
