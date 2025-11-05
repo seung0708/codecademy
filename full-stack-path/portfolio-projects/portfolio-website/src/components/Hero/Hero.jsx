@@ -53,6 +53,7 @@ const Hero = () => {
         onScroll={handleScroll}
         style={{
           height: "300px"
+          
         }}
       >
         <div 
