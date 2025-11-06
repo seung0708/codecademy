@@ -1,40 +1,61 @@
 import './Header.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Sun, Moon } from 'lucide-react';
  
 const Header = () => {
-  const { pathname } = useLocation();
   const {isDark, toggleTheme, colors} = useTheme();
-  console.log(isDark, toggleTheme)
   return (
     <header 
       className="header"
       style={{ backgroundColor: colors.bg, color: colors.text }}
     >
-      <span className='logo'>
-        <Link to="/" className={pathname === "/" ? "active" : ""}>
-          Seung Kim
-        </Link>
-      </span>
-      <nav className="nav">
-        <div className="nav-links">
-          <Link to="/about" className={pathname === "/about" ? "active" : ""}>
-            About
+      <nav id="desktop-nav">
+        <span className='logo'>
+          <Link to="/">
+            Seung Kim
           </Link>
-          <Link to="/projects" className={pathname === "/projects" ? "active" : ""}>
-            Projects
-          </Link>
-          <Link to="/contact" className={pathname === "/contact" ? "active" : ""}>
-            Contact
-          </Link>
+        </span>
+        <div className="nav">
+          <ul className="nav-links">
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/projects">Projects</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
+          </ul>
+          <button 
+            onClick={toggleTheme}
+            className="theme-toggle"
+          >
+            {isDark ? <Sun /> : <Moon />}
+          </button>
         </div>
-        <button 
-          onClick={toggleTheme}
-          className="theme-toggle"
-        >
-          {isDark ? <Sun /> : <Moon />}
-        </button>
+      </nav>
+      <nav id="mobile-nav">
+        <span className='logo'>
+          <Link to="/">
+            Seung Kim
+          </Link>
+        </span>
+        <div className="mobile-menu">
+          <div className="mobile-menu-content">
+             <div className="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <ul className="menu-links">
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/projects">Projects</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
+          </ul>
+          <button 
+            onClick={toggleTheme}
+            className="theme-toggle"
+          >
+            {isDark ? <Sun /> : <Moon />}
+          </button>
+          </div>
+        </div>
       </nav>
     </header>
   );

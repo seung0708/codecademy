@@ -20,6 +20,14 @@
     box-sizing: border-box;
 }
 
+body {
+  font-family: var(--font-base);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
 body.light {
   background-color: #ffffff;
   color: #1e293b;
@@ -31,12 +39,8 @@ body.dark {
   color: #ffffff;
 }
 
-body {
-  font-family: var(--font-base);
-  background-color: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  font-size: 16px;
+html {
+  scroll-behavior: smooth;
 }
 
 h1 {

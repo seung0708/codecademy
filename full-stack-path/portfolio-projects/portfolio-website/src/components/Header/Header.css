@@ -14,46 +14,100 @@
   padding-left: 1rem;
 }
 
-/* Light theme */
-body.light header {
-  background-color: #ffffff;
-  color: #1e293b;
-}
-
-body.light header a.active {
-  color: #7c3aed;
-}
-
-/* Dark theme */
-body.dark header {
-  background-color: #0f172a;
-  color: #ffffff;
-}
-
-body.dark header a.active {
-  color: #8b5cf6;
+#desktop-nav {
+  width: 100%;
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
 }
 
 .nav {
-    display: flex;
-    align-items:center;
-
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
 }
 
 .nav-links {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
-.nav a {
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav-links a.active {
+  color: #06b6d4;
+  font-weight: bold;
+}
+
+#mobile-nav {
+  display: none;
+}
+
+.mobile-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 20px;
+  width: 24px;
+  cursor: pointer;
+}
+
+.hamburger-icon span {
+  background-color: #333;
+  margin: 2px 0;
+  height: 2px;
+  width: 100%;
+}
+
+.menu-links {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  width: fit-content;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-links a {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+    color: black;
     text-decoration: none;
-    color: #333;
-    font-weight: 500;
+    transition: all 0.3 ease-in-out;
 }
 
-.nav a.active {
-    color: #06b6d4;
-    font-weight: bold;
+.menu-links.open {
+    max-height: 300px;
+}
+
+.hamburger-icon.open span:first-child {
+    transform: rotate(45deg) translate(10px, 5px);
+}
+
+.hamburger-icon.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-icon.open span:last-child {
+    transform: rotate(-45deg) translate(10px, -5px);
+}
+
+.hamburger-icon span:first-child {
+    transform: none;
+    opacity: 1;
 }
 
 .theme-toggle {
@@ -62,4 +116,21 @@ body.dark header a.active {
   cursor: pointer;
   color: inherit;
 
+}
+
+@media screen and (max-width: 1200px) {
+  #desktop-nav {
+    display: none;
+  }
+  #mobile-nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mobile-menu-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
