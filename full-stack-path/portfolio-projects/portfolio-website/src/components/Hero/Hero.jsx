@@ -36,9 +36,9 @@ const Hero = () => {
           </div>
         ))}
       </div>
-      <div>
-
-      </div>
+      <div className='cta'>
+          <button>Resume</button>
+        </div>
     </section>
   );
 };
