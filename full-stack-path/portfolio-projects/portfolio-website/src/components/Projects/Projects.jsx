@@ -1,7 +1,7 @@
-import React from 'react'
 import './Projects.css'
+import ProjectMockup from '../ProjectMockup/ProjectMockup'
 
-const projectsData = [
+const projects = [
   {
     id: 1,
     title: "Little Tokyo Sushi",
@@ -26,58 +26,22 @@ const projectsData = [
 
 const Projects = () => {
   return (
-    <section className='projects' id="projects">
-        <div className='projects-container'>
-            <h2 className='projects-title'>Projects</h2>
-            <div className='projects-grid'>
-                {projectsData.map(project => (
-                    <div key={project.id} className='project-card'>
-                        <div className='project-image-wrapper'>
-                            <img />
-                            <div className='project-overlay'></div>
-                        </div>
-                        <div className='project-content'>
-                            <h3 className='project-title'>{project.title}</h3>
-                            <p className='project-description'>{project.description}</p>
-                            <div>
-                                <h4 className='project-section-title'>Key Features:</h4>
-                                <div className='project-features'>
-                                    {project.features.map((feature,i) => (
-                                        <span key={i} className='feature-item'>{feature}</span>
-                                    ))}
-                                </div>
-                            </div>
-                            <div>
-                                <h4 className='project-section-title'>Technologies:</h4>
-                                <div className='project-tech'>
-                                    {project.tech.map((tech, i) => (
-                                        <span key={i} className='tech-item'>{tech}</span>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='project-links'>
-                                <a 
-                                    href={project.github} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className='project-link'
-                                >
-                                    {/* <GitHub size={16} style={{marginRight: '8px'}} /> Code */}
-                                </a>
-                                <a 
-                                    href={project.live} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className='project-link'
-                                >
-                                    {/* <ExternalLink size={16} style={{marginRight: '8px'}} /> Live Demo */}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>        
+    <section className="projects-page">
+      <h2>My Projects</h2>
+      <div className="projects-grid">
+        {projects.map((project) => (
+          <ProjectMockup
+            key={project.id}
+            screenshot={project.image}
+            title={project.title}
+            description={project.description}
+            tech={project.tech}
+            github={project.github}
+            live={project.live}
+            features={project.features}
+          />
+        ))}
+      </div>
     </section>
   )
 }
