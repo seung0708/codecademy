@@ -100,11 +100,13 @@
   }
   .skill-header {
     font-size: 18px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .skill-item {
-    font-size: 12px;
-    text-align: center;
+  .skill-items {
+    display: flex;
+    justify-content: center;
   }
 }
 
