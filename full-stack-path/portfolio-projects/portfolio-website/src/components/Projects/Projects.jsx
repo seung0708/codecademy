@@ -1,5 +1,4 @@
 import './Projects.css'
-import ProjectMockup from '../ProjectMockup/ProjectMockup'
 
 const projects = [
   {
@@ -26,20 +25,30 @@ const projects = [
 
 const Projects = () => {
   return (
-    <section className="projects-page">
+    <section className="projects">
       <h2>My Projects</h2>
-      <div className="projects-grid">
+      <div className="projects-container">
         {projects.map((project) => (
-          <ProjectMockup
-            key={project.id}
-            screenshot={project.image}
-            title={project.title}
-            description={project.description}
-            tech={project.tech}
-            github={project.github}
-            live={project.live}
-            features={project.features}
-          />
+            <div className="project">
+              <div className="project-info">
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <div className="project-tech">
+                  {project.tech.map((t, idx) => (
+                    <span key={idx} className="tech-tag">{t}</span>
+                  ))}
+                </div>
+                <div className="project-links">
+                  <a href={project.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+                  <a href={project.live} target="_blank" rel="noopener noreferrer">Live</a>
+                </div>
+                <ul className="project-features">
+                  {project.features.map((feature, idx) => (
+                    <li key={idx}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
         ))}
       </div>
     </section>

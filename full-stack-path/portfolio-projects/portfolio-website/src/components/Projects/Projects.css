@@ -3,6 +3,14 @@
     padding: 120px 0 80px;
 }
 
+.projects h2 {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 64px;
+    font-size: 48px;
+    background-clip: text;
+}
+
 .projects-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -174,4 +182,40 @@
     .project-link {
         font-size: 14px;
     }
+}
+
+.project-info {
+  text-align: center;
+}
+
+.project-info h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-info p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-info a {
+  padding: 0.5rem 1rem;
+  background: #1d4ed8;
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.project-info a:hover {
+  background: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .webpage-mockup { width: 220px; }
+}
+
+@media (max-width: 400px) {
+  .webpage-mockup { width: 180px; }
 }
